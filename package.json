@@ -84,7 +84,7 @@
     "@types/react-dom": "^18.0.5",
     "axios": "^0.21.2",
     "classnames": "^2.2.6",
-    "esri-loader": "^3.5.0",
+    "esri-loader": "^3.6.0",
     "helper-toolkit-ts": "^1.1.13",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
