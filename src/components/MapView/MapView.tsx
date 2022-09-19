@@ -5,11 +5,30 @@ import IMapView from 'esri/views/MapView';
 import IWebMap from 'esri/WebMap';
 
 interface Props {
+    /**
+     * ArcGIS Online Item Id
+     */
     webmapId: string;
+    /**
+     * Coordinate pair `[longitude, latitude]` that represent the default center of the map view
+     */
+    center?: number[];
+    /**
+     * deafult zoom level
+     */
+    zoom?: number;
+    /**
+     * Children Elements that will receive Map View as prop
+     */
     children?: React.ReactNode;
 }
 
-const MapView: React.FC<Props> = ({ webmapId, children }: Props) => {
+const MapView: React.FC<Props> = ({
+    webmapId,
+    center,
+    zoom,
+    children,
+}: Props) => {
     const mapDivRef = useRef<HTMLDivElement>();
 
     const [mapView, setMapView] = useState<IMapView>(null);
@@ -25,6 +44,8 @@ const MapView: React.FC<Props> = ({ webmapId, children }: Props) => {
 
             const view = new MapView({
                 container: mapDivRef.current,
+                center,
+                zoom,
                 map: new WebMap({
                     portalItem: {
                         id: webmapId,
