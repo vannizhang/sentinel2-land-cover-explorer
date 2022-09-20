@@ -15,12 +15,10 @@ import AppLayout from './components/AppLayout/AppLayout';
     const root = createRoot(document.getElementById('root'));
 
     root.render(
-        <React.StrictMode>
-            <ReduxProvider store={configureAppStore(preloadedState)}>
-                <AppContextProvider>
-                    <AppLayout />
-                </AppContextProvider>
-            </ReduxProvider>
-        </React.StrictMode>
+        <ReduxProvider store={configureAppStore(preloadedState)}>
+            <AppContextProvider>
+                <AppLayout />
+            </AppContextProvider>
+        </ReduxProvider>
     );
 })();
