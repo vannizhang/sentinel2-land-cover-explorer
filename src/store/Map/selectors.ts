@@ -30,3 +30,13 @@ export const selectDefaultMapLocation = createSelector(
         };
     }
 );
+
+export const selectMapExtent = createSelector(
+    (state: RootState) => state.Map.extent,
+    (extent) => extent
+);
+
+export const selectMapResolution = createSelector(
+    (state: RootState) => state.Map.resolution,
+    (resolution) => resolution
+);

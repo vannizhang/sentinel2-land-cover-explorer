@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     getTimeExtentByYear,
-    TimeExtentData,
+    // TimeExtentData,
 } from '../../services/sentinel-2-10m-landcover/timeInfo';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
@@ -37,21 +37,17 @@ const useLandCoverLayer = ({ year, mapView }: UseLandCoverLayerParams) => {
         setLandCoverLayer(layer);
     };
 
-    const getHistogramStats = () => {
-        console.log('calc histogram');
-    };
-
     useEffect(() => {
         if (year) {
             getLandCoverLayer();
         }
     }, [year]);
 
-    useEffect(() => {
-        if (landCoverLayer) {
-            getHistogramStats();
-        }
-    }, [landCoverLayer]);
+    // useEffect(() => {
+    //     if (landCoverLayer) {
+
+    //     }
+    // }, [landCoverLayer]);
 
     return landCoverLayer;
 };
