@@ -6,8 +6,14 @@ import {
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
 import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../constants/map';
+import IMapView from 'esri/views/MapView';
 
-const useLandCoverLayer = (year: number) => {
+type UseLandCoverLayerParams = {
+    year: number;
+    mapView?: IMapView;
+};
+
+const useLandCoverLayer = ({ year, mapView }: UseLandCoverLayerParams) => {
     const [landCoverLayer, setLandCoverLayer] = useState<IImageryLayer>();
 
     /**
@@ -31,11 +37,21 @@ const useLandCoverLayer = (year: number) => {
         setLandCoverLayer(layer);
     };
 
+    const getHistogramStats = () => {
+        console.log('calc histogram');
+    };
+
     useEffect(() => {
         if (year) {
             getLandCoverLayer();
         }
     }, [year]);
+
+    useEffect(() => {
+        if (landCoverLayer) {
+            getHistogramStats();
+        }
+    }, [landCoverLayer]);
 
     return landCoverLayer;
 };

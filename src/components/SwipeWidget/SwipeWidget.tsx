@@ -31,10 +31,17 @@ const SwipeWidget: FC<Props> = ({
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
-    const leadingLayer = useLandCoverLayer(yearForLeadingLayer);
+    const leadingLayer = useLandCoverLayer({
+        year: yearForLeadingLayer,
+        mapView,
+    });
+
     const prevLeadingLayerRef = useRef<IImageryLayer>();
 
-    const trailingLayer = useLandCoverLayer(yearForTailingLayer);
+    const trailingLayer = useLandCoverLayer({
+        year: yearForTailingLayer,
+        mapView,
+    });
     const prevTrailingLayerRef = useRef<IImageryLayer>();
 
     const init = async () => {
