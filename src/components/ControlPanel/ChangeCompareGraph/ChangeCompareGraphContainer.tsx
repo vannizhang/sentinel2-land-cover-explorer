@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { computeHistograms } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
 import {
     selectMapExtent,
     selectMapResolution,
@@ -13,7 +14,7 @@ const ChangeCompareGraphContainer = () => {
         selectYearsForSwipeWidgetLayers
     );
 
-    const data = useMemo(() => {
+    const data = useMemo(async () => {
         if (
             !resolution ||
             !extent ||
@@ -23,7 +24,13 @@ const ChangeCompareGraphContainer = () => {
             return undefined;
         }
 
-        console.log(resolution, extent, year4LeadingLayer, year4TrailingLayer);
+        const res = await computeHistograms({
+            extent,
+            resolution,
+            year: year4LeadingLayer,
+        });
+
+        console.log(res);
     }, [resolution, extent, year4LeadingLayer, year4TrailingLayer]);
 
     return <div>ChangeCompareGraphContainer</div>;

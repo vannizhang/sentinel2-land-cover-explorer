@@ -54,7 +54,7 @@ export const initialMapState: MapState = {
     resolution: null,
     extent: null,
     swipeWidget: {
-        year4LeadingLayer: 2007,
+        year4LeadingLayer: 2017,
         year4TrailingLayer: 2021,
     },
 };
