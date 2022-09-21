@@ -1,5 +1,5 @@
 import { addYears } from 'date-fns';
-import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../constants/map';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from './config';
 
 type TimeInfo = {
     timeExtent: number[];
@@ -29,12 +29,14 @@ let timeInfo: TimeInfo;
  * https://env1.arcgis.com/arcgis/rest/services/Sentinel2_10m_LandCover/ImageServer?f=json
  * @returns
  */
-const loadTimeInfo = async (): Promise<TimeInfo> => {
+export const loadTimeInfo = async (): Promise<TimeInfo> => {
     const requestURL = SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL + '?f=json';
 
     const res = await fetch(requestURL);
 
     const data = await res.json();
+
+    console.log(data);
 
     return (timeInfo = data?.timeInfo);
 };

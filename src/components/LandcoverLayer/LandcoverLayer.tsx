@@ -3,7 +3,7 @@ import React, { FC, useEffect, useRef } from 'react';
 import IMapView from 'esri/views/MapView';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
-import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../constants/map';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 import ITimeExtent from 'esri/TimeExtent';
 import { TimeExtentData } from '../../services/sentinel-2-10m-landcover/timeInfo';
 

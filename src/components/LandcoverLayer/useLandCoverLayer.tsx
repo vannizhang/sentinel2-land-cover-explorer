@@ -5,7 +5,7 @@ import {
 } from '../../services/sentinel-2-10m-landcover/timeInfo';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
-import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../constants/map';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 import IMapView from 'esri/views/MapView';
 
 type UseLandCoverLayerParams = {
