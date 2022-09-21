@@ -63,6 +63,16 @@ const SwipeWidget: FC<Props> = ({
 
         // console.log(swipeWidgetRef.current)
         mapView.ui.add(swipeWidgetRef.current);
+
+        // swipe widget is ready, add leading layer if it's ready
+        if (leadingLayer) {
+            updateLayer(prevLeadingLayerRef.current, leadingLayer);
+        }
+
+        // swipe widget is ready, add trailing layer if it's ready
+        if (trailingLayer) {
+            updateLayer(prevTrailingLayerRef.current, trailingLayer, true);
+        }
     };
 
     /**
@@ -100,10 +110,11 @@ const SwipeWidget: FC<Props> = ({
     };
 
     useEffect(() => {
-        if (!swipeWidgetRef.current) {
+        // initiate swipe widget when both leading layer and trailer layer are ready
+        if (!swipeWidgetRef.current && leadingLayer && trailingLayer) {
             init();
         }
-    }, [mapView]);
+    }, [mapView, leadingLayer, trailingLayer]);
 
     useEffect(() => {
         if (!swipeWidgetRef.current || !leadingLayer) {

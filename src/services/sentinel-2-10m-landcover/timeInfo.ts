@@ -28,7 +28,7 @@ let timeInfo: TimeInfo;
  *
  * TO-DO: need to populate this list dynamically
  */
-export const availableYears: number[] = [2017, 2018, 2019, 2020, 2021];
+const availableYears: number[] = [2017, 2018, 2019, 2020, 2021];
 
 /**
  * Load Time Info from Sentinel2_10m_LandCover's JSON
@@ -96,4 +96,12 @@ export const getTimeExtentByYear = async (
         start: targetYearInUnixTimestamp,
         end: targetYearInUnixTimestamp,
     };
+};
+
+/**
+ * Get list of years that there are data available from Sentinel2_10m_LandCover layer
+ * @returns array of years (e.g. `[2017, 2018, 2019, 2020, 2021]`)
+ */
+export const getAvailableYears = () => {
+    return availableYears;
 };

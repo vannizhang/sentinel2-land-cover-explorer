@@ -1,10 +1,30 @@
 import './style.css';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, FC } from 'react';
 // import ISlider from 'esri/widgets/Slider';
 import ITimeSlider from 'esri/widgets/TimeSlider';
+import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
 
-const TimeSlider = () => {
+type Props = {
+    /**
+     * Available years
+     *
+     * @example
+     * ```js
+     * [2017, 2018, 2019, 2020, 2021]
+     * ```
+     */
+    years: number[];
+    /**
+     * Fires when the time extent of the Time Slider is changed
+     *
+     * @param startYear new start year
+     * @param endYear ned end year
+     */
+    timeExtentOnChange: (startYear: number, endYear: number) => void;
+};
+
+const TimeSlider: FC<Props> = ({ years, timeExtentOnChange }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
 
     const sliderRef = useRef<ITimeSlider>();
@@ -12,20 +32,18 @@ const TimeSlider = () => {
     const debounceDelay = useRef<NodeJS.Timeout>();
 
     const init = async () => {
-        type Modules = [typeof ITimeSlider];
+        type Modules = [typeof ITimeSlider, typeof IReactiveUtils];
 
         try {
-            const [TimeSlider] = await (loadModules([
+            const [TimeSlider, reactiveUtils] = await (loadModules([
                 'esri/widgets/TimeSlider',
+                'esri/core/reactiveUtils',
             ]) as Promise<Modules>);
 
-            const years = [
-                new Date(2017, 0, 1),
-                new Date(2018, 0, 1),
-                new Date(2019, 0, 1),
-                new Date(2020, 0, 1),
-                new Date(2021, 0, 1),
-            ];
+            // get an array of Date objects represent the input years, use Jan 1st as month and day when create the Date obj
+            const yearsAsDateObj: Date[] = years.map((year) => {
+                return new Date(year, 0, 1);
+            });
 
             sliderRef.current = new TimeSlider({
                 container: containerRef.current,
@@ -34,11 +52,11 @@ const TimeSlider = () => {
                     start: new Date(2017, 0, 1),
                     end: new Date(2021, 0, 1),
                 },
-                stops: { dates: years },
+                stops: { dates: yearsAsDateObj },
                 tickConfigs: [
                     {
                         mode: 'position',
-                        values: years.map((year) => year.getTime()),
+                        values: yearsAsDateObj.map((year) => year.getTime()),
                         labelsVisible: true,
                         labelFormatFunction: (value: any) => {
                             return new Date(value).getUTCFullYear();
@@ -46,6 +64,21 @@ const TimeSlider = () => {
                     } as any,
                 ],
             });
+
+            reactiveUtils.watch(
+                () => sliderRef.current.timeExtent,
+                (timeExtent) => {
+                    clearTimeout(debounceDelay.current);
+
+                    debounceDelay.current = setTimeout(() => {
+                        // console.log(timeExtent)
+                        timeExtentOnChange(
+                            timeExtent.start.getFullYear(),
+                            timeExtent.end.getFullYear()
+                        );
+                    }, 500);
+                }
+            );
 
             // sliderRef.current.on('thumb-drag', (evt) => {
             //     clearTimeout(debounceDelay.current);
@@ -64,7 +97,12 @@ const TimeSlider = () => {
         };
     }, []);
 
-    return <div ref={containerRef} className=" max-w-md px-4"></div>;
+    return (
+        <div
+            ref={containerRef}
+            className="time-slider-container max-w-md px-4"
+        ></div>
+    );
 };
 
 export default TimeSlider;
