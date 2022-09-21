@@ -20,19 +20,25 @@ type RasterAttributeTableFeature = {
     };
 };
 
-type Sentinel2LandcoverPixelData = {
+/**
+ * Pixel data of Sentinel2_10m_LandCover services
+ */
+export type LandcoverClassificationData = {
     /**
      * pixel value
      */
     Value: number;
     /**
-     * Classification Name, (e.g. "Trees")
+     * Classification Name represent a specific land cover, (e.g. "Trees")
      */
     ClassName: string;
     /**
      * color as [red, green, blue]
      */
     Color: number[];
+    /**
+     * Short description of that land cover
+     */
     Description: string;
 };
 
@@ -43,11 +49,11 @@ type RasterAttributeTableResponse = {
 /**
  * Map stores pixel data from Raster attribute table using Value as the key
  */
-const sentinel2LandcoverPixelDataMap: Map<number, Sentinel2LandcoverPixelData> =
+const landcoverClassificationDataMap: Map<number, LandcoverClassificationData> =
     new Map();
 
 /**
- * The rasterAttributeTable resource returns categorical mapping of pixel values (for example, a class, group, category, or membership).
+ * The rasterAttributeTable resource returns categorical mapping of pixel values (for example, a class, color, value).
  * This resource is supported if the hasRasterAttributeTable property of the service is true.
  *
  * https://developers.arcgis.com/rest/services-reference/enterprise/raster-attribute-table.htm
@@ -112,7 +118,7 @@ export const loadRasterAttributeTable = async () => {
             const { Value, Description, ClassName, Red, Green, Blue } =
                 attributes;
 
-            sentinel2LandcoverPixelDataMap.set(Value, {
+            landcoverClassificationDataMap.set(Value, {
                 Value,
                 Description,
                 ClassName,
@@ -123,3 +129,8 @@ export const loadRasterAttributeTable = async () => {
         console.log('failed to getRasterAttributeTable');
     }
 };
+
+export const getLandCoverClassifications =
+    (): LandcoverClassificationData[] => {
+        return [...landcoverClassificationDataMap.values()];
+    };
