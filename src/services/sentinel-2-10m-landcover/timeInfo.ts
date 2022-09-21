@@ -24,6 +24,13 @@ export type TimeExtentData = {
 let timeInfo: TimeInfo;
 
 /**
+ * List of years that there are data available from Sentinel2_10m_LandCover layer
+ *
+ * TO-DO: need to populate this list dynamically
+ */
+export const availableYears: number[] = [2017, 2018, 2019, 2020, 2021];
+
+/**
  * Load Time Info from Sentinel2_10m_LandCover's JSON
  *
  * https://env1.arcgis.com/arcgis/rest/services/Sentinel2_10m_LandCover/ImageServer?f=json
@@ -36,9 +43,9 @@ export const loadTimeInfo = async (): Promise<TimeInfo> => {
 
     const data = await res.json();
 
-    console.log(data);
+    timeInfo = data?.timeInfo;
 
-    return (timeInfo = data?.timeInfo);
+    return timeInfo;
 };
 
 /**

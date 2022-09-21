@@ -20,6 +20,32 @@ type RasterAttributeTableFeature = {
     };
 };
 
+type Sentinel2LandcoverPixelData = {
+    /**
+     * pixel value
+     */
+    Value: number;
+    /**
+     * Classification Name, (e.g. "Trees")
+     */
+    ClassName: string;
+    /**
+     * color as [red, green, blue]
+     */
+    Color: number[];
+    Description: string;
+};
+
+type RasterAttributeTableResponse = {
+    features: RasterAttributeTableFeature[];
+};
+
+/**
+ * Map stores pixel data from Raster attribute table using Value as the key
+ */
+const sentinel2LandcoverPixelDataMap: Map<number, Sentinel2LandcoverPixelData> =
+    new Map();
+
 /**
  * The rasterAttributeTable resource returns categorical mapping of pixel values (for example, a class, group, category, or membership).
  * This resource is supported if the hasRasterAttributeTable property of the service is true.
@@ -56,7 +82,7 @@ type RasterAttributeTableFeature = {
  * ```
  *
  */
-export const getRasterAttributeTable = async () => {
+const getRasterAttributeTable = async () => {
     const params = new URLSearchParams({
         renderingRule: JSON.stringify(DEFAULT_RENDERING_RULE),
         f: 'json',
@@ -68,8 +94,32 @@ export const getRasterAttributeTable = async () => {
 
     const res = await fetch(requestURL);
 
-    const data = await res.json();
-    console.log(data);
+    const data = (await res.json()) as RasterAttributeTableResponse;
 
     return data;
+};
+
+/**
+ * Fetch Raster Attribute Table of Sentinel2_10m_LandCover and save the pixel data in a Map
+ */
+export const loadRasterAttributeTable = async () => {
+    try {
+        const { features } = await getRasterAttributeTable();
+
+        for (const feature of features) {
+            const { attributes } = feature;
+
+            const { Value, Description, ClassName, Red, Green, Blue } =
+                attributes;
+
+            sentinel2LandcoverPixelDataMap.set(Value, {
+                Value,
+                Description,
+                ClassName,
+                Color: [Red, Green, Blue],
+            });
+        }
+    } catch (err) {
+        console.log('failed to getRasterAttributeTable');
+    }
 };

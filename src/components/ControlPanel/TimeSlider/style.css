@@ -1,0 +1,14 @@
+/* .esri-time-slider__time-extent,
+.esri-time-slider__min,
+.esri-time-slider__max,
+.esri-time-slider__previous,
+.esri-time-slider__animation,
+.esri-time-slider__next {
+  display: none !important;
+} */
+
+.esri-time-slider__layout--compact .esri-time-slider__row:nth-child(1), 
+.esri-time-slider__layout--compact .esri-time-slider__row:nth-child(3) {
+    display: none !important;
+    height: 0;
+}

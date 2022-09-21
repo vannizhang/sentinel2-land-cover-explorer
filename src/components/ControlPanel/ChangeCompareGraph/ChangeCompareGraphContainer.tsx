@@ -24,13 +24,13 @@ const ChangeCompareGraphContainer = () => {
             return undefined;
         }
 
-        const res = await computeHistograms({
-            extent,
-            resolution,
-            year: year4LeadingLayer,
-        });
+        // const res = await computeHistograms({
+        //     extent,
+        //     resolution,
+        //     year: year4LeadingLayer,
+        // });
 
-        console.log(res);
+        // console.log(res);
     }, [resolution, extent, year4LeadingLayer, year4TrailingLayer]);
 
     return <div>ChangeCompareGraphContainer</div>;
