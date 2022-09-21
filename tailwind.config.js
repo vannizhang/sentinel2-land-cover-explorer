@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: [ 
     './src/**/*.html',
@@ -5,6 +7,13 @@ module.exports = {
   ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
+    colors: {
+      ...colors,
+      custom: {
+        'light-blue': '#BFEEFF',
+        'background': '#00232F',
+      }
+    },
     extend: {},
   },
   variants: {
