@@ -1,14 +1,19 @@
 import './ControlPanel.css';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { year4LeadingLayerUpdated } from '../../store/Map/reducer';
 import ChangeCompareGraph from './ChangeCompareGraph/ChangeCompareGraphContainer';
 import ClassificationsList from './ClassificationsList/ClassificationsListContainer';
 import LayerSelector from './LayerSelector/LayerSelectorContainer';
 import TimeSlider from './TimeSlider/TimeSliderContainer';
+import { selectShouldShowSentinel2Layer } from '../../store/Map/selectors';
 
 const ControlPanel = () => {
     // const dispatch = useDispatch();
+
+    const shouldShowSentinel2Layer = useSelector(
+        selectShouldShowSentinel2Layer
+    );
 
     return (
         <div className="control-panel absolute bottom-0 left-0 w-full h-control-panel-height z-10">
@@ -20,7 +25,9 @@ const ControlPanel = () => {
                 </div>
 
                 <div className="flex">
-                    <ClassificationsList />
+                    {shouldShowSentinel2Layer === false && (
+                        <ClassificationsList />
+                    )}
                     <ChangeCompareGraph />
                 </div>
             </div>
