@@ -20,6 +20,34 @@ type RasterAttributeTableFeature = {
     };
 };
 
+type LandCoverClassification =
+    | 'Water'
+    | 'Trees'
+    | 'Flooded Vegetation'
+    | 'Crops'
+    | 'Built Area'
+    | 'Bare Ground'
+    | 'Snow/Ice'
+    | 'Clouds'
+    | 'Rangeland'
+    | 'No Data';
+
+const LandcoverClassificationShortNames: Record<
+    LandCoverClassification,
+    string
+> = {
+    'Bare Ground': 'Bare',
+    'Built Area': 'Built',
+    Clouds: 'Clouds',
+    Crops: 'Crops',
+    'Flooded Vegetation': 'Flooded Veg',
+    Rangeland: 'Range',
+    'Snow/Ice': 'Snow/Ice',
+    Trees: 'Trees',
+    Water: 'Water',
+    'No Data': 'No Data',
+};
+
 /**
  * Pixel data of Sentinel2_10m_LandCover services
  */
@@ -31,7 +59,7 @@ export type LandcoverClassificationData = {
     /**
      * Classification Name represent a specific land cover, (e.g. "Trees")
      */
-    ClassName: string;
+    ClassName: LandCoverClassification;
     /**
      * color as [red, green, blue]
      */
@@ -121,7 +149,7 @@ export const loadRasterAttributeTable = async () => {
             landcoverClassificationDataMap.set(Value, {
                 Value,
                 Description,
-                ClassName,
+                ClassName: ClassName as LandCoverClassification,
                 Color: [Red, Green, Blue],
             });
         }
@@ -139,4 +167,10 @@ export const getLandCoverClassificationByPixelValue = (
     pixelValue: number
 ): LandcoverClassificationData => {
     return landcoverClassificationDataMap.get(pixelValue) || null;
+};
+
+export const getLandCoverClassificationShortName = (
+    classification: LandCoverClassification
+) => {
+    return LandcoverClassificationShortNames[classification] || classification;
 };

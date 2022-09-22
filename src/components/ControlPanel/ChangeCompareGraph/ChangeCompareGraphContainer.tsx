@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getLandCoverChangeInAcres } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
+import { getLandCoverClassificationShortName } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
     selectMapExtent,
     selectMapResolution,
@@ -49,7 +50,7 @@ const ChangeCompareGraphContainer = () => {
             const [R, G, B] = Color;
 
             return {
-                key: ClassName,
+                key: getLandCoverClassificationShortName(ClassName),
                 label: ClassName,
                 value: differenceInAcres,
                 fill: `rgb(${R}, ${G}, ${B})`,
