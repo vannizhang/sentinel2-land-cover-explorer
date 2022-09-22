@@ -40,3 +40,8 @@ export const selectMapResolution = createSelector(
     (state: RootState) => state.Map.resolution,
     (resolution) => resolution
 );
+
+export const selectShouldShowSentinel2Layer = createSelector(
+    (state: RootState) => state.Map.shouldShowSentinel2Layer,
+    (shouldShowSentinel2Layer) => shouldShowSentinel2Layer
+);

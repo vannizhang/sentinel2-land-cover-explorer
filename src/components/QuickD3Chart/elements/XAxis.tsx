@@ -64,8 +64,8 @@ const YAxis: React.FC<Props> = ({
                 .selectAll('.tick text')
                 .style('fill', AXIS_TEXT_COLOR)
                 .attr('dy', '.35em')
-                .attr('transform', 'rotate(-20)')
-                .style('text-anchor', 'end');
+                // .attr('transform', 'rotate(-20)')
+                .style('text-anchor', 'middle');
         } else {
             xAxisLabel
                 .attr('transform', `translate(0,${height})`)

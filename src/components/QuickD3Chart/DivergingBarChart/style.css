@@ -1,0 +1,7 @@
+.tick text {
+    transform: rotate(-20deg);
+}
+
+.tick line {
+    display: none;
+}

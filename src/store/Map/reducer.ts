@@ -20,6 +20,10 @@ export type MapExtent = {
 
 export type MapState = {
     /**
+     * If true, show Sentinel 2 Layer instead of Land Cover Layer
+     */
+    shouldShowSentinel2Layer?: boolean;
+    /**
      * Represents the level of detail (LOD) at the center of the view.
      */
     zoom?: number;
@@ -46,6 +50,7 @@ export type MapState = {
 };
 
 export const initialMapState: MapState = {
+    shouldShowSentinel2Layer: false,
     zoom: 10,
     center: {
         lon: -117.2,
@@ -75,6 +80,12 @@ const slice = createSlice({
         extentUpdated: (state, action: PayloadAction<MapExtent>) => {
             state.extent = action.payload;
         },
+        shouldShowSentinel2LayerToggled: (
+            state,
+            action: PayloadAction<boolean>
+        ) => {
+            state.shouldShowSentinel2Layer = action.payload;
+        },
     },
 });
 
@@ -85,6 +96,7 @@ export const {
     year4TrailingLayerUpdated,
     resolutionUpdated,
     extentUpdated,
+    shouldShowSentinel2LayerToggled,
 } = slice.actions;
 
 export default reducer;

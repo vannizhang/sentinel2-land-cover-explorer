@@ -1,3 +1,4 @@
+import './style.css';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import {
@@ -160,11 +161,11 @@ const DivergingBarChart: React.FC<Props> = ({
 
                 {/* {showAxis ? <YAxis scale={yScale} /> : <></>} */}
 
-                <PointerEventsOverlay
+                {/* <PointerEventsOverlay
                     xDomain={xDomain}
                     xScale={xScale}
                     onHover={setPointerPositionOnHover}
-                />
+                /> */}
 
                 <DividerLine4DivergingBars
                     xDomain={xDomain}

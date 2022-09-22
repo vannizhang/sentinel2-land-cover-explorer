@@ -104,7 +104,7 @@ const TimeSlider: FC<Props> = ({ years, timeExtentOnChange }: Props) => {
             <div
                 id="timeSliderDiv"
                 ref={containerRef}
-                className="time-slider-container max-w-md mt-8"
+                className="time-slider-container max-w-md mt-10"
             ></div>
         </div>
     );
