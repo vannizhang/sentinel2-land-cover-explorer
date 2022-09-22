@@ -37,13 +37,9 @@ const SwipeWidget: FC<Props> = ({
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
-    const leadingLayer = shouldShowSentinel2Layer
-        ? useSentinel2Layer({
-              year: yearForLeadingLayer,
-          })
-        : useLandCoverLayer({
-              year: yearForLeadingLayer,
-          });
+    const leadingLayer = useLandCoverLayer({
+        year: yearForLeadingLayer,
+    });
 
     // const leadingLayer = shouldShowSentinel2Layer
     //     ? useSentinel2Layer({
@@ -55,13 +51,17 @@ const SwipeWidget: FC<Props> = ({
 
     const prevLeadingLayerRef = useRef<IImageryLayer>();
 
-    const trailingLayer = shouldShowSentinel2Layer
-        ? useSentinel2Layer({
-              year: yearForTailingLayer,
-          })
-        : useLandCoverLayer({
-              year: yearForTailingLayer,
-          });
+    const trailingLayer = useLandCoverLayer({
+        year: yearForTailingLayer,
+    });
+
+    // const trailingLayer = shouldShowSentinel2Layer
+    //     ? useSentinel2Layer({
+    //           year: yearForTailingLayer,
+    //       })
+    //     : useLandCoverLayer({
+    //           year: yearForTailingLayer,
+    //       });
 
     const prevTrailingLayerRef = useRef<IImageryLayer>();
 
