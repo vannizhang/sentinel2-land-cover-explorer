@@ -5,6 +5,7 @@ import { select, ScaleBand, ScaleLinear } from 'd3';
 import { BAR_COLOR } from '../constants';
 
 import { QuickD3ChartData, SvgContainerData } from '../types';
+import { THEME_COLOR_LIGHT_BLUE } from '../../../constants/style';
 
 type Props = {
     xScale: ScaleBand<string | number>;
@@ -40,19 +41,15 @@ const DivergingBarLabel: React.FC<Props> = ({
             .enter()
             .append('text')
             .text(function (d) {
-                return d.value;
+                return d.value < 0 ? d.value : '+' + d.value;
             })
             .attr('x', (d) => xScale(d.key) + xScale.bandwidth() / 2)
             .attr('y', (d) => {
                 return -10;
             })
-            .attr('font-size', '11px')
-            .attr('fill', '#fff')
+            .attr('font-size', '10px')
+            .attr('fill', THEME_COLOR_LIGHT_BLUE)
             .attr('text-anchor', 'middle');
-        // .attr('y', (d) => yScale(d.value))
-        // .attr('height', (d) => {
-        //     return height - yScale(d.value);
-        // });
     };
 
     useEffect(() => {

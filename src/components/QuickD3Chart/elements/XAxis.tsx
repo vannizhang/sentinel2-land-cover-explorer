@@ -60,7 +60,12 @@ const YAxis: React.FC<Props> = ({
                 .selectAll('.domain, .tick line')
                 .attr('stroke', AXIS_LINE_COLOR);
 
-            xAxisG.selectAll('.tick text').style('fill', AXIS_TEXT_COLOR);
+            xAxisG
+                .selectAll('.tick text')
+                .style('fill', AXIS_TEXT_COLOR)
+                .attr('dy', '.35em')
+                .attr('transform', 'rotate(-20)')
+                .style('text-anchor', 'end');
         } else {
             xAxisLabel
                 .attr('transform', `translate(0,${height})`)

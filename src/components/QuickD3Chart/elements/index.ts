@@ -1,5 +1,4 @@
 export { default as Bars } from './Bars';
-export { default as Line } from './Line';
 export { default as PointerEventsOverlay } from './PointerEventsOverlay';
 export { default as SvgContainer } from './SvgContainer';
 export { default as Tooltip } from './Tooltip';

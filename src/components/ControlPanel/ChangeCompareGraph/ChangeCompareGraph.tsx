@@ -4,27 +4,45 @@ import DivergingBarChart from '../../QuickD3Chart/DivergingBarChart/DivergingBar
 
 const fakeData = [
     {
-        key: 2017,
+        key: 'Tree',
         value: -50,
         label: 'Tree',
         fill: 'red',
     },
     {
-        key: 2018,
+        key: 'Water',
         value: 20,
         label: 'Water',
         fill: 'blue',
     },
     {
-        key: 2019,
+        key: 'Built',
         value: 50,
         label: 'Built Area',
         fill: 'green',
     },
     {
-        key: 2020,
+        key: 'Flooded Veg',
         value: 100,
-        label: 'Flooded Vegetation',
+        label: 'Flooded Veg',
+        fill: 'orange',
+    },
+    {
+        key: 'Crops',
+        value: -70,
+        label: 'Crops',
+        fill: 'blue',
+    },
+    {
+        key: 'Bare Ground',
+        value: 50,
+        label: 'Bare Ground',
+        fill: 'green',
+    },
+    {
+        key: 'Snow/Ice',
+        value: 100,
+        label: 'Snow/Ice',
         fill: 'orange',
     },
 ];
@@ -36,7 +54,7 @@ const ChangeCompareGraph = () => {
                 // timeFormatSpecifier='%b %d'
                 // barColor={BAR_COLOR}
                 data4Bars={fakeData}
-                showAxis={false}
+                showAxis={true}
             />
         </div>
     );

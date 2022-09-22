@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { select, ScaleBand, ScaleLinear, ScaleTime } from 'd3';
 
 import { SvgContainerData } from '../types';
+import { THEME_COLOR_LIGHT_BLUE } from '../../../constants/style';
 
 export type PointerPositionOnHover = {
     // index of the item on hover
@@ -46,7 +47,7 @@ const DividerLine4DivergingBars: React.FC<Props> = ({
                 .attr('x2', width + 10)
                 .attr('y2', yScale(0))
                 .attr('stroke-width', 1)
-                .attr('stroke', 'rgba(255,255,255,.8)')
+                .attr('stroke', THEME_COLOR_LIGHT_BLUE)
                 .style('fill', 'none');
         }
     };

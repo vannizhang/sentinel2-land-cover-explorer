@@ -36,7 +36,6 @@ import { SCALE_BAND_PADDING_INNER } from '../constants';
 import DivergingBar from '../elements/DivergingBar';
 import DividerLine4DivergingBars from '../elements/DividerLine4DivergingBars';
 import DivergingBarLabel from '../elements/DiveringBarLabel';
-import DiveringBarBottomLabel from '../elements/DiveringBarBottomLabel';
 
 type XScale =
     | ScaleBand<string | number>
@@ -159,13 +158,13 @@ const DivergingBarChart: React.FC<Props> = ({
                     <></>
                 )}
 
-                {showAxis ? <YAxis scale={yScale} /> : <></>}
+                {/* {showAxis ? <YAxis scale={yScale} /> : <></>} */}
 
-                {/* <PointerEventsOverlay 
+                <PointerEventsOverlay
                     xDomain={xDomain}
                     xScale={xScale}
                     onHover={setPointerPositionOnHover}
-                /> */}
+                />
 
                 <DividerLine4DivergingBars
                     xDomain={xDomain}
@@ -178,20 +177,14 @@ const DivergingBarChart: React.FC<Props> = ({
                     xScale={xScale as ScaleBand<string | number>}
                     yScale={yScale}
                 />
-
-                <DiveringBarBottomLabel
-                    data={data4Bars}
-                    xScale={xScale as ScaleBand<string | number>}
-                    yScale={yScale}
-                />
             </SvgContainer>
-            {/* 
-            <Tooltip 
+
+            <Tooltip
                 pointerPosition={pointerPositionOnHover}
                 dimension={dimension}
                 data4Bars={data4Bars}
                 margin={margin}
-            /> */}
+            />
         </div>
     );
 };
