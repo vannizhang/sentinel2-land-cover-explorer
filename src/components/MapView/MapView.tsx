@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-import { loadModules, loadCss } from 'esri-loader';
+import { loadModules } from 'esri-loader';
 import IMapView from 'esri/views/MapView';
 import IWebMap from 'esri/WebMap';
 
@@ -80,7 +80,7 @@ const MapView: React.FC<Props> = ({
     };
 
     useEffect(() => {
-        loadCss();
+        // loadCss();
         initMapView();
     }, []);
 
@@ -93,7 +93,7 @@ const MapView: React.FC<Props> = ({
     return (
         <>
             <div
-                className="absolute top-0 left-0 bottom-56 w-full"
+                className="absolute top-0 left-0 bottom-control-panel-height w-full"
                 ref={mapDivRef}
             ></div>
             {mapView

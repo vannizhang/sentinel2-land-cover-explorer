@@ -14,7 +14,14 @@ module.exports = {
         'background': '#00232F',
       }
     },
-    extend: {},
+    extend: {
+      // height: {
+      //   'control-panel': '210px'
+      // },
+      spacing: {
+        'control-panel-height': '210px'
+      }
+    },
   },
   variants: {
     extend: {},

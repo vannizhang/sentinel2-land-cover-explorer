@@ -1,21 +1,29 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { computeHistograms } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
+import { getLandCoverChangeInAcres } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
 import {
     selectMapExtent,
     selectMapResolution,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
+import {
+    QuickD3ChartData,
+    QuickD3ChartDataItem,
+} from '../../QuickD3Chart/types';
 import ChangeCompareGraph from './ChangeCompareGraph';
 
 const ChangeCompareGraphContainer = () => {
     const resolution = useSelector(selectMapResolution);
+
     const extent = useSelector(selectMapExtent);
+
     const [year4LeadingLayer, year4TrailingLayer] = useSelector(
         selectYearsForSwipeWidgetLayers
     );
 
-    const data = useMemo(async () => {
+    const [chartData, setChartData] = useState<QuickD3ChartData>();
+
+    const fetchData = async (): Promise<void> => {
         if (
             !resolution ||
             !extent ||
@@ -25,16 +33,43 @@ const ChangeCompareGraphContainer = () => {
             return undefined;
         }
 
-        // const res = await computeHistograms({
-        //     extent,
-        //     resolution,
-        //     year: year4LeadingLayer,
-        // });
+        const res = await getLandCoverChangeInAcres({
+            extent,
+            resolution,
+            earlierYear: year4LeadingLayer,
+            laterYear: year4TrailingLayer,
+        });
 
-        // console.log(res);
+        const data: QuickD3ChartDataItem[] = res.map((d) => {
+            const { differenceInAcres, landcoverClassificationData } = d;
+
+            const { ClassName, Description, Color } =
+                landcoverClassificationData;
+
+            const [R, G, B] = Color;
+
+            return {
+                key: ClassName,
+                label: ClassName,
+                value: differenceInAcres,
+                fill: `rgb(${R}, ${G}, ${B})`,
+            };
+        });
+
+        setChartData(data);
+    };
+
+    useEffect(() => {
+        fetchData();
     }, [resolution, extent, year4LeadingLayer, year4TrailingLayer]);
 
-    return <ChangeCompareGraph />;
+    return (
+        <ChangeCompareGraph
+            earlierYear={year4LeadingLayer}
+            laterYear={year4TrailingLayer}
+            data={chartData}
+        />
+    );
 };
 
 export default ChangeCompareGraphContainer;

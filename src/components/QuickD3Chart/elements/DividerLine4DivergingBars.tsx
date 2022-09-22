@@ -48,6 +48,7 @@ const DividerLine4DivergingBars: React.FC<Props> = ({
                 .attr('y2', yScale(0))
                 .attr('stroke-width', 1)
                 .attr('stroke', THEME_COLOR_LIGHT_BLUE)
+                .style('opacity', '.2')
                 .style('fill', 'none');
         }
     };

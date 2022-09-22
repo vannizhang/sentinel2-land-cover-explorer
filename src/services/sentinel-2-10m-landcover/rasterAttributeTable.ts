@@ -134,3 +134,9 @@ export const getLandCoverClassifications =
     (): LandcoverClassificationData[] => {
         return [...landcoverClassificationDataMap.values()];
     };
+
+export const getLandCoverClassificationByPixelValue = (
+    pixelValue: number
+): LandcoverClassificationData => {
+    return landcoverClassificationDataMap.get(pixelValue) || null;
+};

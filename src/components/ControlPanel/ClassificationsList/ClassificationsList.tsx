@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { LandcoverClassificationData } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+import HeaderText from '../HeaderText/HeaderText';
 
 type Props = {
     /**
@@ -11,11 +12,9 @@ type Props = {
 const ClassificationsList: FC<Props> = ({ data }: Props) => {
     return (
         <div className="text-center mx-4">
-            <h5 className="uppercase opacity-50 text-sm mb-8">
-                land Cover Categories, Click to Toggle Visibility
-            </h5>
+            <HeaderText text="Land Cover Categories, Click to Toggle Visibility" />
 
-            <div className="grid grid-cols-3 h-28 text-sm">
+            <div className="grid grid-cols-3 h-28 text-sm mt-8">
                 {data
                     .filter((d) => d.ClassName !== 'No Data')
                     .map((d: LandcoverClassificationData) => {

@@ -14,20 +14,21 @@
 }
 
 /* set widget background to transparent*/
-.time-slider-container.esri-widget {
+#timeSliderDiv.esri-widget {
   background-color: transparent;
+  box-shadow: none !important;
 }
 
-.time-slider-container .esri-time-slider__slider  {
+#timeSliderDiv .esri-time-slider__slider  {
   background: transparent;
 }
 
-.time-slider-container .esri-time-slider__slider .esri-slider {
+#timeSliderDiv .esri-time-slider__slider .esri-slider {
   background: transparent;
 }
 
 /* use theme color */
-.time-slider-container .esri-slider__ticks {
+#timeSliderDiv .esri-slider__ticks {
   @apply text-custom-light-blue;
 }
 
@@ -35,7 +36,7 @@
   @apply bg-custom-light-blue;
 }
 
-.esri-slider__thumb {
+#timeSliderDiv .esri-slider__thumb {
   @apply border-2 border-custom-light-blue bg-custom-light-blue;
   filter: drop-shadow(2px 2px 6px black)
 }

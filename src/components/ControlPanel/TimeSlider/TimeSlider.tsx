@@ -4,6 +4,7 @@ import React, { useRef, useEffect, FC } from 'react';
 import ITimeSlider from 'esri/widgets/TimeSlider';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
+import HeaderText from '../HeaderText/HeaderText';
 
 type Props = {
     /**
@@ -98,10 +99,14 @@ const TimeSlider: FC<Props> = ({ years, timeExtentOnChange }: Props) => {
     }, []);
 
     return (
-        <div
-            ref={containerRef}
-            className="time-slider-container max-w-md px-4"
-        ></div>
+        <div className="text-center">
+            <HeaderText text="Sentinel-2 Imagery, Choose Two Years to Compare" />
+            <div
+                id="timeSliderDiv"
+                ref={containerRef}
+                className="time-slider-container max-w-md mt-8"
+            ></div>
+        </div>
     );
 };
 
