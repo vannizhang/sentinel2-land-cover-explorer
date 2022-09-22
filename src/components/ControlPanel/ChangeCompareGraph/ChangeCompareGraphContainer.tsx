@@ -6,6 +6,7 @@ import {
     selectMapResolution,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
+import ChangeCompareGraph from './ChangeCompareGraph';
 
 const ChangeCompareGraphContainer = () => {
     const resolution = useSelector(selectMapResolution);
@@ -33,7 +34,7 @@ const ChangeCompareGraphContainer = () => {
         // console.log(res);
     }, [resolution, extent, year4LeadingLayer, year4TrailingLayer]);
 
-    return <div>ChangeCompareGraphContainer</div>;
+    return <ChangeCompareGraph />;
 };
 
 export default ChangeCompareGraphContainer;

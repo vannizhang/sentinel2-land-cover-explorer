@@ -1,0 +1,63 @@
+import React, { useRef, useEffect } from 'react';
+
+import { select, ScaleBand, ScaleLinear, ScaleTime } from 'd3';
+
+import { SvgContainerData } from '../types';
+
+export type PointerPositionOnHover = {
+    // index of the item on hover
+    index4ItemOnHover: number;
+    // position on x axis for the item on hover
+    xPosition: number;
+};
+
+type Props = {
+    xScale:
+        | ScaleBand<string | number>
+        | ScaleLinear<number, number>
+        | ScaleTime<number, number>;
+    yScale: ScaleLinear<number, number>;
+    xDomain?: (string | number)[];
+    svgContainerData?: SvgContainerData;
+};
+
+const DividerLine4DivergingBars: React.FC<Props> = ({
+    xScale,
+    yScale,
+    xDomain,
+    svgContainerData,
+}) => {
+    const containerG = useRef<SVGGElement>();
+
+    const init = () => {
+        const { dimension } = svgContainerData;
+
+        const { width } = dimension;
+
+        const container = select(containerG.current);
+
+        const refLine = container.selectAll('line');
+
+        if (!refLine.size()) {
+            container
+                .append('line')
+                .attr('x1', -10)
+                .attr('y1', yScale(0))
+                .attr('x2', width + 10)
+                .attr('y2', yScale(0))
+                .attr('stroke-width', 1)
+                .attr('stroke', 'rgba(255,255,255,.8)')
+                .style('fill', 'none');
+        }
+    };
+
+    useEffect(() => {
+        if (svgContainerData) {
+            init();
+        }
+    }, [svgContainerData]);
+
+    return <g className="divider-line-group" ref={containerG} />;
+};
+
+export default DividerLine4DivergingBars;
