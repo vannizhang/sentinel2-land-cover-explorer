@@ -1,12 +1,17 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useMemo, useRef } from 'react';
 
 import ISwipe from 'esri/widgets/Swipe';
 import IMapView from 'esri/views/MapView';
 import { loadModules } from 'esri-loader';
 import useLandCoverLayer from '../LandcoverLayer/useLandCoverLayer';
 import IImageryLayer from 'esri/layers/ImageryLayer';
+import useSentinel2Layer from '../Sentinel2Layer/useSentinel2Layer';
 
 type Props = {
+    /**
+     * If true, display sentinel 2 imagery layer
+     */
+    shouldShowSentinel2Layer: boolean;
     /**
      * The year that will be used to get the leading layer
      */
@@ -25,23 +30,39 @@ type Props = {
  * Swipe Widget to compare land cover layers from two different years
  */
 const SwipeWidget: FC<Props> = ({
+    shouldShowSentinel2Layer,
     yearForLeadingLayer,
     yearForTailingLayer,
     mapView,
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
-    const leadingLayer = useLandCoverLayer({
-        year: yearForLeadingLayer,
-        mapView,
-    });
+    const leadingLayer = shouldShowSentinel2Layer
+        ? useSentinel2Layer({
+              year: yearForLeadingLayer,
+          })
+        : useLandCoverLayer({
+              year: yearForLeadingLayer,
+          });
+
+    // const leadingLayer = shouldShowSentinel2Layer
+    //     ? useSentinel2Layer({
+    //         year: yearForLeadingLayer
+    //     })
+    //     : useLandCoverLayer({
+    //         year: yearForLeadingLayer,
+    //     });
 
     const prevLeadingLayerRef = useRef<IImageryLayer>();
 
-    const trailingLayer = useLandCoverLayer({
-        year: yearForTailingLayer,
-        mapView,
-    });
+    const trailingLayer = shouldShowSentinel2Layer
+        ? useSentinel2Layer({
+              year: yearForTailingLayer,
+          })
+        : useLandCoverLayer({
+              year: yearForTailingLayer,
+          });
+
     const prevTrailingLayerRef = useRef<IImageryLayer>();
 
     const init = async () => {
