@@ -10,6 +10,11 @@ import {
     LandcoverClassificationData,
 } from './rasterAttributeTable';
 
+export type LandcoverClassificationsByYear = {
+    year: number;
+    data: LandcoverClassificationData;
+};
+
 type IdentifyTaskResponse = {
     /**
      * Pixel value
@@ -75,7 +80,7 @@ const identify = async (
  */
 export const identifyLandcoverClassificationsByLocation = async (
     point: IPoint
-): Promise<LandcoverClassificationData[]> => {
+): Promise<LandcoverClassificationsByYear[]> => {
     try {
         const availableYears = getAvailableYears();
 
@@ -85,12 +90,17 @@ export const identifyLandcoverClassificationsByLocation = async (
 
         const identifyTasksResults = await Promise.all(identifyTasks);
 
-        const output: LandcoverClassificationData[] = identifyTasksResults.map(
-            (res) => {
-                const { value } = res;
-                return getLandCoverClassificationByPixelValue(+value);
-            }
-        );
+        const output: LandcoverClassificationsByYear[] = [];
+
+        for (let i = 0; i < availableYears.length; i++) {
+            const res = identifyTasksResults[i];
+            const { value } = res;
+
+            output.push({
+                year: availableYears[i],
+                data: getLandCoverClassificationByPixelValue(+value),
+            });
+        }
 
         return output;
     } catch (err) {

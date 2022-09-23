@@ -11,7 +11,7 @@ module.exports = {
       ...colors,
       custom: {
         'light-blue': '#BFEEFF',
-        'background': '#00232F',
+        'background': 'rgb(0,35,47)'
       }
     },
     extend: {

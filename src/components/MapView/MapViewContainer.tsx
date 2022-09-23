@@ -18,6 +18,7 @@ import SwipeWidget from '../SwipeWidget/SwipeWidget';
 import MapView from './MapView';
 import MapViewEventHandlers from './MapViewEventHandler';
 import IPoint from 'esri/geometry/Point';
+import Popup from '../Popup/Popup';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const MapViewContainer = () => {
                 }}
                 mapViewOnClick={fetchLandCoverData}
             />
+            <Popup />
         </MapView>
     );
 };
