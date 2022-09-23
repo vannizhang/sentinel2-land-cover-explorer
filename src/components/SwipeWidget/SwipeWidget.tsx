@@ -37,31 +37,23 @@ const SwipeWidget: FC<Props> = ({
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
-    const leadingLayer = useLandCoverLayer({
+    const leadingLandCoverLayer = useLandCoverLayer({
         year: yearForLeadingLayer,
     });
 
-    // const leadingLayer = shouldShowSentinel2Layer
-    //     ? useSentinel2Layer({
-    //         year: yearForLeadingLayer
-    //     })
-    //     : useLandCoverLayer({
-    //         year: yearForLeadingLayer,
-    //     });
+    const leadingSentinel2Layer = useSentinel2Layer({
+        year: yearForLeadingLayer,
+    });
 
     const prevLeadingLayerRef = useRef<IImageryLayer>();
 
-    const trailingLayer = useLandCoverLayer({
+    const trailingLandcoverLayer = useLandCoverLayer({
         year: yearForTailingLayer,
     });
 
-    // const trailingLayer = shouldShowSentinel2Layer
-    //     ? useSentinel2Layer({
-    //           year: yearForTailingLayer,
-    //       })
-    //     : useLandCoverLayer({
-    //           year: yearForTailingLayer,
-    //       });
+    const trailingSentinel2Layer = useSentinel2Layer({
+        year: yearForTailingLayer,
+    });
 
     const prevTrailingLayerRef = useRef<IImageryLayer>();
 
@@ -85,73 +77,75 @@ const SwipeWidget: FC<Props> = ({
         // console.log(swipeWidgetRef.current)
         mapView.ui.add(swipeWidgetRef.current);
 
-        // swipe widget is ready, add leading layer if it's ready
-        if (leadingLayer) {
-            updateLayer(prevLeadingLayerRef.current, leadingLayer);
-        }
-
-        // swipe widget is ready, add trailing layer if it's ready
-        if (trailingLayer) {
-            updateLayer(prevTrailingLayerRef.current, trailingLayer, true);
-        }
+        // swipe widget is ready, add layers to it
+        toggleDisplayLayers();
     };
 
     /**
-     * Update Leading/Trailing layer in Swipe Widget, the previous layer will be removed from map view and new layer will be added to map view,
-     *
-     * The new layer will also be added to the targeting layer collection (leading/trailing) of swipe widget
-     *
-     * @param previousLayer old layer that need to removed
-     * @param currentLayer  new layer that will be used
-     * @param isTrailLayer if true, the new layer will be added to the trailing layers collection
+     * Toggle display Land Cover and Sentinel 2 layer
      */
-    const updateLayer = (
-        previousLayer: IImageryLayer,
-        currentLayer: IImageryLayer,
-        isTrailLayer = false
-    ) => {
-        if (previousLayer) {
-            mapView.map.remove(previousLayer);
-        }
+    const toggleDisplayLayers = () => {
+        const landcoverLayers: IImageryLayer[] = [
+            leadingLandCoverLayer,
+            trailingLandcoverLayer,
+        ];
+        const sentinel2layers: IImageryLayer[] = [
+            leadingSentinel2Layer,
+            trailingSentinel2Layer,
+        ];
 
-        mapView.map.add(currentLayer);
+        // toggle add/remove layers on map
+        const layers2Add: IImageryLayer[] = shouldShowSentinel2Layer
+            ? sentinel2layers
+            : landcoverLayers;
 
-        const layersCollection = isTrailLayer
-            ? swipeWidgetRef.current.trailingLayers
-            : swipeWidgetRef.current.leadingLayers;
+        const layers2Remove: IImageryLayer[] = shouldShowSentinel2Layer
+            ? landcoverLayers
+            : sentinel2layers;
 
-        layersCollection.removeAll();
-        layersCollection.add(currentLayer);
+        mapView.map.removeMany(layers2Remove);
+        mapView.map.addMany(layers2Add);
 
-        if (isTrailLayer) {
-            prevTrailingLayerRef.current = currentLayer;
-        } else {
-            prevLeadingLayerRef.current = currentLayer;
-        }
+        // toggle add/remove layers on swipe widget
+        const leadingLayer = shouldShowSentinel2Layer
+            ? leadingSentinel2Layer
+            : leadingLandCoverLayer;
+
+        const trailingLayer = shouldShowSentinel2Layer
+            ? trailingSentinel2Layer
+            : trailingLandcoverLayer;
+
+        swipeWidgetRef.current.leadingLayers.removeAll();
+        swipeWidgetRef.current.leadingLayers.add(leadingLayer);
+
+        swipeWidgetRef.current.trailingLayers.removeAll();
+        swipeWidgetRef.current.trailingLayers.add(trailingLayer);
     };
 
     useEffect(() => {
-        // initiate swipe widget when both leading layer and trailer layer are ready
-        if (!swipeWidgetRef.current && leadingLayer && trailingLayer) {
+        // initiate swipe widget
+        if (
+            !swipeWidgetRef.current &&
+            leadingLandCoverLayer &&
+            leadingSentinel2Layer &&
+            trailingLandcoverLayer &&
+            trailingSentinel2Layer
+        ) {
             init();
         }
-    }, [mapView, leadingLayer, trailingLayer]);
+    }, [
+        mapView,
+        leadingLandCoverLayer,
+        leadingSentinel2Layer,
+        trailingLandcoverLayer,
+        trailingSentinel2Layer,
+    ]);
 
     useEffect(() => {
-        if (!swipeWidgetRef.current || !leadingLayer) {
-            return;
+        if (swipeWidgetRef.current) {
+            toggleDisplayLayers();
         }
-
-        updateLayer(prevLeadingLayerRef.current, leadingLayer);
-    }, [leadingLayer]);
-
-    useEffect(() => {
-        if (!swipeWidgetRef.current || !trailingLayer) {
-            return;
-        }
-
-        updateLayer(prevTrailingLayerRef.current, trailingLayer, true);
-    }, [trailingLayer]);
+    }, [shouldShowSentinel2Layer]);
 
     return null;
 };

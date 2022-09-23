@@ -1,54 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import {
-    getTimeExtentByYear,
-    // TimeExtentData,
-} from '../../services/sentinel-2-10m-landcover/timeInfo';
+import React, { useEffect, useRef, useState } from 'react';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
-import IMapView from 'esri/views/MapView';
+// import IMapView from 'esri/views/MapView';
 import { SENTINEL_2_IMAGE_SERVICE_URL } from './config';
 
 type UseLandCoverLayerParams = {
     year: number;
-    mapView?: IMapView;
+    // mapView?: IMapView;
 };
 
-const useSentinel2Layer = ({ year, mapView }: UseLandCoverLayerParams) => {
+const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
+    const layerRef = useRef<IImageryLayer>();
+
     const [sentinel2Layer, setSentinel2Layer] = useState<IImageryLayer>();
 
+    const createMosaicRuleByYear = (year: number) => {
+        return {
+            method: `attribute`,
+            where: `(category = 2) OR (CloudCover < 0.1)`,
+            sortField: `AcquisitionDate`,
+            sortValue: `${year}/09/01`,
+            ascending: true,
+        };
+    };
+
     /**
-     * get land cover layer using time extent for the input year
+     * get sentinel 2 layer using mosaic created using the input year
      */
     const getSentinel2Layer = async () => {
-        const timeExtent = await getTimeExtentByYear(year);
-
         type Modules = [typeof IImageryLayer];
 
         const [ImageryLayer] = await (loadModules([
             'esri/layers/ImageryLayer',
         ]) as Promise<Modules>);
 
-        const layer = new ImageryLayer({
+        layerRef.current = new ImageryLayer({
             // URL to the imagery service
             url: SENTINEL_2_IMAGE_SERVICE_URL,
-            timeExtent,
+            mosaicRule: createMosaicRuleByYear(year) as any,
         });
-        console.log(layer);
 
-        setSentinel2Layer(layer);
+        setSentinel2Layer(layerRef.current);
     };
 
     useEffect(() => {
-        if (year) {
+        if (!layerRef.current) {
             getSentinel2Layer();
+        } else {
+            layerRef.current.mosaicRule = createMosaicRuleByYear(year) as any;
         }
     }, [year]);
-
-    // useEffect(() => {
-    //     if (landCoverLayer) {
-
-    //     }
-    // }, [landCoverLayer]);
 
     return sentinel2Layer;
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     getTimeExtentByYear,
     // TimeExtentData,
@@ -6,14 +6,16 @@ import {
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
 import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
-import IMapView from 'esri/views/MapView';
+// import IMapView from 'esri/views/MapView';
 
 type UseLandCoverLayerParams = {
     year: number;
-    mapView?: IMapView;
+    // mapView?: IMapView;
 };
 
-const useLandCoverLayer = ({ year, mapView }: UseLandCoverLayerParams) => {
+const useLandCoverLayer = ({ year }: UseLandCoverLayerParams) => {
+    const layerRef = useRef<IImageryLayer>();
+
     const [landCoverLayer, setLandCoverLayer] = useState<IImageryLayer>();
 
     /**
@@ -28,26 +30,27 @@ const useLandCoverLayer = ({ year, mapView }: UseLandCoverLayerParams) => {
             'esri/layers/ImageryLayer',
         ]) as Promise<Modules>);
 
-        const layer = new ImageryLayer({
+        layerRef.current = new ImageryLayer({
             // URL to the imagery service
             url: SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL,
             timeExtent,
         });
 
-        setLandCoverLayer(layer);
+        setLandCoverLayer(layerRef.current);
+    };
+
+    const updateTimeExtent = async () => {
+        const timeExtent = await getTimeExtentByYear(year);
+        layerRef.current.timeExtent = timeExtent as any;
     };
 
     useEffect(() => {
-        if (year) {
+        if (!layerRef.current) {
             getLandCoverLayer();
+        } else {
+            updateTimeExtent();
         }
     }, [year]);
-
-    // useEffect(() => {
-    //     if (landCoverLayer) {
-
-    //     }
-    // }, [landCoverLayer]);
 
     return landCoverLayer;
 };
