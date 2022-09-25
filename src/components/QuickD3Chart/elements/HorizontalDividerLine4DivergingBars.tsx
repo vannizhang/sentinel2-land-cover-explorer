@@ -22,10 +22,8 @@ type Props = {
     svgContainerData?: SvgContainerData;
 };
 
-const DividerLine4DivergingBars: React.FC<Props> = ({
-    xScale,
+const HorizontalDividerLine4DivergingBars: React.FC<Props> = ({
     yScale,
-    xDomain,
     svgContainerData,
 }) => {
     const containerG = useRef<SVGGElement>();
@@ -62,4 +60,4 @@ const DividerLine4DivergingBars: React.FC<Props> = ({
     return <g className="divider-line-group" ref={containerG} />;
 };
 
-export default DividerLine4DivergingBars;
+export default HorizontalDividerLine4DivergingBars;

@@ -21,6 +21,12 @@ const Template: ComponentStory<typeof DivergingBarChart> = (args) => (
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
+    margin: {
+        left: 10,
+        right: 10,
+        top: 25,
+        bottom: 25,
+    },
     data4Bars: [
         {
             key: 'Tree',
@@ -66,4 +72,5 @@ Primary.args = {
         },
     ],
     showAxis: true,
+    showVerticalDividerLines: true,
 };

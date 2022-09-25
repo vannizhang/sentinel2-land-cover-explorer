@@ -35,8 +35,9 @@ import {
 } from '../types';
 import { SCALE_BAND_PADDING_INNER } from '../constants';
 import DivergingBar from '../elements/DivergingBar';
-import DividerLine4DivergingBars from '../elements/DividerLine4DivergingBars';
+import HorizontalDividerLine4DivergingBars from '../elements/HorizontalDividerLine4DivergingBars';
 import DivergingBarLabel from '../elements/DiveringBarLabel';
+import VerticalDividerLine4DivergingBars from '../elements/VerticalDividerLine4DivergingBars';
 
 type XScale =
     | ScaleBand<string | number>
@@ -55,6 +56,10 @@ type Props = {
     numOfTicksOnXAxisToHide?: number;
     showAxis?: boolean;
     resizable?: boolean;
+    /**
+     * If true, display vertical divider line between bars
+     */
+    showVerticalDividerLines?: boolean;
 };
 
 const DivergingBarChart: React.FC<Props> = ({
@@ -66,6 +71,7 @@ const DivergingBarChart: React.FC<Props> = ({
     numOfTicksOnXAxisToHide,
     showAxis = true,
     resizable = true,
+    showVerticalDividerLines,
 }) => {
     const [dimension, setDimension] = useState<Dimension>({
         height: 0,
@@ -90,6 +96,7 @@ const DivergingBarChart: React.FC<Props> = ({
 
         return scaleBand()
             .paddingInner(SCALE_BAND_PADDING_INNER)
+            .paddingOuter(0.1)
             .range([0, width])
             .domain(xDomain);
     }, [dimension, xDomain]);
@@ -167,11 +174,20 @@ const DivergingBarChart: React.FC<Props> = ({
                     onHover={setPointerPositionOnHover}
                 /> */}
 
-                <DividerLine4DivergingBars
-                    xDomain={xDomain}
+                <HorizontalDividerLine4DivergingBars
                     yScale={yScale}
                     xScale={xScale}
                 />
+
+                {showVerticalDividerLines ? (
+                    <VerticalDividerLine4DivergingBars
+                        data={data4Bars}
+                        xScale={xScale as ScaleBand<string | number>}
+                        yScale={yScale}
+                    />
+                ) : (
+                    <></>
+                )}
 
                 <DivergingBarLabel
                     data={data4Bars}
