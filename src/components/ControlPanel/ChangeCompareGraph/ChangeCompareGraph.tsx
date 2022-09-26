@@ -16,7 +16,7 @@ const ChangeCompareGraph: FC<Props> = ({
     data,
 }: Props) => {
     return (
-        <div className="h-40 w-96 text-center mx-6">
+        <div className="h-40 md:w-96 text-center mx-6 mt-4 md:mt-0">
             <HeaderText
                 text={`Land Cover Change (Acres) from ${earlierYear} to ${laterYear}`}
             />

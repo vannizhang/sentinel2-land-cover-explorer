@@ -13,9 +13,9 @@
     display: none;
 }
 
-.esri-popup__header-container.esri-popup__header-container--button{
+/* .esri-popup__header-container.esri-popup__header-container--button{
     pointer-events: none;
-}
+} */
 
 .esri-popup__main-container {
     background: rgba(0,35,47, .85);

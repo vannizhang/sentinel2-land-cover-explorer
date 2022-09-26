@@ -19,7 +19,7 @@ const LayerSelectorButton: FC<LayerSelectorButtonProps> = ({
     return (
         <div
             className={classNames(
-                'p-2 px-4 border my-6 border-custom-light-blue border-opacity-50 uppercase cursor-pointer',
+                'p-2 px-4 border my-6 text-sm md:text-base border-custom-light-blue border-opacity-50 uppercase cursor-pointer',
                 {
                     'bg-custom-light-blue': active,
                     'text-custom-background': active,
