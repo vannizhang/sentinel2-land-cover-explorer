@@ -19,6 +19,13 @@
   box-shadow: none !important;
 }
 
+/* remove min width of time slider when screen is 1500px wide or smaller to make the layout more responsive */
+@media only screen and (max-width: 1500px) {
+  #timeSliderDiv.esri-widget {
+    min-width: auto;
+  }
+}
+
 #timeSliderDiv .esri-time-slider__slider  {
   background: transparent;
 }
