@@ -18,9 +18,9 @@ const Template: ComponentStory<typeof DivergingBarChart> = (args) => (
     </div>
 );
 
-export const LandCoverByClassification = Template.bind({});
+export const LandCoverByClassificationAndYear = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-LandCoverByClassification.args = {
+LandCoverByClassificationAndYear.args = {
     margin: {
         left: 10,
         right: 10,
@@ -34,55 +34,55 @@ LandCoverByClassification.args = {
             label: 'Water',
             fill: 'blue',
         },
-        // {
-        //     key: 'Water-2018',
-        //     value: 20,
-        //     label: 'Water',
-        //     fill: 'blue',
-        // },
-        // {
-        //     key: 'Water-2019',
-        //     value: 50,
-        //     label: 'Water',
-        //     fill: 'blue',
-        // },
+        {
+            key: 'Water-2018',
+            value: 20,
+            label: 'Water',
+            fill: 'blue',
+        },
+        {
+            key: 'Water-2019',
+            value: 50,
+            label: 'Water',
+            fill: 'blue',
+        },
         {
             key: 'Trees',
             value: 100,
             label: 'Trees',
             fill: 'green',
         },
-        // {
-        //     key: 'Trees-2018',
-        //     value: -70,
-        //     label: 'Trees',
-        //     fill: 'green',
-        // },
-        // {
-        //     key: 'Trees-2019',
-        //     value: 50,
-        //     label: 'Trees',
-        //     fill: 'green',
-        // },
+        {
+            key: 'Trees-2018',
+            value: -70,
+            label: 'Trees',
+            fill: 'green',
+        },
+        {
+            key: 'Trees-2019',
+            value: 50,
+            label: 'Trees',
+            fill: 'green',
+        },
         {
             key: 'Built',
             value: 50,
             label: 'Built',
             fill: 'red',
         },
-        // {
-        //     key: 'Built-2018',
-        //     value: -70,
-        //     label: 'Built',
-        //     fill: 'red',
-        // },
-        // {
-        //     key: 'Built-2019',
-        //     value: 300,
-        //     label: 'Built',
-        //     fill: 'red',
-        // }
+        {
+            key: 'Built-2018',
+            value: -70,
+            label: 'Built',
+            fill: 'red',
+        },
+        {
+            key: 'Built-2019',
+            value: 300,
+            label: 'Built',
+            fill: 'red',
+        },
     ],
-    showAxis: true,
-    showVerticalDividerLines: false,
+    showAxis: false,
+    showVerticalDividerLines: true,
 };

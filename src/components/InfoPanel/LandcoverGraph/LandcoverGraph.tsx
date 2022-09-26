@@ -2,25 +2,14 @@ import React, { FC } from 'react';
 
 import DivergingBarChart from '../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
 import { QuickD3ChartData } from '../../QuickD3Chart/types';
-import HeaderText from '../HeaderText/HeaderText';
 
 type Props = {
-    earlierYear: number;
-    laterYear: number;
     data: QuickD3ChartData;
 };
 
-const ChangeCompareGraph: FC<Props> = ({
-    earlierYear,
-    laterYear,
-    data,
-}: Props) => {
+const LandcoverGraph: FC<Props> = ({ data }: Props) => {
     return (
-        <div className="h-40 w-96 text-center mx-6">
-            <HeaderText
-                text={`Land Cover Change (Acres) from ${earlierYear} to ${laterYear}`}
-            />
-
+        <div className="">
             {data ? (
                 <DivergingBarChart data4Bars={data} showAxis={true} />
             ) : (
@@ -32,4 +21,4 @@ const ChangeCompareGraph: FC<Props> = ({
     );
 };
 
-export default ChangeCompareGraph;
+export default LandcoverGraph;

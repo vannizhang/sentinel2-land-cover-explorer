@@ -46,8 +46,11 @@ const VerticalDividerLine4DivergingBars: React.FC<Props> = ({
             .attr('x2', (d) => xScale(d.key) - paddingOnX)
             .attr('y2', height)
             .attr('stroke-width', 1)
-            .attr('stroke', 'red')
-            .style('opacity', '.5')
+            .attr('stroke', THEME_COLOR_LIGHT_BLUE)
+            .style('opacity', (d, index) => {
+                return '.2';
+                // return index % 3 === 0 ? '.75' : '.2'
+            })
             .style('fill', 'none');
     };
 

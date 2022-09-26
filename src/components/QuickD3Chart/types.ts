@@ -3,6 +3,10 @@ export type QuickD3ChartDataItem = {
     value: number;
     // will be used in tooltip
     label?: string;
+    /**
+     * Label that will be displayed on top
+     */
+    labelOnTop?: string;
     // will be used to display derived information like % of population
     additionalValue?: string;
     /**

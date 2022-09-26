@@ -14,6 +14,16 @@ type Props = {
     data: QuickD3ChartData;
 };
 
+/**
+ * Add plus sign to numeric value
+ *
+ * @param val numberic value
+ * @returns stirng
+ */
+const formatVal = (val: number) => {
+    return val < 0 ? val.toString() : '+' + val;
+};
+
 const DivergingBarLabel: React.FC<Props> = ({
     xScale,
     yScale,
@@ -41,7 +51,7 @@ const DivergingBarLabel: React.FC<Props> = ({
             .enter()
             .append('text')
             .text(function (d) {
-                return d.value < 0 ? d.value : '+' + d.value;
+                return d.labelOnTop || formatVal(d.value);
             })
             .attr('x', (d) => xScale(d.key) + xScale.bandwidth() / 2)
             .attr('y', (d) => {
