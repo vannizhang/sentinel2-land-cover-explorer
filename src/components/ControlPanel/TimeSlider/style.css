@@ -44,7 +44,8 @@
 }
 
 .esri-time-slider__mode--time-window .esri-slider__segment-2 {
-  @apply bg-custom-background;
+  background-color: #00232f;
+  border: 1px solid #193d49;
 }
 
 #timeSliderDiv .esri-slider__thumb {

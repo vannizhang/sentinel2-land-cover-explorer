@@ -18,7 +18,10 @@ const ControlPanel = () => {
     return (
         <div className="control-panel absolute bottom-0 left-0 w-full h-control-panel-height z-10">
             <div className="control-panel-background absolute top-0 left-0 w-full h-full bg-custom-background"></div>
-            <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-between overflow-y-auto">
+
+            <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
+
+            <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-between overflow-y-auto z-10">
                 <div className="flex">
                     <LayerSelector />
                     <TimeSlider />

@@ -22,21 +22,23 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
     const getMainContent = (items: LandcoverClassificationsByYear[]) => {
         const popupDiv = document.createElement('div');
 
-        const elementsAsHtmlString: string[] = items.map((item) => {
-            const { year, data } = item;
+        const elementsAsHtmlString: string[] = items
+            .sort((a, b) => b.year - a.year)
+            .map((item) => {
+                const { year, data } = item;
 
-            const [R, G, B] = data.Color;
+                const [R, G, B] = data.Color;
 
-            const backgroundColor = `rgb(${R}, ${G}, ${B})`;
+                const backgroundColor = `rgb(${R}, ${G}, ${B})`;
 
-            return `
+                return `
                 <div class='flex text-custom-light-blue my-2 items-center'>
                     <span>${year}</span>
                     <div class='rounded-full w-4 h-4 border-2 border-white mx-2' style="background-color:${backgroundColor};"></div>
                     <span>${data.ClassName}</span>
                 </div>
             `;
-        });
+            });
 
         popupDiv.innerHTML = `
             <div class='flex justify-center'>
