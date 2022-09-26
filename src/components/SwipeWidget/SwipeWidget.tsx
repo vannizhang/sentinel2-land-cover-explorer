@@ -1,3 +1,4 @@
+import './style.css';
 import React, { FC, useEffect, useMemo, useRef } from 'react';
 
 import ISwipe from 'esri/widgets/Swipe';
