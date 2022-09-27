@@ -7,6 +7,7 @@ import { loadModules } from 'esri-loader';
 import useLandCoverLayer from '../LandcoverLayer/useLandCoverLayer';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import useSentinel2Layer from '../Sentinel2Layer/useSentinel2Layer';
+import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 
 type Props = {
     /**
@@ -22,6 +23,10 @@ type Props = {
      */
     yearForTailingLayer: number;
     /**
+     *
+     */
+    selectedLandCover: LandCoverClassification;
+    /**
      * Map view that contains Swipe Widget
      */
     mapView?: IMapView;
@@ -34,12 +39,14 @@ const SwipeWidget: FC<Props> = ({
     shouldShowSentinel2Layer,
     yearForLeadingLayer,
     yearForTailingLayer,
+    selectedLandCover,
     mapView,
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
     const leadingLandCoverLayer = useLandCoverLayer({
         year: yearForLeadingLayer,
+        selectedLandCover,
     });
 
     const leadingSentinel2Layer = useSentinel2Layer({
@@ -50,6 +57,7 @@ const SwipeWidget: FC<Props> = ({
 
     const trailingLandcoverLayer = useLandCoverLayer({
         year: yearForTailingLayer,
+        selectedLandCover,
     });
 
     const trailingSentinel2Layer = useSentinel2Layer({

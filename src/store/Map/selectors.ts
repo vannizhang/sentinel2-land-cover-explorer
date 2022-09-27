@@ -45,3 +45,8 @@ export const selectShouldShowSentinel2Layer = createSelector(
     (state: RootState) => state.Map.shouldShowSentinel2Layer,
     (shouldShowSentinel2Layer) => shouldShowSentinel2Layer
 );
+
+export const selectSelectedLandCover = createSelector(
+    (state: RootState) => state.Map.selectedLandCover,
+    (selectedLandCover) => selectedLandCover
+);

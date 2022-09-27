@@ -10,6 +10,7 @@ import {
     resolutionUpdated,
 } from '../../store/Map/reducer';
 import {
+    selectSelectedLandCover,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
 } from '../../store/Map/selectors';
@@ -31,6 +32,8 @@ const MapViewContainer = () => {
         selectShouldShowSentinel2Layer
     );
 
+    const selectedLandCover = useSelector(selectSelectedLandCover);
+
     const fetchLandCoverData = async (point: IPoint) => {
         const res = await identifyLandcoverClassificationsByLocation(point);
         console.log(res);
@@ -42,6 +45,7 @@ const MapViewContainer = () => {
                 shouldShowSentinel2Layer={shouldShowSentinel2Layer}
                 yearForLeadingLayer={year4LeadingLayer}
                 yearForTailingLayer={year4TrailingLayer}
+                selectedLandCover={selectedLandCover}
             />
             <MapViewEventHandlers
                 extentOnChange={(extent, resolution) => {

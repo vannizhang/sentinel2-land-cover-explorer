@@ -1,5 +1,9 @@
+import classNames from 'classnames';
 import React, { FC } from 'react';
-import { LandcoverClassificationData } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+import {
+    LandCoverClassification,
+    LandcoverClassificationData,
+} from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import HeaderText from '../HeaderText/HeaderText';
 
 type Props = {
@@ -7,9 +11,18 @@ type Props = {
      * array of Land Cover classifications data (from Sentinel2_10m_LandCover layer) that contains Name, Color and Description of each land cover type
      */
     data: LandcoverClassificationData[];
+    selectedLandCover: LandCoverClassification;
+    /**
+     * Fires when use selects a land cover type
+     */
+    activeLandCoverOnChange: (data?: LandCoverClassification) => void;
 };
 
-const ClassificationsList: FC<Props> = ({ data }: Props) => {
+const ClassificationsList: FC<Props> = ({
+    data,
+    selectedLandCover,
+    activeLandCoverOnChange,
+}: Props) => {
     return (
         <div className="text-center mx-4 mt-4 md:mt-0">
             <HeaderText text="Land Cover Categories, Click to Toggle Visibility" />
@@ -22,10 +35,25 @@ const ClassificationsList: FC<Props> = ({ data }: Props) => {
 
                         const [Red, Green, Blue] = Color;
 
+                        const isSelected = ClassName === selectedLandCover;
+
                         return (
                             <div
                                 key={Value}
-                                className="flex items-center cursor-pointer"
+                                className={classNames(
+                                    'flex items-center cursor-pointer',
+                                    {
+                                        'opacity-50':
+                                            selectedLandCover &&
+                                            isSelected === false,
+                                    }
+                                )}
+                                onClick={() => {
+                                    const newVal =
+                                        isSelected === false ? ClassName : null;
+
+                                    activeLandCoverOnChange(newVal);
+                                }}
                             >
                                 <div
                                     className="w-4 h-4 border-2 border-white rounded-full"

@@ -4,6 +4,7 @@ import {
     PayloadAction,
     // createAsyncThunk
 } from '@reduxjs/toolkit';
+import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 
 // import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
 
@@ -47,6 +48,11 @@ export type MapState = {
         year4LeadingLayer?: number;
         year4TrailingLayer?: number;
     };
+    /**
+     * The active Land Cover type selected by the user that will be used to
+     * get the raster functions to filter the Land Cover layer
+     */
+    selectedLandCover?: LandCoverClassification;
 };
 
 export const initialMapState: MapState = {
@@ -62,6 +68,7 @@ export const initialMapState: MapState = {
         year4LeadingLayer: null,
         year4TrailingLayer: null,
     },
+    selectedLandCover: null,
 };
 
 const slice = createSlice({
@@ -86,6 +93,12 @@ const slice = createSlice({
         ) => {
             state.shouldShowSentinel2Layer = action.payload;
         },
+        selectedLandCoverChanged: (
+            state,
+            action: PayloadAction<LandCoverClassification>
+        ) => {
+            state.selectedLandCover = action.payload;
+        },
     },
 });
 
@@ -97,6 +110,7 @@ export const {
     resolutionUpdated,
     extentUpdated,
     shouldShowSentinel2LayerToggled,
+    selectedLandCoverChanged,
 } = slice.actions;
 
 export default reducer;

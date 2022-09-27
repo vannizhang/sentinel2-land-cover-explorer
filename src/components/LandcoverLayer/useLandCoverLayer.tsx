@@ -6,14 +6,22 @@ import {
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
 import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
+import {
+    getRasterFunctionByLandCoverClassName,
+    LandCoverClassification,
+} from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 // import IMapView from 'esri/views/MapView';
 
 type UseLandCoverLayerParams = {
     year: number;
+    selectedLandCover?: LandCoverClassification;
     // mapView?: IMapView;
 };
 
-const useLandCoverLayer = ({ year }: UseLandCoverLayerParams) => {
+const useLandCoverLayer = ({
+    year,
+    selectedLandCover,
+}: UseLandCoverLayerParams) => {
     const layerRef = useRef<IImageryLayer>();
 
     const [landCoverLayer, setLandCoverLayer] = useState<IImageryLayer>();
@@ -34,6 +42,10 @@ const useLandCoverLayer = ({ year }: UseLandCoverLayerParams) => {
             // URL to the imagery service
             url: SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL,
             timeExtent,
+            renderingRule: {
+                functionName:
+                    getRasterFunctionByLandCoverClassName(selectedLandCover),
+            },
         });
 
         setLandCoverLayer(layerRef.current);
@@ -51,6 +63,17 @@ const useLandCoverLayer = ({ year }: UseLandCoverLayerParams) => {
             updateTimeExtent();
         }
     }, [year]);
+
+    useEffect(() => {
+        if (!layerRef.current) {
+            return;
+        }
+
+        layerRef.current.renderingRule = {
+            functionName:
+                getRasterFunctionByLandCoverClassName(selectedLandCover),
+        } as any;
+    }, [selectedLandCover]);
 
     return landCoverLayer;
 };

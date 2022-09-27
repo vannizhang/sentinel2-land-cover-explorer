@@ -20,7 +20,7 @@ type RasterAttributeTableFeature = {
     };
 };
 
-type LandCoverClassification =
+export type LandCoverClassification =
     | 'Water'
     | 'Trees'
     | 'Flooded Vegetation'
@@ -31,6 +31,22 @@ type LandCoverClassification =
     | 'Clouds'
     | 'Rangeland'
     | 'No Data';
+
+export const RasterFunctionsByClassificationName: Record<
+    LandCoverClassification,
+    string
+> = {
+    Water: 'Water Areas Only',
+    Trees: 'Trees Only',
+    'Flooded Vegetation': 'Flooded Vegeation Areas Only',
+    Crops: 'Converted Lands Only',
+    'Built Area': 'Built Areas Only',
+    'Bare Ground': 'Bare Ground Areas Only',
+    'Snow/Ice': 'Snow or Ice Only',
+    Clouds: '',
+    Rangeland: 'Rangelands Areas Only',
+    'No Data': '',
+};
 
 const LandcoverClassificationShortNames: Record<
     LandCoverClassification,
@@ -177,4 +193,13 @@ export const getLandCoverClassificationShortName = (
     classification: LandCoverClassification
 ) => {
     return LandcoverClassificationShortNames[classification] || classification;
+};
+
+export const getRasterFunctionByLandCoverClassName = (
+    name?: LandCoverClassification
+) => {
+    return (
+        RasterFunctionsByClassificationName[name] ||
+        'Cartographic Renderer - Legend and Attribute Table'
+    );
 };
