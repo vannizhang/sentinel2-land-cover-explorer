@@ -12,6 +12,10 @@ type Props = {
     yScale: ScaleLinear<number, number>;
     svgContainerData?: SvgContainerData;
     data: QuickD3ChartData;
+    /**
+     * use this value to adjust the style (height, opacity) of divider line to make it easier to separate groups visualy
+     */
+    numberOfBarsPerGroup?: number;
 };
 
 const VerticalDividerLine4Bars: React.FC<Props> = ({
@@ -19,6 +23,7 @@ const VerticalDividerLine4Bars: React.FC<Props> = ({
     yScale,
     data,
     svgContainerData,
+    numberOfBarsPerGroup = 1,
 }) => {
     const groupRef = useRef<SVGGElement>();
 
@@ -42,14 +47,17 @@ const VerticalDividerLine4Bars: React.FC<Props> = ({
             .enter()
             .append('line')
             .attr('x1', (d) => xScale(d.key) - paddingOnX)
-            .attr('y1', 0)
+            .attr('y1', (d, index) => {
+                // return '.2';
+                return index % numberOfBarsPerGroup === 0 ? -20 : 0;
+            })
             .attr('x2', (d) => xScale(d.key) - paddingOnX)
             .attr('y2', height)
             .attr('stroke-width', 1)
             .attr('stroke', THEME_COLOR_LIGHT_BLUE)
             .style('opacity', (d, index) => {
-                return '.2';
-                // return index % 3 === 0 ? '.75' : '.2'
+                // return '.2';
+                return index % numberOfBarsPerGroup === 0 ? '.6' : '.2';
             })
             .style('fill', 'none');
     };

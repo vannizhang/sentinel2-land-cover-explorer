@@ -18,7 +18,12 @@ const InfoPanel = () => {
     return (
         <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-20">
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-90 z-0"></div>
-            <div className="w-2/3 h-1/2">
+            <div
+                className="h-1/2 w-full px-10"
+                style={{
+                    maxWidth: 1600,
+                }}
+            >
                 <Header
                     closeButtonOnClick={() => {
                         dispatch(showInfoPanelToggled(false));

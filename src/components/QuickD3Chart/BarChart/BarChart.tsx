@@ -67,6 +67,10 @@ type Props = {
      * If true, show text label for each bar
      */
     showValueLabel?: boolean;
+    /**
+     * use this value to adjust the style (height, opacity) of divider line to make it easier to separate groups visualy
+     */
+    numberOfBarsPerGroup: number;
 };
 
 const BarChart: React.FC<Props> = ({
@@ -81,6 +85,7 @@ const BarChart: React.FC<Props> = ({
     showVerticalDividerLines,
     showLabelOnTop,
     showValueLabel,
+    numberOfBarsPerGroup,
 }) => {
     const [dimension, setDimension] = useState<Dimension>({
         height: 0,
@@ -180,6 +185,7 @@ const BarChart: React.FC<Props> = ({
                         data={data4Bars}
                         xScale={xScale as ScaleBand<string | number>}
                         yScale={yScale}
+                        numberOfBarsPerGroup={numberOfBarsPerGroup}
                     />
                 ) : (
                     <></>

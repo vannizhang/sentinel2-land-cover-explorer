@@ -9,9 +9,10 @@ import {
     QuickD3ChartData,
     QuickD3ChartDataItem,
 } from '../../QuickD3Chart/types';
-import LandcoverGraph from './LandcoverGraph';
 
 import { numberFns } from 'helper-toolkit-ts';
+import BarChart from '../../QuickD3Chart/BarChart/BarChart';
+import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/timeInfo';
 
 const LandcoverGraphContainer = () => {
     const resolution = useSelector(selectMapResolution);
@@ -20,13 +21,14 @@ const LandcoverGraphContainer = () => {
 
     const [chartData, setChartData] = useState<QuickD3ChartData>();
 
+    const years = getAvailableYears();
+
     const loadChartData = async () => {
         try {
             const res = await getHistoricalLandCoverDataByClassification(
                 extent,
                 resolution
             );
-            console.log(res);
 
             const data: QuickD3ChartDataItem[] = [];
 
@@ -71,7 +73,24 @@ const LandcoverGraphContainer = () => {
         }
     }, [resolution, extent]);
 
-    return <LandcoverGraph data={chartData} />;
+    return (
+        <div className="w-full h-full">
+            {chartData ? (
+                <BarChart
+                    data4Bars={chartData}
+                    numberOfBarsPerGroup={years.length}
+                    showAxis={false}
+                    showVerticalDividerLines={true}
+                    showLabelOnTop={true}
+                    showValueLabel={true}
+                />
+            ) : (
+                <div className="w-full h-full flex justify-center items-center">
+                    <calcite-loader active scale="s"></calcite-loader>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default LandcoverGraphContainer;
