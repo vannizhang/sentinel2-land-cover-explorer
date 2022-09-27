@@ -8,20 +8,20 @@ type Props = {
     earlierYear: number;
     laterYear: number;
     data: QuickD3ChartData;
+    openButtonOnClick: () => void;
 };
 
 const ChangeCompareGraph: FC<Props> = ({
     earlierYear,
     laterYear,
     data,
+    openButtonOnClick,
 }: Props) => {
     return (
         <div className="h-40 md:w-96 text-center mx-6 mt-4 md:mt-0">
             <HeaderText
                 text={`Land Cover Change (Acres) from ${earlierYear} to ${laterYear}`}
-                openButtonOnClick={() => {
-                    console.log('launch detailed chart');
-                }}
+                openButtonOnClick={openButtonOnClick}
             />
 
             {data ? (

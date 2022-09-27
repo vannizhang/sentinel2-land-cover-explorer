@@ -2,9 +2,11 @@ import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from './config';
 import { MapExtent } from '../../store/Map/reducer';
 import { DEFAULT_RENDERING_RULE } from './config';
 import {
+    getDistinctLandCoverClassificationPixelValues,
     getLandCoverClassificationByPixelValue,
     LandcoverClassificationData,
 } from './rasterAttributeTable';
+import { getAvailableYears } from './timeInfo';
 
 type ComputeHistogramsParams = {
     extent: MapExtent;
@@ -59,10 +61,37 @@ type LandCoverChangeInAcres = {
     landcoverClassificationData: LandcoverClassificationData;
 };
 
+type AcresByYear = {
+    year: number;
+    value: number;
+};
+
+type HistoricalLandCoverData = {
+    /**
+     * area of a specific land cover classification in acres by year
+     */
+    acresByYear: AcresByYear[];
+    /**
+     * data of a specific land cover
+     */
+    landCoverClassificationData: LandcoverClassificationData;
+};
+
 /**
  * There are 4046.8564224 square meters in 1 acre
  */
 const SQUARE_METERS_IN_ONE_ACRE = 4047;
+
+/**
+ *
+ * the pixel size is 10 meter, therefore each pixel represent 100 Square meter of space,
+ * and we can divide this number by 4047 (number of square meters in one acre) to get the area in acres
+ * @param count count of pixels
+ * @returns
+ */
+const convertNumOfPixel2Acres = (count: number): number => {
+    return Math.round((count * 100) / SQUARE_METERS_IN_ONE_ACRE);
+};
 
 /**
  * Computes histograms based on the provided params, the result of this operation contains histograms computed for the given extent.
@@ -150,9 +179,7 @@ export const getLandCoverChangeInAcres = async ({
             // convert difference in number of pixels to acres
             // the pixel size is 10 meter, therefore each pixel represent 100 Square meter of space,
             // and we can divide this number by 4047 (number of square meters in one acre) to get the difference in acres
-            const diffInAcres = Math.round(
-                (diff * 100) / SQUARE_METERS_IN_ONE_ACRE
-            );
+            const diffInAcres = convertNumOfPixel2Acres(diff);
 
             if (Math.abs(diffInAcres) < 1) {
                 continue;
@@ -166,6 +193,74 @@ export const getLandCoverChangeInAcres = async ({
         }
 
         return output;
+    } catch (err) {
+        console.log('failed to getLandCoverChangeInAcres', err);
+        return null;
+    }
+};
+
+export const getHistoricalLandCoverDataByClassification = async (
+    extent: MapExtent,
+    resolution: number
+): Promise<HistoricalLandCoverData[]> => {
+    const availableYears = getAvailableYears();
+
+    const distinctLandCoverClassificationPixelValues =
+        getDistinctLandCoverClassificationPixelValues();
+    console.log(distinctLandCoverClassificationPixelValues);
+
+    const historicalLandCoverDataByLandCoverId = new Map<
+        number,
+        HistoricalLandCoverData
+    >();
+
+    for (const pixelValue of distinctLandCoverClassificationPixelValues) {
+        const acresByYear: AcresByYear[] = availableYears.map((year) => {
+            return {
+                year,
+                value: 0,
+            };
+        });
+
+        historicalLandCoverDataByLandCoverId.set(pixelValue, {
+            acresByYear,
+            landCoverClassificationData:
+                getLandCoverClassificationByPixelValue(pixelValue),
+        });
+    }
+
+    try {
+        const computeHistogramsRequest = availableYears.map((year) => {
+            return computeHistograms({
+                extent,
+                resolution,
+                year,
+            });
+        });
+
+        const computeHistogramsResults = await Promise.all(
+            computeHistogramsRequest
+        );
+
+        for (let i = 0; i < availableYears.length; i++) {
+            const result: ComputeHistogramsResponse =
+                computeHistogramsResults[i];
+
+            const counts = result.histograms[0].counts;
+
+            for (let j = 0; j < counts.length; j++) {
+                if (historicalLandCoverDataByLandCoverId.has(j) === false) {
+                    continue;
+                }
+
+                const numOfPixels = counts[j];
+                historicalLandCoverDataByLandCoverId.get(j).acresByYear[
+                    i
+                ].value = convertNumOfPixel2Acres(numOfPixels);
+            }
+        }
+
+        return [...historicalLandCoverDataByLandCoverId.values()];
     } catch (err) {
         console.log('failed to getLandCoverChangeInAcres', err);
         return null;

@@ -169,6 +169,10 @@ export const getLandCoverClassificationByPixelValue = (
     return landcoverClassificationDataMap.get(pixelValue) || null;
 };
 
+export const getDistinctLandCoverClassificationPixelValues = () => {
+    return [...landcoverClassificationDataMap.keys()];
+};
+
 export const getLandCoverClassificationShortName = (
     classification: LandCoverClassification
 ) => {

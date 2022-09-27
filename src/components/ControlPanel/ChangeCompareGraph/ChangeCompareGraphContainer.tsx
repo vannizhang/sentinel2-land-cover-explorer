@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getLandCoverChangeInAcres } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
 import { getLandCoverClassificationShortName } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -7,6 +8,7 @@ import {
     selectMapResolution,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
+import { showInfoPanelToggled } from '../../../store/UI/reducer';
 import {
     QuickD3ChartData,
     QuickD3ChartDataItem,
@@ -14,6 +16,8 @@ import {
 import ChangeCompareGraph from './ChangeCompareGraph';
 
 const ChangeCompareGraphContainer = () => {
+    const dispatch = useDispatch();
+
     const resolution = useSelector(selectMapResolution);
 
     const extent = useSelector(selectMapExtent);
@@ -73,6 +77,9 @@ const ChangeCompareGraphContainer = () => {
             earlierYear={year4LeadingLayer}
             laterYear={year4TrailingLayer}
             data={chartData}
+            openButtonOnClick={() => {
+                dispatch(showInfoPanelToggled(true));
+            }}
         />
     );
 };

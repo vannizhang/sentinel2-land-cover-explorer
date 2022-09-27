@@ -60,7 +60,7 @@ const BarTextLabel: React.FC<Props> = ({
                     return d.labelOnTop;
                 }
 
-                return formatVal(d.value);
+                return d.label || d.value;
             })
             .attr('x', (d) => xScale(d.key) + xScale.bandwidth() / 2)
             .attr('y', (d) => {

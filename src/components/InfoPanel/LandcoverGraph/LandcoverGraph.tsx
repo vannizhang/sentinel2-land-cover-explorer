@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-
-import DivergingBarChart from '../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
+import BarChart from '../../QuickD3Chart/BarChart/BarChart';
 import { QuickD3ChartData } from '../../QuickD3Chart/types';
 
 type Props = {
@@ -9,9 +8,15 @@ type Props = {
 
 const LandcoverGraph: FC<Props> = ({ data }: Props) => {
     return (
-        <div className="">
+        <div className="w-full h-full">
             {data ? (
-                <DivergingBarChart data4Bars={data} showAxis={true} />
+                <BarChart
+                    data4Bars={data}
+                    showAxis={false}
+                    showVerticalDividerLines={true}
+                    showLabelOnTop={true}
+                    showValueLabel={true}
+                />
             ) : (
                 <div className="w-full h-full flex justify-center items-center">
                     <calcite-loader active scale="s"></calcite-loader>
