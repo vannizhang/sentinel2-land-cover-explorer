@@ -12,6 +12,10 @@ type Props = {
     yScale: ScaleLinear<number, number>;
     svgContainerData?: SvgContainerData;
     data: QuickD3ChartData;
+    /**
+     * If true, place the text label on top of chart container
+     */
+    stickToTop?: boolean;
 };
 
 /**
@@ -24,11 +28,12 @@ const formatVal = (val: number) => {
     return val < 0 ? val.toString() : '+' + val;
 };
 
-const DivergingBarLabel: React.FC<Props> = ({
+const BarTextLabel: React.FC<Props> = ({
     xScale,
     yScale,
     data,
     svgContainerData,
+    stickToTop,
 }) => {
     const barsLabelTextGroup = useRef<SVGGElement>();
 
@@ -51,11 +56,25 @@ const DivergingBarLabel: React.FC<Props> = ({
             .enter()
             .append('text')
             .text(function (d) {
-                return d.labelOnTop || formatVal(d.value);
+                if (stickToTop) {
+                    return d.labelOnTop;
+                }
+
+                return formatVal(d.value);
             })
             .attr('x', (d) => xScale(d.key) + xScale.bandwidth() / 2)
             .attr('y', (d) => {
-                return -10;
+                // use a fixed y value, no need to calculate y position
+                if (stickToTop) {
+                    return -10;
+                }
+
+                const yPos = yScale(d.value);
+
+                // add this offset value to y position to make the text element not to overlap with the bar rect
+                const yPosOffset = d.value < 0 ? 15 : -5;
+
+                return yPos + yPosOffset;
             })
             .attr('font-size', '10px')
             .attr('fill', THEME_COLOR_LIGHT_BLUE)
@@ -71,4 +90,4 @@ const DivergingBarLabel: React.FC<Props> = ({
     return <g ref={barsLabelTextGroup} className="bar-label-text-group"></g>;
 };
 
-export default DivergingBarLabel;
+export default BarTextLabel;

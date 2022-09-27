@@ -1,20 +1,20 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import DivergingBarChart from '../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
+import BarChart from '../../QuickD3Chart/BarChart/BarChart';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Example/DivergingBarChart',
-    component: DivergingBarChart,
+    title: 'Example/BarChart',
+    component: BarChart,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {},
-} as ComponentMeta<typeof DivergingBarChart>;
+} as ComponentMeta<typeof BarChart>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof DivergingBarChart> = (args) => (
+const Template: ComponentStory<typeof BarChart> = (args) => (
     <div className=" bg-gray-800 h-48 max-w-md">
-        <DivergingBarChart {...args} />
+        <BarChart {...args} />
     </div>
 );
 
@@ -30,7 +30,7 @@ LandCoverByClassificationAndYear.args = {
     data4Bars: [
         {
             key: 'Water',
-            value: -50,
+            value: 10,
             label: 'Water',
             labelOnTop: '2017',
             fill: 'blue',
@@ -58,28 +58,28 @@ LandCoverByClassificationAndYear.args = {
         },
         {
             key: 'Trees-2018',
-            value: -70,
+            value: 70,
             label: 'Trees',
             labelOnTop: '2018',
             fill: 'green',
         },
         {
             key: 'Trees-2019',
-            value: 50,
+            value: 5,
             label: 'Trees',
             labelOnTop: '2019',
             fill: 'green',
         },
         {
             key: 'Built',
-            value: 50,
+            value: 26,
             label: 'Built',
             labelOnTop: '2017',
             fill: 'red',
         },
         {
             key: 'Built-2018',
-            value: -70,
+            value: 120,
             label: 'Built',
             labelOnTop: '2018',
             fill: 'red',
@@ -94,4 +94,6 @@ LandCoverByClassificationAndYear.args = {
     ],
     showAxis: false,
     showVerticalDividerLines: true,
+    showLabelOnTop: true,
+    showValueLabel: true,
 };

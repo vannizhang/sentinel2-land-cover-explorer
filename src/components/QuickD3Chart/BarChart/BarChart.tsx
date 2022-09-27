@@ -1,4 +1,4 @@
-import './style.css';
+// import './style.css';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 import {
@@ -20,6 +20,7 @@ import {
 } from '../types';
 
 import {
+    Bars,
     SvgContainer,
     XAxis,
     // YAxis,
@@ -34,8 +35,6 @@ import {
     // QuickD3ChartDataItem
 } from '../types';
 import { SCALE_BAND_PADDING_INNER } from '../constants';
-import DivergingBar from '../elements/DivergingBar';
-import HorizontalDividerLine4DivergingBars from '../elements/HorizontalDividerLine4DivergingBars';
 import BarTextLabel from '../elements/BarTextLabel';
 import VerticalDividerLine4Bars from '../elements/VerticalDividerLine4Bars';
 
@@ -70,7 +69,7 @@ type Props = {
     showValueLabel?: boolean;
 };
 
-const DivergingBarChart: React.FC<Props> = ({
+const BarChart: React.FC<Props> = ({
     data4Bars = [],
     barColor,
     margin,
@@ -117,13 +116,10 @@ const DivergingBarChart: React.FC<Props> = ({
         const ymax4Bars =
             data4Bars && data4Bars.length ? max(data4Bars, (d) => d.value) : 0;
 
-        const ymin4Bars =
-            data4Bars && data4Bars.length ? min(data4Bars, (d) => d.value) : 0;
-
         // let's make the ymax bigger than the actual value to give some padding space on top and bottom
-        const ymax = max([ymax4Bars, Math.abs(ymin4Bars)]) * 1.25;
+        const ymax = ymax4Bars * 1.2;
 
-        const ymin = -ymax;
+        const ymin = 0;
 
         return scaleLinear<number, number>()
             .range([height, 0])
@@ -157,7 +153,7 @@ const DivergingBarChart: React.FC<Props> = ({
                 dimensionOnChange={setDimension}
             >
                 {data4Bars && data4Bars.length ? (
-                    <DivergingBar
+                    <Bars
                         data={data4Bars}
                         xScale={xScale as ScaleBand<string | number>}
                         yScale={yScale}
@@ -178,17 +174,6 @@ const DivergingBarChart: React.FC<Props> = ({
                 )}
 
                 {/* {showAxis ? <YAxis scale={yScale} /> : <></>} */}
-
-                {/* <PointerEventsOverlay
-                    xDomain={xDomain}
-                    xScale={xScale}
-                    onHover={setPointerPositionOnHover}
-                /> */}
-
-                <HorizontalDividerLine4DivergingBars
-                    yScale={yScale}
-                    xScale={xScale}
-                />
 
                 {showVerticalDividerLines ? (
                     <VerticalDividerLine4Bars
@@ -232,4 +217,4 @@ const DivergingBarChart: React.FC<Props> = ({
     );
 };
 
-export default DivergingBarChart;
+export default BarChart;

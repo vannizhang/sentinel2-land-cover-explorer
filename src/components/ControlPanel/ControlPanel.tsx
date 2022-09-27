@@ -21,7 +21,7 @@ const ControlPanel = () => {
 
             <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
 
-            <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-between overflow-y-auto z-10">
+            <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around overflow-y-auto z-10">
                 <div className="flex">
                     <LayerSelector />
                     <TimeSlider />

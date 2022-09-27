@@ -14,7 +14,7 @@ type Props = {
     data: QuickD3ChartData;
 };
 
-const VerticalDividerLine4DivergingBars: React.FC<Props> = ({
+const VerticalDividerLine4Bars: React.FC<Props> = ({
     xScale,
     yScale,
     data,
@@ -63,4 +63,4 @@ const VerticalDividerLine4DivergingBars: React.FC<Props> = ({
     return <g ref={groupRef} className="bar-vertical-divider-lines-group"></g>;
 };
 
-export default VerticalDividerLine4DivergingBars;
+export default VerticalDividerLine4Bars;

@@ -33,6 +33,7 @@ LandCoverByClassification.args = {
             value: -50,
             label: 'Water',
             fill: 'blue',
+            labelOnTop: '-50',
         },
         // {
         //     key: 'Water-2018',
@@ -51,6 +52,7 @@ LandCoverByClassification.args = {
             value: 100,
             label: 'Trees',
             fill: 'green',
+            labelOnTop: '+100',
         },
         // {
         //     key: 'Trees-2018',
@@ -69,6 +71,7 @@ LandCoverByClassification.args = {
             value: 50,
             label: 'Built',
             fill: 'red',
+            labelOnTop: '+50',
         },
         // {
         //     key: 'Built-2018',
@@ -85,4 +88,5 @@ LandCoverByClassification.args = {
     ],
     showAxis: true,
     showVerticalDividerLines: false,
+    showLabelOnTop: true,
 };

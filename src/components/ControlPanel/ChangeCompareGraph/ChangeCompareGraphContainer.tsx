@@ -54,6 +54,10 @@ const ChangeCompareGraphContainer = () => {
                 label: ClassName,
                 value: differenceInAcres,
                 fill: `rgb(${R}, ${G}, ${B})`,
+                labelOnTop:
+                    differenceInAcres > 0
+                        ? '+' + differenceInAcres
+                        : differenceInAcres.toString(),
             };
         });
 

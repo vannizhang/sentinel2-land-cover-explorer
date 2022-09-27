@@ -25,7 +25,11 @@ const ChangeCompareGraph: FC<Props> = ({
             />
 
             {data ? (
-                <DivergingBarChart data4Bars={data} showAxis={true} />
+                <DivergingBarChart
+                    data4Bars={data}
+                    showAxis={true}
+                    showLabelOnTop={true}
+                />
             ) : (
                 <div className="w-full h-full flex justify-center items-center">
                     <calcite-loader active scale="s"></calcite-loader>

@@ -39,7 +39,9 @@ const Bars: React.FC<Props> = ({
             .data(data)
             .enter()
             .append('rect')
-            .style('fill', color || BAR_COLOR)
+            .style('fill', (d) => {
+                return d.fill || color || BAR_COLOR;
+            })
             .attr('x', (d) => xScale(d.key))
             .attr('width', xScale.bandwidth())
             .attr('y', (d) => yScale(d.value))
