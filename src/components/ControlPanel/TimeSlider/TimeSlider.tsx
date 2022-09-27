@@ -5,6 +5,10 @@ import ITimeSlider from 'esri/widgets/TimeSlider';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
 import HeaderText from '../HeaderText/HeaderText';
+import {
+    SENTINEL_2_10M_LAND_COVER_ITEM_ID,
+    SENTINEL_2_ITEM_ID,
+} from '../../../constants/map';
 
 type Props = {
     /**
@@ -17,6 +21,10 @@ type Props = {
      */
     years: number[];
     /**
+     * If it is currently showing Sentinel 2 layer instead of Land Cover layer
+     */
+    shouldShowSentinel2Layer?: boolean;
+    /**
      * Fires when the time extent of the Time Slider is changed
      *
      * @param startYear new start year
@@ -25,7 +33,11 @@ type Props = {
     timeExtentOnChange: (startYear: number, endYear: number) => void;
 };
 
-const TimeSlider: FC<Props> = ({ years, timeExtentOnChange }: Props) => {
+const TimeSlider: FC<Props> = ({
+    years,
+    shouldShowSentinel2Layer,
+    timeExtentOnChange,
+}: Props) => {
     const containerRef = useRef<HTMLDivElement>();
 
     const sliderRef = useRef<ITimeSlider>();
@@ -100,7 +112,20 @@ const TimeSlider: FC<Props> = ({ years, timeExtentOnChange }: Props) => {
 
     return (
         <div className="text-center">
-            <HeaderText text="Sentinel-2 Imagery, Choose Two Years to Compare" />
+            <HeaderText
+                text={`${
+                    shouldShowSentinel2Layer
+                        ? 'Sentinel-2 Imagery'
+                        : '10m Land Cover'
+                }, Choose Two Years to Compare`}
+                openButtonOnClick={() => {
+                    const targetURL = shouldShowSentinel2Layer
+                        ? SENTINEL_2_ITEM_ID
+                        : SENTINEL_2_10M_LAND_COVER_ITEM_ID;
+                    window.open(targetURL, '_blank');
+                }}
+            />
+
             <div
                 id="timeSliderDiv"
                 ref={containerRef}
