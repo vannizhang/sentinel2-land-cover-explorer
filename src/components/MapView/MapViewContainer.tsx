@@ -8,6 +8,7 @@ import {
     extentUpdated,
     MapExtent,
     resolutionUpdated,
+    swipePositionChanged,
 } from '../../store/Map/reducer';
 import {
     selectSelectedLandCover,
@@ -20,6 +21,7 @@ import MapView from './MapView';
 import MapViewEventHandlers from './MapViewEventHandler';
 import IPoint from 'esri/geometry/Point';
 import Popup from '../Popup/Popup';
+import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -40,24 +42,31 @@ const MapViewContainer = () => {
     };
 
     return (
-        <MapView webmapId={WEB_MAP_ID} center={[-117.2, 34.06]} zoom={12}>
-            <SwipeWidget
-                shouldShowSentinel2Layer={shouldShowSentinel2Layer}
-                yearForLeadingLayer={year4LeadingLayer}
-                yearForTailingLayer={year4TrailingLayer}
-                selectedLandCover={selectedLandCover}
-            />
-            <MapViewEventHandlers
-                extentOnChange={(extent, resolution) => {
-                    batch(() => {
-                        dispatch(resolutionUpdated(resolution));
-                        dispatch(extentUpdated(extent));
-                    });
-                }}
-                mapViewOnClick={fetchLandCoverData}
-            />
-            <Popup />
-        </MapView>
+        <>
+            <MapView webmapId={WEB_MAP_ID} center={[-117.2, 34.06]} zoom={12}>
+                <SwipeWidget
+                    shouldShowSentinel2Layer={shouldShowSentinel2Layer}
+                    yearForLeadingLayer={year4LeadingLayer}
+                    yearForTailingLayer={year4TrailingLayer}
+                    selectedLandCover={selectedLandCover}
+                    positionOnChange={(position) => {
+                        dispatch(swipePositionChanged(position));
+                    }}
+                />
+                <MapViewEventHandlers
+                    extentOnChange={(extent, resolution) => {
+                        batch(() => {
+                            dispatch(resolutionUpdated(resolution));
+                            dispatch(extentUpdated(extent));
+                        });
+                    }}
+                    mapViewOnClick={fetchLandCoverData}
+                />
+                <Popup />
+            </MapView>
+
+            <SwipeWidgetReferenceInfo />
+        </>
     );
 };
 

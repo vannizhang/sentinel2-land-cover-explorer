@@ -25,12 +25,17 @@ export type UIState = {
      * The data that will be shown in the Tooltip
      */
     tooltipData?: TooltipData;
+    /**
+     * If true, show leading and trailing year in Swipe Widget Reference Info Component
+     */
+    showSwipeWidgetYearIndicator?: boolean;
 };
 
 export const initialUIState: UIState = {
     showInfoPanel: false,
     tooltipXPosition: 0,
     tooltipData: null,
+    showSwipeWidgetYearIndicator: false,
 };
 
 const slice = createSlice({
@@ -46,6 +51,12 @@ const slice = createSlice({
         tooltipDataChanged: (state, action: PayloadAction<TooltipData>) => {
             state.tooltipData = action.payload;
         },
+        showSwipeWidgetYearIndicatorToggled: (
+            state,
+            action: PayloadAction<boolean>
+        ) => {
+            state.showSwipeWidgetYearIndicator = action.payload;
+        },
     },
 });
 
@@ -55,6 +66,7 @@ export const {
     showInfoPanelToggled,
     tooltipXPositionChanged,
     tooltipDataChanged,
+    showSwipeWidgetYearIndicatorToggled,
 } = slice.actions;
 
 export default reducer;

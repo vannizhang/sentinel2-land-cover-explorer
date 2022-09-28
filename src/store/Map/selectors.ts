@@ -50,3 +50,8 @@ export const selectSelectedLandCover = createSelector(
     (state: RootState) => state.Map.selectedLandCover,
     (selectedLandCover) => selectedLandCover
 );
+
+export const selectSwipePosition = createSelector(
+    (state: RootState) => state.Map.swipeWidget.position,
+    (position) => position
+);

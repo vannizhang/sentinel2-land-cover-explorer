@@ -8,6 +8,7 @@ import useLandCoverLayer from '../LandcoverLayer/useLandCoverLayer';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import useSentinel2Layer from '../Sentinel2Layer/useSentinel2Layer';
 import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+import IWatchUtils from 'esri/core/watchUtils';
 
 type Props = {
     /**
@@ -30,6 +31,10 @@ type Props = {
      * Map view that contains Swipe Widget
      */
     mapView?: IMapView;
+    /**
+     * Fires when user drag and change swipe position
+     */
+    positionOnChange: (position: number) => void;
 };
 
 /**
@@ -41,6 +46,7 @@ const SwipeWidget: FC<Props> = ({
     yearForTailingLayer,
     selectedLandCover,
     mapView,
+    positionOnChange,
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
@@ -53,8 +59,6 @@ const SwipeWidget: FC<Props> = ({
         year: yearForLeadingLayer,
     });
 
-    const prevLeadingLayerRef = useRef<IImageryLayer>();
-
     const trailingLandcoverLayer = useLandCoverLayer({
         year: yearForTailingLayer,
         selectedLandCover,
@@ -64,13 +68,12 @@ const SwipeWidget: FC<Props> = ({
         year: yearForTailingLayer,
     });
 
-    const prevTrailingLayerRef = useRef<IImageryLayer>();
-
     const init = async () => {
-        type Modules = [typeof ISwipe];
+        type Modules = [typeof ISwipe, typeof IWatchUtils];
 
-        const [Swipe] = await (loadModules([
+        const [Swipe, watchUtils] = await (loadModules([
             'esri/widgets/Swipe',
+            'esri/core/watchUtils',
         ]) as Promise<Modules>);
 
         // mapView.map.addMany([leadingLayer, trailingLayer]);
@@ -85,6 +88,19 @@ const SwipeWidget: FC<Props> = ({
 
         // console.log(swipeWidgetRef.current)
         mapView.ui.add(swipeWidgetRef.current);
+
+        watchUtils.watch(
+            swipeWidgetRef.current,
+            'position',
+            (position: number) => {
+                // console.log('position changes for swipe widget', position);
+                positionOnChange(position);
+            }
+        );
+
+        swipeWidgetRef.current.when(() => {
+            addMouseEventHandlers();
+        });
 
         // swipe widget is ready, add layers to it
         toggleDisplayLayers();
@@ -129,6 +145,27 @@ const SwipeWidget: FC<Props> = ({
 
         swipeWidgetRef.current.trailingLayers.removeAll();
         swipeWidgetRef.current.trailingLayers.add(trailingLayer);
+    };
+
+    const addMouseEventHandlers = () => {
+        const handleElem = document.querySelector('.esri-swipe__handle');
+        // console.log(handleElem)
+
+        handleElem.addEventListener('mouseenter', () => {
+            console.log('mouseenter');
+        });
+
+        handleElem.addEventListener('mouseleave', () => {
+            console.log('mouseleave');
+        });
+
+        // handleElem.addEventListener('mousedown', ()=>{
+        //     console.log('mousedown')
+        // })
+
+        // handleElem.addEventListener('mouseup', ()=>{
+        //     console.log('mousedown')
+        // })
     };
 
     useEffect(() => {

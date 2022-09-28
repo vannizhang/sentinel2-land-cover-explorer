@@ -28,10 +28,10 @@ const useGetTooltipPositionOnHover = (
         ref.current.addEventListener('mouseleave', onLeave);
         // document.addEventListener('touchstart', listener);
 
-        return () => {
-            ref.current.removeEventListener('mousedown', onEnter);
-            ref.current.removeEventListener('mouseleave', onLeave);
-        };
+        // return () => {
+        //     ref.current.removeEventListener('mousedown', onEnter);
+        //     ref.current.removeEventListener('mouseleave', onLeave);
+        // };
     }, [ref]);
 };
 

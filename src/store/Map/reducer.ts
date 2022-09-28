@@ -47,6 +47,7 @@ export type MapState = {
     swipeWidget?: {
         year4LeadingLayer?: number;
         year4TrailingLayer?: number;
+        position?: number;
     };
     /**
      * The active Land Cover type selected by the user that will be used to
@@ -67,6 +68,7 @@ export const initialMapState: MapState = {
     swipeWidget: {
         year4LeadingLayer: null,
         year4TrailingLayer: null,
+        position: 50,
     },
     selectedLandCover: null,
 };
@@ -99,6 +101,9 @@ const slice = createSlice({
         ) => {
             state.selectedLandCover = action.payload;
         },
+        swipePositionChanged: (state, action: PayloadAction<number>) => {
+            state.swipeWidget.position = action.payload;
+        },
     },
 });
 
@@ -111,6 +116,7 @@ export const {
     extentUpdated,
     shouldShowSentinel2LayerToggled,
     selectedLandCoverChanged,
+    swipePositionChanged,
 } = slice.actions;
 
 export default reducer;

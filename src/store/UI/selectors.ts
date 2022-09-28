@@ -15,3 +15,8 @@ export const selectTooltipData = createSelector(
     (state: RootState) => state.UI.tooltipData,
     (tooltipData) => tooltipData
 );
+
+export const selectShowSwipeWidgetYearIndicator = createSelector(
+    (state: RootState) => state.UI.showSwipeWidgetYearIndicator,
+    (showSwipeWidgetYearIndicator) => showSwipeWidgetYearIndicator
+);

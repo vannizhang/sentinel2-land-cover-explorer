@@ -1,3 +1,5 @@
+import './BarTextLabel.css';
+
 import React, { useRef, useEffect } from 'react';
 
 import { select, ScaleBand, ScaleLinear } from 'd3';
@@ -16,16 +18,10 @@ type Props = {
      * If true, place the text label on top of chart container
      */
     stickToTop?: boolean;
-};
-
-/**
- * Add plus sign to numeric value
- *
- * @param val numberic value
- * @returns stirng
- */
-const formatVal = (val: number) => {
-    return val < 0 ? val.toString() : '+' + val;
+    /**
+     * If true, rotate label text
+     */
+    shouldRotate?: boolean;
 };
 
 const BarTextLabel: React.FC<Props> = ({
@@ -34,6 +30,7 @@ const BarTextLabel: React.FC<Props> = ({
     data,
     svgContainerData,
     stickToTop,
+    shouldRotate,
 }) => {
     const barsLabelTextGroup = useRef<SVGGElement>();
 
@@ -55,6 +52,9 @@ const BarTextLabel: React.FC<Props> = ({
             .data(data)
             .enter()
             .append('text')
+            // .attr('class', ()=>{
+            //     return shouldRotate ? 'rotate' : ''
+            // })
             .text(function (d) {
                 if (stickToTop) {
                     return d.labelOnTop;

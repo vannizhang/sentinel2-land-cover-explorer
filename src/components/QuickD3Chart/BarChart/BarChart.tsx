@@ -197,6 +197,7 @@ const BarChart: React.FC<Props> = ({
                         xScale={xScale as ScaleBand<string | number>}
                         yScale={yScale}
                         stickToTop={true}
+                        shouldRotate={true}
                     />
                 ) : (
                     <></>
