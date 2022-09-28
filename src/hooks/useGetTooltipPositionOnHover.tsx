@@ -2,6 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { tooltipXPositionChanged } from '../store/UI/reducer';
 
+/**
+ * Update Tooltip's x Position using x position from input ref HTMLDivElement,
+ * `mouse enter` event listener will be added to the input ref HTMLDivElement so it can update Tooltip's x Position
+ * every time user hovers this element
+ *
+ * @param ref
+ */
 const useGetTooltipPositionOnHover = (
     ref: React.MutableRefObject<HTMLDivElement>
 ) => {

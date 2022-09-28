@@ -50,7 +50,15 @@ type GetLandCoverChangeParams = {
     laterYear: number;
 };
 
-type LandCoverChangeInAcres = {
+export type LandCoverChangeInAcres = {
+    /**
+     * Area (in acres) of a specific land cover in earlier year
+     */
+    earlierYearAreaInAcres: number;
+    /**
+     * Area (in acres) of a specific land cover in later year
+     */
+    laterYearAreaInAcres: number;
     /**
      * Difference (in acres) of a specific land cover type between two years
      */
@@ -188,6 +196,9 @@ export const getLandCoverChangeInAcres = async ({
             output.push({
                 landcoverClassificationData:
                     getLandCoverClassificationByPixelValue(i),
+                earlierYearAreaInAcres:
+                    convertNumOfPixel2Acres(countEarlierYear),
+                laterYearAreaInAcres: convertNumOfPixel2Acres(countLaterYear),
                 differenceInAcres: diffInAcres,
             });
         }

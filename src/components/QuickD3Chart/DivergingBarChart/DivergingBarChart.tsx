@@ -23,7 +23,7 @@ import {
     SvgContainer,
     XAxis,
     // YAxis,
-    // PointerEventsOverlay,
+    PointerEventsOverlay,
     // Tooltip,
 } from '../elements';
 
@@ -68,6 +68,10 @@ type Props = {
      * If true, show text label for each bar
      */
     showValueLabel?: boolean;
+    /**
+     * Fires when user hovers an diverging bar
+     */
+    itemOnHover: (index: number) => void;
 };
 
 const DivergingBarChart: React.FC<Props> = ({
@@ -82,6 +86,7 @@ const DivergingBarChart: React.FC<Props> = ({
     showVerticalDividerLines,
     showLabelOnTop,
     showValueLabel,
+    itemOnHover,
 }) => {
     const [dimension, setDimension] = useState<Dimension>({
         height: 0,
@@ -179,12 +184,6 @@ const DivergingBarChart: React.FC<Props> = ({
 
                 {/* {showAxis ? <YAxis scale={yScale} /> : <></>} */}
 
-                {/* <PointerEventsOverlay
-                    xDomain={xDomain}
-                    xScale={xScale}
-                    onHover={setPointerPositionOnHover}
-                /> */}
-
                 <HorizontalDividerLine4DivergingBars
                     yScale={yScale}
                     xScale={xScale}
@@ -220,14 +219,17 @@ const DivergingBarChart: React.FC<Props> = ({
                 ) : (
                     <></>
                 )}
-            </SvgContainer>
 
-            {/* <Tooltip
-                pointerPosition={pointerPositionOnHover}
-                dimension={dimension}
-                data4Bars={data4Bars}
-                margin={margin}
-            /> */}
+                <PointerEventsOverlay
+                    xDomain={xDomain}
+                    xScale={xScale}
+                    onHover={(data) => {
+                        const idx = data ? data.index4ItemOnHover : -1;
+                        // console.log(data4Bars[idx])
+                        itemOnHover(idx);
+                    }}
+                />
+            </SvgContainer>
         </div>
     );
 };

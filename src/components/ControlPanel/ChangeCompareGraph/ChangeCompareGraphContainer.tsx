@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getLandCoverChangeInAcres } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
+import {
+    getLandCoverChangeInAcres,
+    LandCoverChangeInAcres,
+} from '../../../services/sentinel-2-10m-landcover/computeHistograms';
 import { getLandCoverClassificationShortName } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
     selectMapExtent,
@@ -9,6 +12,7 @@ import {
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
 import { showInfoPanelToggled } from '../../../store/UI/reducer';
+import { updateTooltipData } from '../../../store/UI/thunks';
 import {
     QuickD3ChartData,
     QuickD3ChartDataItem,
@@ -28,6 +32,9 @@ const ChangeCompareGraphContainer = () => {
 
     const [chartData, setChartData] = useState<QuickD3ChartData>();
 
+    const [landCoverChangeData, setLandCoverChangeData] =
+        useState<LandCoverChangeInAcres[]>();
+
     const fetchData = async (): Promise<void> => {
         if (
             !resolution ||
@@ -45,7 +52,11 @@ const ChangeCompareGraphContainer = () => {
             laterYear: year4TrailingLayer,
         });
 
-        const data: QuickD3ChartDataItem[] = res.map((d) => {
+        setLandCoverChangeData(res);
+    };
+
+    const getChartData = () => {
+        const data: QuickD3ChartDataItem[] = landCoverChangeData.map((d) => {
             const { differenceInAcres, landcoverClassificationData } = d;
 
             const { ClassName, Description, Color } =
@@ -68,6 +79,38 @@ const ChangeCompareGraphContainer = () => {
         setChartData(data);
     };
 
+    const openTooltipForItemOnHover = (idx: number) => {
+        if (!landCoverChangeData || !landCoverChangeData[idx]) {
+            dispatch(updateTooltipData(null));
+            return;
+        }
+
+        const data = landCoverChangeData[idx];
+
+        const {
+            landcoverClassificationData,
+            laterYearAreaInAcres,
+            earlierYearAreaInAcres,
+            differenceInAcres,
+        } = data;
+
+        const { ClassName } = landcoverClassificationData;
+
+        const tooltipData = {
+            content: `${ClassName} in this area ${
+                differenceInAcres > 0 ? 'gained' : 'lost'
+            } about ${differenceInAcres} acres (from ${earlierYearAreaInAcres} to ${laterYearAreaInAcres})`,
+        };
+
+        dispatch(updateTooltipData(tooltipData));
+    };
+
+    useEffect(() => {
+        if (landCoverChangeData) {
+            getChartData();
+        }
+    }, [landCoverChangeData]);
+
     useEffect(() => {
         fetchData();
     }, [resolution, extent, year4LeadingLayer, year4TrailingLayer]);
@@ -80,6 +123,7 @@ const ChangeCompareGraphContainer = () => {
             openButtonOnClick={() => {
                 dispatch(showInfoPanelToggled(true));
             }}
+            itemOnHover={openTooltipForItemOnHover}
         />
     );
 };

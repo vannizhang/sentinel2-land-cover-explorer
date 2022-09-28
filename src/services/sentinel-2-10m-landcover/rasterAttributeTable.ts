@@ -56,7 +56,7 @@ const LandcoverClassificationShortNames: Record<
     'Built Area': 'Built',
     Clouds: 'Clouds',
     Crops: 'Crops',
-    'Flooded Vegetation': 'Flooded Veg',
+    'Flooded Vegetation': 'Flooded',
     Rangeland: 'Range',
     'Snow/Ice': 'Snow/Ice',
     Trees: 'Trees',

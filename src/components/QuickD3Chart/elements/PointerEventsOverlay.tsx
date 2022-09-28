@@ -13,12 +13,16 @@ export type PointerPositionOnHover = {
     xPosition: number;
 };
 
+type XScale =
+    | ScaleBand<string | number>
+    | ScaleLinear<number, number>
+    | ScaleTime<number, number>;
+
+type XDomain = (string | number)[];
+
 type Props = {
-    xScale:
-        | ScaleBand<string | number>
-        | ScaleLinear<number, number>
-        | ScaleTime<number, number>;
-    xDomain?: (string | number)[];
+    xScale: XScale;
+    xDomain?: XDomain;
     svgContainerData?: SvgContainerData;
     onHover?: (data: PointerPositionOnHover) => void;
 };
@@ -33,28 +37,32 @@ const PointerEventsOverlay: React.FC<Props> = ({
 
     const itemOnHover = useRef<PointerPositionOnHover>();
 
-    const initRefLine = () => {
-        const { dimension } = svgContainerData;
+    const xScaleRef = useRef<XScale>();
 
-        const { height } = dimension;
+    const xDomainRef = useRef<XDomain>();
 
-        const container = select(containerG.current);
+    // const initRefLine = () => {
+    //     const { dimension } = svgContainerData;
 
-        const refLine = container.selectAll('line');
+    //     const { height } = dimension;
 
-        if (!refLine.size()) {
-            container
-                .append('line')
-                .attr('x1', 0)
-                .attr('y1', 0)
-                .attr('x2', 0)
-                .attr('y2', height)
-                .style('opacity', 0)
-                .attr('stroke-width', REF_LINE_STROKE)
-                .attr('stroke', REF_LINE_COLOR)
-                .style('fill', 'none');
-        }
-    };
+    //     const container = select(containerG.current);
+
+    //     const refLine = container.selectAll('line');
+
+    //     if (!refLine.size()) {
+    //         container
+    //             .append('line')
+    //             .attr('x1', 0)
+    //             .attr('y1', 0)
+    //             .attr('x2', 0)
+    //             .attr('y2', height)
+    //             .style('opacity', 0)
+    //             .attr('stroke-width', REF_LINE_STROKE)
+    //             .attr('stroke', REF_LINE_COLOR)
+    //             .style('fill', 'none');
+    //     }
+    // };
 
     const initOverlayRect = () => {
         const { dimension } = svgContainerData;
@@ -83,23 +91,27 @@ const PointerEventsOverlay: React.FC<Props> = ({
 
     const setDataOnHover = (data?: PointerPositionOnHover) => {
         itemOnHover.current = data;
-        updateVerticalRefLinePos();
+        // updateVerticalRefLinePos();
         onHover(data);
     };
 
-    const updateVerticalRefLinePos = (): void => {
-        const vRefLine = select(containerG.current).select('line');
+    // const updateVerticalRefLinePos = (): void => {
+    //     const vRefLine = select(containerG.current).select('line');
 
-        const opacity = itemOnHover.current ? 1 : 0;
+    //     const opacity = itemOnHover.current ? 1 : 0;
 
-        const xPos: number = itemOnHover.current
-            ? itemOnHover.current.xPosition
-            : 0;
+    //     const xPos: number = itemOnHover.current
+    //         ? itemOnHover.current.xPosition
+    //         : 0;
 
-        vRefLine.attr('x1', xPos).attr('x2', xPos).style('opacity', opacity);
-    };
+    //     vRefLine.attr('x1', xPos).attr('x2', xPos).style('opacity', opacity);
+    // };
 
     const getDataByMousePos = (mousePosX: number): PointerPositionOnHover => {
+        const xScale = xScaleRef.current;
+
+        const xDomain = xDomainRef.current;
+
         const { dimension } = svgContainerData;
 
         const { width } = dimension;
@@ -160,10 +172,20 @@ const PointerEventsOverlay: React.FC<Props> = ({
 
     useEffect(() => {
         if (svgContainerData) {
-            initRefLine();
+            // initRefLine();
             initOverlayRect();
         }
     }, [svgContainerData]);
+
+    useEffect(() => {
+        if (xScale) {
+            xScaleRef.current = xScale;
+        }
+
+        if (xDomain) {
+            xDomainRef.current = xDomain;
+        }
+    }, [xScale, xDomain]);
 
     return <g className="pointer-event-overlay-group" ref={containerG} />;
 };
