@@ -8,36 +8,46 @@ import LayerSelector from './LayerSelector/LayerSelectorContainer';
 import TimeSlider from './TimeSlider/TimeSliderContainer';
 import { selectShouldShowSentinel2Layer } from '../../store/Map/selectors';
 import Tooltip from './Tooltip/TooltipContainer';
+import ToggleButton from './ToggleButton/ToggleButtonContainer';
+import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 
 const ControlPanel = () => {
     // const dispatch = useDispatch();
+
+    const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
 
     return (
-        <div className="control-panel absolute bottom-0 left-0 w-full h-control-panel-height z-10">
-            <div className="control-panel-background absolute top-0 left-0 w-full h-full bg-custom-background"></div>
+        <>
+            {hideControlPanel === false && (
+                <div className="control-panel absolute bottom-0 left-0 w-full h-control-panel-height z-10">
+                    <div className="theme-background-diagnol-pattern absolute top-0 left-0 w-full h-full"></div>
 
-            <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
+                    <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
 
-            <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around overflow-y-auto z-10">
-                <div className="flex">
-                    <LayerSelector />
-                    <TimeSlider />
+                    <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around overflow-y-auto z-10">
+                        <div className="flex">
+                            <LayerSelector />
+                            <TimeSlider />
+                        </div>
+
+                        <div className="md:flex">
+                            {shouldShowSentinel2Layer === false && (
+                                <ClassificationsList />
+                            )}
+                            <ChangeCompareGraph />
+                        </div>
+                    </div>
+
+                    <Tooltip />
                 </div>
+            )}
 
-                <div className="md:flex">
-                    {shouldShowSentinel2Layer === false && (
-                        <ClassificationsList />
-                    )}
-                    <ChangeCompareGraph />
-                </div>
-            </div>
-
-            <Tooltip />
-        </div>
+            <ToggleButton />
+        </>
     );
 };
 

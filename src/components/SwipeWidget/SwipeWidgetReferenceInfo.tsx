@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -30,7 +31,11 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
     );
 
     return (
-        <div className="absolute top-0 left-0 bottom-control-panel-height w-full z-10 pointer-events-none ">
+        <div
+            className={classNames(
+                'absolute top-0 bottom-0 left-0 w-full z-10 pointer-events-none'
+            )}
+        >
             <div
                 className="absolute top-0 bottom-0 left-0 flex items-center"
                 style={{
@@ -43,7 +48,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
 
                 {showSwipeWidgetYearIndicator && (
                     <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-end">
-                        <div className="bg-custom-background-850 text-custom-light-blue text-sm mr-8 py-1 px-2">
+                        <div className="theme-background-diagnol-pattern text-custom-light-blue text-sm mr-8 py-1 px-2">
                             {year4LeadingLayer}
                         </div>
                     </div>
@@ -57,7 +62,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
                 }}
             >
                 {showSwipeWidgetYearIndicator && (
-                    <div className=" bg-custom-background-850 text-custom-light-blue text-sm ml-8 py-1 px-2">
+                    <div className="theme-background-diagnol-pattern text-custom-light-blue text-sm ml-8 py-1 px-2">
                         {year4TrailingLayer}
                     </div>
                 )}

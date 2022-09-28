@@ -23,9 +23,14 @@ import IPoint from 'esri/geometry/Point';
 import Popup from '../Popup/Popup';
 import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
 import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
+import { selectShouldHideControlPanel } from '../../store/UI/selectors';
+import classNames from 'classnames';
+import ToggleAttribution from './ToggleAttribution';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
+
+    const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
     const [year4LeadingLayer, year4TrailingLayer] = useSelector(
         selectYearsForSwipeWidgetLayers
@@ -45,7 +50,12 @@ const MapViewContainer = () => {
     };
 
     return (
-        <>
+        <div
+            className={classNames('absolute top-0 left-0 w-full', {
+                'bottom-control-panel-height': hideControlPanel === false,
+                'bottom-0': hideControlPanel,
+            })}
+        >
             <MapView webmapId={WEB_MAP_ID} center={[-117.2, 34.06]} zoom={12}>
                 <SwipeWidget
                     shouldShowSentinel2Layer={shouldShowSentinel2Layer}
@@ -77,7 +87,9 @@ const MapViewContainer = () => {
             </MapView>
 
             <SwipeWidgetReferenceInfo isUpdating={isUpdating} />
-        </>
+
+            {/* <ToggleAttribution /> */}
+        </div>
     );
 };
 

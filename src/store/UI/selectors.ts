@@ -20,3 +20,8 @@ export const selectShowSwipeWidgetYearIndicator = createSelector(
     (state: RootState) => state.UI.showSwipeWidgetYearIndicator,
     (showSwipeWidgetYearIndicator) => showSwipeWidgetYearIndicator
 );
+
+export const selectShouldHideControlPanel = createSelector(
+    (state: RootState) => state.UI.hideControlPanel,
+    (hideControlPanel) => hideControlPanel
+);

@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { loadModules } from 'esri-loader';
 import IMapView from 'esri/views/MapView';
 import IWebMap from 'esri/WebMap';
+import classNames from 'classnames';
 
 interface Props {
     /**
@@ -93,7 +94,7 @@ const MapView: React.FC<Props> = ({
     return (
         <>
             <div
-                className="absolute top-0 left-0 bottom-control-panel-height w-full"
+                className={classNames('absolute top-0 left-0 w-full bottom-0')}
                 ref={mapDivRef}
             ></div>
             {mapView
