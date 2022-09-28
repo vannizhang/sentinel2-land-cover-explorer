@@ -20,12 +20,17 @@ type Props = {
      * @param mapPoint point represents that location that the user clicked on
      */
     mapViewOnClick?: (mapPoint: IPoint) => void;
+    /**
+     * Fires when Map View starts/stops updating
+     */
+    mapViewUpdatingOnChange?: (isUpdating: boolean) => void;
 };
 
 const MapViewEventHandlers: FC<Props> = ({
     mapView,
     extentOnChange,
     mapViewOnClick,
+    mapViewUpdatingOnChange,
 }: Props) => {
     const stringifiedMapExtentRef = useRef<string>();
     const resolutionRef = useRef<number>();
@@ -62,6 +67,14 @@ const MapViewEventHandlers: FC<Props> = ({
                             mapView.resolution
                         );
                     }
+                }
+            );
+
+            reactiveUtils.watch(
+                () => mapView.updating,
+                () => {
+                    // console.log('mapview is updating')
+                    mapViewUpdatingOnChange(mapView.updating);
                 }
             );
 

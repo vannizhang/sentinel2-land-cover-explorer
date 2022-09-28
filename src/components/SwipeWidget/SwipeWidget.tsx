@@ -8,7 +8,7 @@ import useLandCoverLayer from '../LandcoverLayer/useLandCoverLayer';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import useSentinel2Layer from '../Sentinel2Layer/useSentinel2Layer';
 import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import IWatchUtils from 'esri/core/watchUtils';
+import IReactiveUtils from 'esri/core/reactiveUtils';
 
 type Props = {
     /**
@@ -35,6 +35,10 @@ type Props = {
      * Fires when user drag and change swipe position
      */
     positionOnChange: (position: number) => void;
+    /**
+     * Fires when user hover in/out handler element, which toggle dispalys the reference info
+     */
+    referenceInfoOnToggle: (shouldDisplay: boolean) => void;
 };
 
 /**
@@ -47,6 +51,7 @@ const SwipeWidget: FC<Props> = ({
     selectedLandCover,
     mapView,
     positionOnChange,
+    referenceInfoOnToggle,
 }: Props) => {
     const swipeWidgetRef = useRef<ISwipe>();
 
@@ -69,11 +74,11 @@ const SwipeWidget: FC<Props> = ({
     });
 
     const init = async () => {
-        type Modules = [typeof ISwipe, typeof IWatchUtils];
+        type Modules = [typeof ISwipe, typeof IReactiveUtils];
 
-        const [Swipe, watchUtils] = await (loadModules([
+        const [Swipe, reactiveUtils] = await (loadModules([
             'esri/widgets/Swipe',
-            'esri/core/watchUtils',
+            'esri/core/reactiveUtils',
         ]) as Promise<Modules>);
 
         // mapView.map.addMany([leadingLayer, trailingLayer]);
@@ -89,9 +94,8 @@ const SwipeWidget: FC<Props> = ({
         // console.log(swipeWidgetRef.current)
         mapView.ui.add(swipeWidgetRef.current);
 
-        watchUtils.watch(
-            swipeWidgetRef.current,
-            'position',
+        reactiveUtils.watch(
+            () => swipeWidgetRef.current.position,
             (position: number) => {
                 // console.log('position changes for swipe widget', position);
                 positionOnChange(position);
@@ -148,24 +152,18 @@ const SwipeWidget: FC<Props> = ({
     };
 
     const addMouseEventHandlers = () => {
-        const handleElem = document.querySelector('.esri-swipe__handle');
+        const handleElem = document.querySelector('.esri-swipe__container');
         // console.log(handleElem)
 
         handleElem.addEventListener('mouseenter', () => {
             console.log('mouseenter');
+            referenceInfoOnToggle(true);
         });
 
         handleElem.addEventListener('mouseleave', () => {
             console.log('mouseleave');
+            referenceInfoOnToggle(false);
         });
-
-        // handleElem.addEventListener('mousedown', ()=>{
-        //     console.log('mousedown')
-        // })
-
-        // handleElem.addEventListener('mouseup', ()=>{
-        //     console.log('mousedown')
-        // })
     };
 
     useEffect(() => {

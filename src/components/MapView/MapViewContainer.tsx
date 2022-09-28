@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { batch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import MapViewEventHandlers from './MapViewEventHandler';
 import IPoint from 'esri/geometry/Point';
 import Popup from '../Popup/Popup';
 import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
+import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -35,6 +36,8 @@ const MapViewContainer = () => {
     );
 
     const selectedLandCover = useSelector(selectSelectedLandCover);
+
+    const [isUpdating, setIsUpdating] = useState<boolean>(true);
 
     const fetchLandCoverData = async (point: IPoint) => {
         const res = await identifyLandcoverClassificationsByLocation(point);
@@ -52,6 +55,11 @@ const MapViewContainer = () => {
                     positionOnChange={(position) => {
                         dispatch(swipePositionChanged(position));
                     }}
+                    referenceInfoOnToggle={(shouldDisplay) => {
+                        dispatch(
+                            showSwipeWidgetYearIndicatorToggled(shouldDisplay)
+                        );
+                    }}
                 />
                 <MapViewEventHandlers
                     extentOnChange={(extent, resolution) => {
@@ -61,11 +69,14 @@ const MapViewContainer = () => {
                         });
                     }}
                     mapViewOnClick={fetchLandCoverData}
+                    mapViewUpdatingOnChange={(val: boolean) => {
+                        setIsUpdating(val);
+                    }}
                 />
                 <Popup />
             </MapView>
 
-            <SwipeWidgetReferenceInfo />
+            <SwipeWidgetReferenceInfo isUpdating={isUpdating} />
         </>
     );
 };
