@@ -46,6 +46,7 @@ const useLandCoverLayer = ({
                 functionName:
                     getRasterFunctionByLandCoverClassName(selectedLandCover),
             },
+            effect: 'drop-shadow(2px, 2px, 3px, #000)',
         });
 
         setLandCoverLayer(layerRef.current);
