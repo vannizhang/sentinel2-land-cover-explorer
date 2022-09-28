@@ -7,6 +7,7 @@ import ClassificationsList from './ClassificationsList/ClassificationsListContai
 import LayerSelector from './LayerSelector/LayerSelectorContainer';
 import TimeSlider from './TimeSlider/TimeSliderContainer';
 import { selectShouldShowSentinel2Layer } from '../../store/Map/selectors';
+import Tooltip from './Tooltip/TooltipContainer';
 
 const ControlPanel = () => {
     // const dispatch = useDispatch();
@@ -34,6 +35,8 @@ const ControlPanel = () => {
                     <ChangeCompareGraph />
                 </div>
             </div>
+
+            <Tooltip />
         </div>
     );
 };

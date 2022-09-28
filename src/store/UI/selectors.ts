@@ -5,3 +5,13 @@ export const selectShowInfoPanel = createSelector(
     (state: RootState) => state.UI.showInfoPanel,
     (showInfoPanel) => showInfoPanel
 );
+
+export const selectTooltipXPosition = createSelector(
+    (state: RootState) => state.UI.tooltipXPosition,
+    (tooltipXPosition) => tooltipXPosition
+);
+
+export const selectTooltipData = createSelector(
+    (state: RootState) => state.UI.tooltipData,
+    (tooltipData) => tooltipData
+);

@@ -76,7 +76,7 @@ const BarTextLabel: React.FC<Props> = ({
 
                 return yPos + yPosOffset;
             })
-            .attr('font-size', '10px')
+            .attr('font-size', '12px')
             .attr('fill', THEME_COLOR_LIGHT_BLUE)
             .attr('text-anchor', 'middle');
     };

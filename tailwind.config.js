@@ -10,8 +10,16 @@ module.exports = {
     colors: {
       ...colors,
       custom: {
-        'light-blue': '#BFEEFF',
-        'background': 'rgb(0,35,47)'
+        'light-blue': {
+          DEFAULT: '#BFEEFF',
+          900: 'rgba(191,238,255, .9)'
+
+        },
+        'background': {
+          DEFAULT: 'rgb(0,35,47)',
+          900: 'rgba(0,35,47, .9)',
+          850: 'rgba(0,35,47, .85)'
+        }
       }
     },
     extend: {

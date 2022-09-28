@@ -18,9 +18,10 @@
 } */
 
 .esri-popup__main-container {
-    background: rgba(0,35,47, .85);
+    /* background: rgba(0,35,47, .85); */
+    @apply bg-custom-background-850;
 }
 
 .esri-popup__header {
-    background: rgba(0,35,47, .9);
+    @apply bg-custom-background-900;
 }
