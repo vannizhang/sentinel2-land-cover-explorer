@@ -26,6 +26,7 @@ import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
 import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 import classNames from 'classnames';
 import ToggleAttribution from './ToggleAttribution';
+import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const MapViewContainer = () => {
                     }}
                     referenceInfoOnToggle={(shouldDisplay) => {
                         dispatch(
-                            showSwipeWidgetYearIndicatorToggled(shouldDisplay)
+                            toggleShowSwipeWidgetYearIndicator(shouldDisplay)
                         );
                     }}
                 />

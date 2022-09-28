@@ -1,15 +1,31 @@
 import { dispatch } from 'd3';
 import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
-import { TooltipData, tooltipDataChanged } from './reducer';
+import {
+    showSwipeWidgetYearIndicatorToggled,
+    TooltipData,
+    tooltipDataChanged,
+} from './reducer';
 
-let updateTooltipDataDelay: NodeJS.Timeout;
+const DebounceDealy = 250;
+
+let debounceTimeOut: NodeJS.Timeout;
 
 export const updateTooltipData =
     (data: TooltipData) =>
     (dispatch: StoreDispatch, getState: StoreGetState) => {
-        clearTimeout(updateTooltipDataDelay);
+        clearTimeout(debounceTimeOut);
 
-        updateTooltipDataDelay = setTimeout(() => {
+        debounceTimeOut = setTimeout(() => {
             dispatch(tooltipDataChanged(data));
-        }, 250);
+        }, DebounceDealy);
+    };
+
+export const toggleShowSwipeWidgetYearIndicator =
+    (shouldShow: boolean) =>
+    (dispatch: StoreDispatch, getState: StoreGetState) => {
+        clearTimeout(debounceTimeOut);
+
+        debounceTimeOut = setTimeout(() => {
+            dispatch(showSwipeWidgetYearIndicatorToggled(shouldShow));
+        }, DebounceDealy);
     };
