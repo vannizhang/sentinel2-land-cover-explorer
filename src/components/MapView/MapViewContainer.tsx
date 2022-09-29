@@ -28,7 +28,8 @@ import classNames from 'classnames';
 import ToggleAttribution from './ToggleAttribution';
 import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
 import SearchWidget from './SearchWidget';
-import LayersToggleControl from '../LayersToggleControl/LayersToggleControlContainer';
+import ReferenceLayersToggleControl from '../ReferenceLayersToggleControl/ReferenceLayersToggleControl';
+import ReferenceLayers from './ReferenceLayers';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -47,10 +48,10 @@ const MapViewContainer = () => {
 
     const [isUpdating, setIsUpdating] = useState<boolean>(true);
 
-    const fetchLandCoverData = async (point: IPoint) => {
-        const res = await identifyLandcoverClassificationsByLocation(point);
-        console.log(res);
-    };
+    // const fetchLandCoverData = async (point: IPoint) => {
+    //     const res = await identifyLandcoverClassificationsByLocation(point);
+    //     console.log(res);
+    // };
 
     return (
         <div
@@ -81,7 +82,7 @@ const MapViewContainer = () => {
                             dispatch(extentUpdated(extent));
                         });
                     }}
-                    mapViewOnClick={fetchLandCoverData}
+                    // mapViewOnClick={fetchLandCoverData}
                     mapViewUpdatingOnChange={(val: boolean) => {
                         setIsUpdating(val);
                     }}
@@ -90,8 +91,10 @@ const MapViewContainer = () => {
 
                 <SearchWidget />
 
-                <LayersToggleControl />
+                <ReferenceLayers />
             </MapView>
+
+            <ReferenceLayersToggleControl />
 
             <SwipeWidgetReferenceInfo isUpdating={isUpdating} />
 

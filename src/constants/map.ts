@@ -16,3 +16,7 @@ export const SENTINEL_2_ITEM_ID =
  */
 export const SENTINEL_2_10M_LAND_COVER_ITEM_ID =
     'https://www.arcgis.com/home/item.html?id=30c4287128cc446b888ca020240c456b';
+
+export const MAP_LABELS_LAYER_TITLE = 'Human Geography Dark Label';
+
+export const TERRAIN_LAYER_TITLE = 'World Hillshade';

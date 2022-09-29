@@ -55,3 +55,13 @@ export const selectSwipePosition = createSelector(
     (state: RootState) => state.Map.swipeWidget.position,
     (position) => position
 );
+
+export const selectShowMapLabel = createSelector(
+    (state: RootState) => state.Map.showMapLabel,
+    (showMapLabel) => showMapLabel
+);
+
+export const selectShowTerrain = createSelector(
+    (state: RootState) => state.Map.showTerrain,
+    (showTerrain) => showTerrain
+);

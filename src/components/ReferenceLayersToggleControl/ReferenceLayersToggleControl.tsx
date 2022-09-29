@@ -1,4 +1,14 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import {
+    showMapLabelToggled,
+    showTerrainToggled,
+} from '../../store/Map/reducer';
+import {
+    selectShowMapLabel,
+    selectShowTerrain,
+} from '../../store/Map/selectors';
 
 type ToggleButtonProps = {
     label: string;
@@ -53,6 +63,12 @@ const ToggleButton: FC<ToggleButtonProps> = ({
 };
 
 const LayersToggleControl = () => {
+    const dispatch = useDispatch();
+
+    const showMapLabel = useSelector(selectShowMapLabel);
+
+    const showTerrain = useSelector(selectShowTerrain);
+
     return (
         <div
             className="absolute z-0 bg-custom-background-900 flex py-1 px-2 text-custom-light-blue opacity-90 text-xs"
@@ -68,17 +84,19 @@ const LayersToggleControl = () => {
         >
             <ToggleButton
                 label="Map Labels"
-                active={true}
+                active={showMapLabel}
                 onToggle={() => {
-                    console.log('toggle map labels');
+                    // console.log('toggle map labels');
+                    dispatch(showMapLabelToggled());
                 }}
             />
 
             <ToggleButton
                 label="Terrain"
-                active={true}
+                active={showTerrain}
                 onToggle={() => {
-                    console.log('toggle Terrain');
+                    // console.log('toggle Terrain');
+                    dispatch(showTerrainToggled());
                 }}
             />
         </div>

@@ -54,6 +54,14 @@ export type MapState = {
      * get the raster functions to filter the Land Cover layer
      */
     selectedLandCover?: LandCoverClassification;
+    /**
+     * If true, Map Reference Labels layer will be on
+     */
+    showMapLabel?: boolean;
+    /**
+     * If true, Terrain Layer will be on
+     */
+    showTerrain?: boolean;
 };
 
 export const initialMapState: MapState = {
@@ -71,6 +79,8 @@ export const initialMapState: MapState = {
         position: 50,
     },
     selectedLandCover: null,
+    showMapLabel: true,
+    showTerrain: true,
 };
 
 const slice = createSlice({
@@ -104,6 +114,12 @@ const slice = createSlice({
         swipePositionChanged: (state, action: PayloadAction<number>) => {
             state.swipeWidget.position = action.payload;
         },
+        showMapLabelToggled: (state) => {
+            state.showMapLabel = !state.showMapLabel;
+        },
+        showTerrainToggled: (state) => {
+            state.showTerrain = !state.showTerrain;
+        },
     },
 });
 
@@ -117,6 +133,8 @@ export const {
     shouldShowSentinel2LayerToggled,
     selectedLandCoverChanged,
     swipePositionChanged,
+    showMapLabelToggled,
+    showTerrainToggled,
 } = slice.actions;
 
 export default reducer;
