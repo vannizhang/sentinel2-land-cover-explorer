@@ -48,7 +48,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
 
                 {showSwipeWidgetYearIndicator && (
                     <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-end">
-                        <div className="relative theme-background-diagnol-pattern text-custom-light-blue text-sm mr-8 py-1 px-2">
+                        <div className="relative theme-background text-custom-light-blue text-sm mr-8 py-1 px-2">
                             {year4LeadingLayer}
                         </div>
                     </div>
@@ -62,7 +62,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
                 }}
             >
                 {showSwipeWidgetYearIndicator && (
-                    <div className="relative theme-background-diagnol-pattern text-custom-light-blue text-sm ml-8 py-1 px-2">
+                    <div className="relative theme-background text-custom-light-blue text-sm ml-8 py-1 px-2">
                         {year4TrailingLayer}
                     </div>
                 )}

@@ -10,10 +10,10 @@ body {
     opacity: 1;
 }
 
-.theme-background-diagnol-pattern {
+.theme-background {
     @apply bg-custom-background
 }
-.theme-background-diagnol-pattern::before {
+.theme-background::before {
     content: ' ';
     position: absolute;
     top: 0;

@@ -22,12 +22,13 @@ import MapViewEventHandlers from './MapViewEventHandler';
 import IPoint from 'esri/geometry/Point';
 import Popup from '../Popup/Popup';
 import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
-import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
+// import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
 import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 import classNames from 'classnames';
 import ToggleAttribution from './ToggleAttribution';
 import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
 import SearchWidget from './SearchWidget';
+import LayersToggleControl from '../LayersToggleControl/LayersToggleControlContainer';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -88,6 +89,8 @@ const MapViewContainer = () => {
                 <Popup />
 
                 <SearchWidget />
+
+                <LayersToggleControl />
             </MapView>
 
             <SwipeWidgetReferenceInfo isUpdating={isUpdating} />

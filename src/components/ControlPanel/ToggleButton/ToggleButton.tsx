@@ -42,7 +42,7 @@ const ToggleButton: FC<Props> = ({
             })}
         >
             <div
-                className="absolute rounded-full top-5 w-full h-full theme-background-diagnol-pattern text-custom-light-blue flex justify-center cursor-pointer"
+                className="absolute rounded-full top-5 w-full h-full theme-background text-custom-light-blue flex justify-center cursor-pointer"
                 onClick={onClickHandler}
             >
                 {hideControlPanel ? CheveronUpIcon : CheveronDownIcon}
