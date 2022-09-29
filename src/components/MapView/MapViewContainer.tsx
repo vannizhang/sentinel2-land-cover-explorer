@@ -27,6 +27,7 @@ import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 import classNames from 'classnames';
 import ToggleAttribution from './ToggleAttribution';
 import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
+import SearchWidget from './SearchWidget';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -85,6 +86,8 @@ const MapViewContainer = () => {
                     }}
                 />
                 <Popup />
+
+                <SearchWidget />
             </MapView>
 
             <SwipeWidgetReferenceInfo isUpdating={isUpdating} />
