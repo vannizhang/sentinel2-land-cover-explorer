@@ -2,6 +2,10 @@
     width: 230px;
 }
 
+.download-panel .esri-popup__main-container {
+    width: 180px;
+}
+
 .esri-popup__header-title {
     font-size: 12px !important;
     @apply text-custom-light-blue;
