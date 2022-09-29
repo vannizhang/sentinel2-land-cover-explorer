@@ -4,6 +4,8 @@ import IMapView from 'esri/views/MapView';
 import IFeatureLayer from 'esri/layers/FeatureLayer';
 import IPoint from 'esri/geometry/Point';
 import IGraphic from 'esri/Graphic';
+import IReactiveUtils from 'esri/core/reactiveUtils';
+import { loadModules } from 'esri-loader';
 
 type Props = {
     availableYears?: number[];
@@ -13,19 +15,56 @@ type Props = {
 const LulcFootprintsLayer: FC<Props> = ({ availableYears, mapView }: Props) => {
     const layerRef = useRef<IFeatureLayer>();
 
-    const init = () => {
+    const layerViewRef = useRef<__esri.FeatureLayerView>();
+
+    const highlight = useRef<__esri.Handle>();
+
+    const init = async () => {
         layerRef.current = mapView.map.allLayers.find(
             (layer) => layer.title === 'LULC Footprints'
         ) as IFeatureLayer;
+
+        layerViewRef.current = await mapView.whenLayerView(layerRef.current);
 
         // It's necessary to overwrite the default click for the popup
         // behavior in order to display your own popup
         mapView.popup.autoOpenEnabled = false;
         mapView.popup.dockEnabled = false;
 
-        mapView.on('click', (evt) => {
-            queryFeature(evt.mapPoint);
-        });
+        addEventHandlers();
+    };
+
+    const addEventHandlers = async () => {
+        try {
+            type Modules = [typeof IReactiveUtils];
+
+            const [reactiveUtils] = await (loadModules([
+                'esri/core/reactiveUtils',
+            ]) as Promise<Modules>);
+
+            reactiveUtils.watch(
+                () => mapView.popup.visible,
+                () => {
+                    // remove highlight graphic whne popup is closed
+                    if (!mapView.popup.visible) {
+                        resetHighlight();
+                    }
+                }
+            );
+
+            mapView.on('click', (evt) => {
+                queryFeature(evt.mapPoint);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const resetHighlight = () => {
+        // Remove the previous highlights
+        if (highlight.current) {
+            highlight.current.remove();
+        }
     };
 
     const getMainContent = (feature: IGraphic) => {
@@ -58,7 +97,7 @@ const LulcFootprintsLayer: FC<Props> = ({ availableYears, mapView }: Props) => {
                     <p>Approximate Size: ${size} MB</p>
                 </div>
                 <div class='flex'>
-                    <div class='mt-2 ml-2'>
+                    <div class='mt-2 ml-1'>
                         ${links}
                     </div>
                 </div>
@@ -86,15 +125,19 @@ const LulcFootprintsLayer: FC<Props> = ({ availableYears, mapView }: Props) => {
             return;
         }
 
+        const graphic = featureSet?.features[0];
+
         mapView.popup.open({
             location: mapPoint,
             // features: featureSet.features,
             // featureMenuOpen: true
             title: 'Download',
-            content: getMainContent(featureSet?.features[0]),
+            content: getMainContent(graphic),
         });
 
-        console.log(featureSet);
+        resetHighlight();
+
+        highlight.current = layerViewRef.current.highlight(graphic);
     };
 
     useEffect(() => {
