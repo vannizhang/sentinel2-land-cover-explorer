@@ -34,6 +34,8 @@ const MapView: React.FC<Props> = ({
 
     const [mapView, setMapView] = useState<IMapView>(null);
 
+    const mapViewRef = useRef<IMapView>();
+
     const initMapView = async () => {
         type Modules = [typeof IMapView, typeof IWebMap];
 
@@ -43,7 +45,7 @@ const MapView: React.FC<Props> = ({
                 'esri/WebMap',
             ]) as Promise<Modules>);
 
-            const view = new MapView({
+            mapViewRef.current = new MapView({
                 container: mapDivRef.current,
                 center,
                 zoom,
@@ -54,8 +56,8 @@ const MapView: React.FC<Props> = ({
                 }),
             });
 
-            view.when(() => {
-                setMapView(view);
+            mapViewRef.current.when(() => {
+                setMapView(mapViewRef.current);
             });
         } catch (err) {
             console.error(err);
@@ -83,6 +85,10 @@ const MapView: React.FC<Props> = ({
     useEffect(() => {
         // loadCss();
         initMapView();
+
+        return () => {
+            mapViewRef.current.destroy();
+        };
     }, []);
 
     useEffect(() => {

@@ -19,9 +19,9 @@
 
 .esri-popup__main-container {
     /* background: rgba(0,35,47, .85); */
-    @apply bg-custom-background-850;
+    @apply bg-custom-background-85;
 }
 
 .esri-popup__header {
-    @apply bg-custom-background-900;
+    @apply bg-custom-background-90;
 }

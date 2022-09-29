@@ -18,6 +18,10 @@ export type UIState = {
      */
     showInfoPanel?: boolean;
     /**
+     * If true, open download panel
+     */
+    showDownloadPanel?: boolean;
+    /**
      * The X Position (relative to page) of Tooltip for Control Panel
      */
     tooltipXPosition?: number;
@@ -37,6 +41,7 @@ export type UIState = {
 
 export const initialUIState: UIState = {
     showInfoPanel: false,
+    showDownloadPanel: false,
     tooltipXPosition: 0,
     tooltipData: null,
     showSwipeWidgetYearIndicator: false,
@@ -65,6 +70,9 @@ const slice = createSlice({
         hideControlPanelToggled: (state, action: PayloadAction<boolean>) => {
             state.hideControlPanel = !state.hideControlPanel;
         },
+        showDownloadPanelToggled: (state, action: PayloadAction<boolean>) => {
+            state.showDownloadPanel = action.payload;
+        },
     },
 });
 
@@ -76,6 +84,7 @@ export const {
     tooltipDataChanged,
     showSwipeWidgetYearIndicatorToggled,
     hideControlPanelToggled,
+    showDownloadPanelToggled,
 } = slice.actions;
 
 export default reducer;

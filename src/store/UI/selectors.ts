@@ -6,6 +6,11 @@ export const selectShowInfoPanel = createSelector(
     (showInfoPanel) => showInfoPanel
 );
 
+export const selectShowDownloadPanel = createSelector(
+    (state: RootState) => state.UI.showDownloadPanel,
+    (showDownloadPanel) => showDownloadPanel
+);
+
 export const selectTooltipXPosition = createSelector(
     (state: RootState) => state.UI.tooltipXPosition,
     (tooltipXPosition) => tooltipXPosition

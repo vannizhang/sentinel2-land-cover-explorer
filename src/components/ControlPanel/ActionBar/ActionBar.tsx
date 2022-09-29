@@ -1,8 +1,12 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { showDownloadPanelToggled } from '../../../store/UI/reducer';
 
 const IconClassNames = 'mb-3 cursor-pointer';
 
 const ActionBar = () => {
+    const dispatch = useDispatch();
+
     return (
         <div className="absolute top-4 right-0 px-2 text-custom-light-blue z-10">
             <svg
@@ -25,6 +29,9 @@ const ActionBar = () => {
                 height="24"
                 width="24"
                 className={IconClassNames}
+                onClick={() => {
+                    dispatch(showDownloadPanelToggled(true));
+                }}
             >
                 <path
                     fill="currentColor"

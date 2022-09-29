@@ -1,5 +1,6 @@
 import React from 'react';
 import ControlPanel from '../ControlPanel/ControlPanel';
+import DownloadPanel from '../DownloadPanel/DownloadPanel';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import InfoPanel from '../InfoPanel/InfoPanel';
 import MapView from '../MapView/MapViewContainer';
@@ -10,6 +11,7 @@ const AppLayout = () => {
             <MapView />
             <ControlPanel />
             <InfoPanel />
+            <DownloadPanel />
         </ErrorBoundary>
     );
 };
