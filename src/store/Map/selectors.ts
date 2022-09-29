@@ -20,7 +20,7 @@ export const selectYearsForSwipeWidgetLayers = createSelector(
  *
  * @return `{ zoom: number, cenetr: {lat: number, lon: number} }`
  */
-export const selectDefaultMapLocation = createSelector(
+export const selectMapCenterAndZoom = createSelector(
     (state: RootState) => state.Map.zoom,
     (state: RootState) => state.Map.center,
     (zoom, center) => {

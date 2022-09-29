@@ -115,6 +115,12 @@ const slice = createSlice({
         showTerrainToggled: (state) => {
             state.showTerrain = !state.showTerrain;
         },
+        mapCenterUpdated: (state, action: PayloadAction<MapCenter>) => {
+            state.center = action.payload;
+        },
+        zoomUpdated: (state, action: PayloadAction<number>) => {
+            state.zoom = action.payload;
+        },
     },
 });
 
@@ -130,6 +136,8 @@ export const {
     swipePositionChanged,
     showMapLabelToggled,
     showTerrainToggled,
+    mapCenterUpdated,
+    zoomUpdated,
 } = slice.actions;
 
 export default reducer;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { batch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -6,11 +6,14 @@ import { WEB_MAP_ID } from '../../constants/map';
 import { identifyLandcoverClassificationsByLocation } from '../../services/sentinel-2-10m-landcover/identifyTask';
 import {
     extentUpdated,
+    mapCenterUpdated,
     MapExtent,
     resolutionUpdated,
     swipePositionChanged,
+    zoomUpdated,
 } from '../../store/Map/reducer';
 import {
+    selectMapCenterAndZoom,
     selectSelectedLandCover,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
@@ -49,10 +52,11 @@ const MapViewContainer = () => {
 
     const [isUpdating, setIsUpdating] = useState<boolean>(true);
 
-    // const fetchLandCoverData = async (point: IPoint) => {
-    //     const res = await identifyLandcoverClassificationsByLocation(point);
-    //     console.log(res);
-    // };
+    const { center, zoom } = useSelector(selectMapCenterAndZoom);
+
+    useEffect(() => {
+        saveMapCenterToHashParams(center, zoom);
+    }, [center, zoom]);
 
     return (
         <div
@@ -61,7 +65,11 @@ const MapViewContainer = () => {
                 'bottom-0': hideControlPanel,
             })}
         >
-            <MapView webmapId={WEB_MAP_ID} center={[-117.2, 34.06]} zoom={12}>
+            <MapView
+                webmapId={WEB_MAP_ID}
+                center={[center.lon, center.lat]}
+                zoom={zoom}
+            >
                 <SwipeWidget
                     shouldShowSentinel2Layer={shouldShowSentinel2Layer}
                     yearForLeadingLayer={year4LeadingLayer}
@@ -81,9 +89,9 @@ const MapViewContainer = () => {
                         batch(() => {
                             dispatch(resolutionUpdated(resolution));
                             dispatch(extentUpdated(extent));
+                            dispatch(mapCenterUpdated(center));
+                            dispatch(zoomUpdated(zoom));
                         });
-
-                        saveMapCenterToHashParams(center, zoom);
                     }}
                     // mapViewOnClick={fetchLandCoverData}
                     mapViewUpdatingOnChange={(val: boolean) => {
