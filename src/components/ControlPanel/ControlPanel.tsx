@@ -10,6 +10,7 @@ import { selectShouldShowSentinel2Layer } from '../../store/Map/selectors';
 import Tooltip from './Tooltip/TooltipContainer';
 import ToggleButton from './ToggleButton/ToggleButtonContainer';
 import { selectShouldHideControlPanel } from '../../store/UI/selectors';
+import ActionBar from './ActionBar/ActionBar';
 
 const ControlPanel = () => {
     // const dispatch = useDispatch();
@@ -43,6 +44,8 @@ const ControlPanel = () => {
                     </div>
 
                     <Tooltip />
+
+                    <ActionBar />
                 </div>
             )}
 

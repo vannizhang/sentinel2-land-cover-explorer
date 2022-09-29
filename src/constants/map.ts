@@ -1,9 +1,14 @@
 /**
- * Web Map with base map layers owned by John Nelson
+ * Main Web Map with base map layers owned by John Nelson
  *
  * https://www.arcgis.com/home/item.html?id=c6aef488fc294796ab24e6846c26e710
  */
 export const WEB_MAP_ID = 'c6aef488fc294796ab24e6846c26e710';
+
+/**
+ * Web Map (also owned by John Nelson) that will be used in the Download Panel
+ */
+export const DWONLOAD_MODE_WEB_MAP_ID = '20e55f26c4704ade8b9716117315f99b';
 
 /**
  * ArcGIS Online Item Id of the Sentinel 2 layer
