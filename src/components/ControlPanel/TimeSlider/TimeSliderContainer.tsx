@@ -7,7 +7,10 @@ import {
     year4LeadingLayerUpdated,
     year4TrailingLayerUpdated,
 } from '../../../store/Map/reducer';
-import { selectShouldShowSentinel2Layer } from '../../../store/Map/selectors';
+import {
+    selectShouldShowSentinel2Layer,
+    selectYearsForSwipeWidgetLayers,
+} from '../../../store/Map/selectors';
 import TimeSlider from './TimeSlider';
 
 const TimeSliderContainer = () => {
@@ -19,9 +22,17 @@ const TimeSliderContainer = () => {
         selectShouldShowSentinel2Layer
     );
 
+    const [yearForLeadingLayer, yearForTailingLayer] = useSelector(
+        selectYearsForSwipeWidgetLayers
+    );
+
     return (
         <TimeSlider
             years={years}
+            initialTimeExtent={{
+                start: new Date(yearForLeadingLayer, 0, 1),
+                end: new Date(yearForTailingLayer, 0, 1),
+            }}
             shouldShowSentinel2Layer={shouldShowSentinel2Layer}
             timeExtentOnChange={(startYear, endYear) => {
                 // console.log(startYear, endYear)

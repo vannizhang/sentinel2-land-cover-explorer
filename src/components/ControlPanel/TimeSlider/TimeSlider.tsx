@@ -21,6 +21,13 @@ type Props = {
      */
     years: number[];
     /**
+     * The time extent that will be used when initiate the time slider
+     */
+    initialTimeExtent?: {
+        start: Date;
+        end: Date;
+    };
+    /**
      * If it is currently showing Sentinel 2 layer instead of Land Cover layer
      */
     shouldShowSentinel2Layer?: boolean;
@@ -35,6 +42,7 @@ type Props = {
 
 const TimeSlider: FC<Props> = ({
     years,
+    initialTimeExtent,
     shouldShowSentinel2Layer,
     timeExtentOnChange,
 }: Props) => {
@@ -65,6 +73,7 @@ const TimeSlider: FC<Props> = ({
                     start: new Date(2017, 0, 1),
                     end: new Date(2021, 0, 1),
                 },
+                timeExtent: initialTimeExtent,
                 stops: { dates: yearsAsDateObj },
                 tickConfigs: [
                     {
@@ -84,7 +93,6 @@ const TimeSlider: FC<Props> = ({
                     clearTimeout(debounceDelay.current);
 
                     debounceDelay.current = setTimeout(() => {
-                        // console.log(timeExtent)
                         timeExtentOnChange(
                             timeExtent.start.getFullYear(),
                             timeExtent.end.getFullYear()

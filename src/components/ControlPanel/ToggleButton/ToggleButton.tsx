@@ -45,7 +45,16 @@ const ToggleButton: FC<Props> = ({
                 className="absolute rounded-full top-5 w-full h-full theme-background text-custom-light-blue flex justify-center cursor-pointer"
                 onClick={onClickHandler}
             >
-                {hideControlPanel ? CheveronUpIcon : CheveronDownIcon}
+                <div
+                    className="absolute top-0 left-0 w-full h-full rounded-full"
+                    style={{
+                        background: 'rgba(0,0,0,0.6)',
+                    }}
+                ></div>
+
+                <div className="relative z-10">
+                    {hideControlPanel ? CheveronUpIcon : CheveronDownIcon}
+                </div>
             </div>
         </div>
     );

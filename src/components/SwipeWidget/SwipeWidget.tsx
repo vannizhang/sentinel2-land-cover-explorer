@@ -156,12 +156,12 @@ const SwipeWidget: FC<Props> = ({
         // console.log(handleElem)
 
         handleElem.addEventListener('mouseenter', () => {
-            console.log('mouseenter');
+            // console.log('mouseenter');
             referenceInfoOnToggle(true);
         });
 
         handleElem.addEventListener('mouseleave', () => {
-            console.log('mouseleave');
+            // console.log('mouseleave');
             referenceInfoOnToggle(false);
         });
     };

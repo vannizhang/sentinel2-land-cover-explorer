@@ -74,8 +74,8 @@ export const initialMapState: MapState = {
     resolution: null,
     extent: null,
     swipeWidget: {
-        year4LeadingLayer: null,
-        year4TrailingLayer: null,
+        year4LeadingLayer: 2017,
+        year4TrailingLayer: 2021,
         position: 50,
     },
     selectedLandCover: null,
