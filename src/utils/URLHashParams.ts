@@ -1,7 +1,11 @@
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import { MapCenter } from '../store/Map/reducer';
 
-type UrlHashParamKey = 'mapCenter' | 'timeExtent' | 'landCover';
+type UrlHashParamKey =
+    | 'mapCenter'
+    | 'timeExtent'
+    | 'landCover'
+    | 'downloadMode';
 
 const hashParams = new URLSearchParams(window.location.hash.slice(1));
 
@@ -81,4 +85,12 @@ export const saveSelectedLandCoverToHashParams = (
 
 export const getSelectedLandCoverFromHashParams = () => {
     return getHashParamValueByKey('landCover');
+};
+
+export const saveDonwloadModeToHashParams = (showDownloadPanel: boolean) => {
+    updateHashParams('downloadMode', showDownloadPanel ? 'true' : null);
+};
+
+export const getDonwloadModeFromHashParams = () => {
+    return getHashParamValueByKey('downloadMode') === 'true';
 };

@@ -3,6 +3,7 @@ import { PartialRootState } from './configureStore';
 import { initialMapState, MapState } from '../store/Map/reducer';
 import { initialUIState, UIState } from './UI/reducer';
 import {
+    getDonwloadModeFromHashParams,
     getMapCenterFromHashParams,
     getSelectedLandCoverFromHashParams,
     getTimeExtentFromHashParams,
@@ -36,8 +37,11 @@ const getPreloadedMapState = (): MapState => {
 };
 
 const getPreloadedUIState = (): UIState => {
+    const showDownloadPanel = getDonwloadModeFromHashParams();
+
     return {
         ...initialUIState,
+        showDownloadPanel,
     };
 };
 

@@ -53,17 +53,17 @@ const LayerSelector: FC<Props> = ({
     return (
         <div className="mx-4 mt-5">
             <LayerSelectorButton
-                onClickHandler={imageryButtonOnClick}
-                active={shouldShowSentinel2Layer}
-            >
-                Imagery
-            </LayerSelectorButton>
-
-            <LayerSelectorButton
                 onClickHandler={landcoverButtonOnClick}
                 active={!shouldShowSentinel2Layer}
             >
                 Land Cover
+            </LayerSelectorButton>
+
+            <LayerSelectorButton
+                onClickHandler={imageryButtonOnClick}
+                active={shouldShowSentinel2Layer}
+            >
+                Imagery
             </LayerSelectorButton>
         </div>
     );

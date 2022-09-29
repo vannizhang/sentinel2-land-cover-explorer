@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { DWONLOAD_MODE_WEB_MAP_ID } from '../../constants/map';
@@ -6,6 +6,7 @@ import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeI
 import { selectMapCenterAndZoom } from '../../store/Map/selectors';
 import { showDownloadPanelToggled } from '../../store/UI/reducer';
 import { selectShowDownloadPanel } from '../../store/UI/selectors';
+import { saveDonwloadModeToHashParams } from '../../utils/URLHashParams';
 import MapView from '../MapView/MapView';
 import Header from './Header';
 import LulcFootprintsLayer from './LulcFootprintsLayer';
@@ -15,9 +16,13 @@ const DownloadPanel = () => {
 
     const showDownloadPanel = useSelector(selectShowDownloadPanel);
 
-    const { center, zoom } = useSelector(selectMapCenterAndZoom);
+    const { center } = useSelector(selectMapCenterAndZoom);
 
     const availableYears = getAvailableYears();
+
+    useEffect(() => {
+        saveDonwloadModeToHashParams(showDownloadPanel);
+    }, [showDownloadPanel]);
 
     if (showDownloadPanel === false) {
         return null;
