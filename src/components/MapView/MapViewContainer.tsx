@@ -30,6 +30,7 @@ import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
 import SearchWidget from './SearchWidget';
 import ReferenceLayersToggleControl from '../ReferenceLayersToggleControl/ReferenceLayersToggleControl';
 import ReferenceLayers from './ReferenceLayers';
+import { saveMapCenterToHashParams } from '../../utils/URLHashParams';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -76,11 +77,13 @@ const MapViewContainer = () => {
                     }}
                 />
                 <MapViewEventHandlers
-                    extentOnChange={(extent, resolution) => {
+                    extentOnChange={(extent, resolution, center, zoom) => {
                         batch(() => {
                             dispatch(resolutionUpdated(resolution));
                             dispatch(extentUpdated(extent));
                         });
+
+                        saveMapCenterToHashParams(center, zoom);
                     }}
                     // mapViewOnClick={fetchLandCoverData}
                     mapViewUpdatingOnChange={(val: boolean) => {

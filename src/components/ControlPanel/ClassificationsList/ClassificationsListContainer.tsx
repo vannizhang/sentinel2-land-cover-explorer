@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getLandCoverClassifications } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -6,6 +6,7 @@ import { selectedLandCoverChanged } from '../../../store/Map/reducer';
 import { selectSelectedLandCover } from '../../../store/Map/selectors';
 import { tooltipDataChanged } from '../../../store/UI/reducer';
 import { updateTooltipData } from '../../../store/UI/thunks';
+import { saveSelectedLandCoverToHashParams } from '../../../utils/URLHashParams';
 import ClassificationsList from './ClassificationsList';
 
 const ClassificationsListContainer = () => {
@@ -16,6 +17,10 @@ const ClassificationsListContainer = () => {
     const data = useMemo(() => {
         return getLandCoverClassifications();
     }, []);
+
+    useEffect(() => {
+        saveSelectedLandCoverToHashParams(selectedLandCover);
+    }, [selectedLandCover]);
 
     return (
         <ClassificationsList

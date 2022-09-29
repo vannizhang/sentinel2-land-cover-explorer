@@ -20,3 +20,13 @@ export const SENTINEL_2_10M_LAND_COVER_ITEM_ID =
 export const MAP_LABELS_LAYER_TITLE = 'Human Geography Dark Label';
 
 export const TERRAIN_LAYER_TITLE = 'World Hillshade';
+
+/**
+ * Let's use the coordinate of Redlands, CA as default map center
+ */
+export const DEFAULT_MAP_CENTER = {
+    lon: -117.2,
+    lat: 34.06,
+};
+
+export const DEFAULT_MAP_ZOOM = 10;

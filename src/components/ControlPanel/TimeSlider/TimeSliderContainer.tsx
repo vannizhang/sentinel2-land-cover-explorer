@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { batch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import {
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
+import { saveTimeExtentToHashParams } from '../../../utils/URLHashParams';
 import TimeSlider from './TimeSlider';
 
 const TimeSliderContainer = () => {
@@ -25,6 +26,10 @@ const TimeSliderContainer = () => {
     const [yearForLeadingLayer, yearForTailingLayer] = useSelector(
         selectYearsForSwipeWidgetLayers
     );
+
+    useEffect(() => {
+        saveTimeExtentToHashParams(yearForLeadingLayer, yearForTailingLayer);
+    }, [yearForLeadingLayer, yearForTailingLayer]);
 
     return (
         <TimeSlider

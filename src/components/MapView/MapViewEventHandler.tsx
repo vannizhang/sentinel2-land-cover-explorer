@@ -3,7 +3,7 @@ import IMapView from 'esri/views/MapView';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
 import IPoint from 'esri/geometry/Point';
-import { MapExtent } from '../../store/Map/reducer';
+import { MapCenter, MapExtent } from '../../store/Map/reducer';
 
 type Props = {
     mapView?: IMapView;
@@ -13,7 +13,12 @@ type Props = {
      * @param extent extent of map view
      * @param resolution resolution of map view
      */
-    extentOnChange?: (extent: MapExtent, resolution: number) => void;
+    extentOnChange?: (
+        extent: MapExtent,
+        resolution: number,
+        center: MapCenter,
+        zoom: number
+    ) => void;
     /**
      * Fires when user click on map view
      *
@@ -34,6 +39,18 @@ const MapViewEventHandlers: FC<Props> = ({
 }: Props) => {
     const stringifiedMapExtentRef = useRef<string>();
     const resolutionRef = useRef<number>();
+
+    const mapExtentOnChangeHandler = () => {
+        extentOnChange(
+            mapView.extent.toJSON(),
+            mapView.resolution,
+            {
+                lon: +mapView.center.longitude.toFixed(3),
+                lat: +mapView.center.latitude.toFixed(3),
+            },
+            mapView.zoom
+        );
+    };
 
     const init = async () => {
         try {
@@ -62,10 +79,7 @@ const MapViewEventHandlers: FC<Props> = ({
                         stringifiedMapExtentRef.current = stringifiedMapExtent;
                         resolutionRef.current = mapView.resolution;
 
-                        extentOnChange(
-                            mapView.extent.toJSON(),
-                            mapView.resolution
-                        );
+                        mapExtentOnChangeHandler();
                     }
                 }
             );
@@ -85,7 +99,7 @@ const MapViewEventHandlers: FC<Props> = ({
             });
 
             // the stationary handler only get triggered after first time the user interactive with the view, therefore need to call this manually
-            extentOnChange(mapView.extent.toJSON(), mapView.resolution);
+            mapExtentOnChangeHandler();
         } catch (err) {
             console.error(err);
         }

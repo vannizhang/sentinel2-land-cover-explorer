@@ -19,6 +19,11 @@ export type MapExtent = {
     ymax?: number;
 };
 
+export type MapCenter = {
+    lon?: number;
+    lat?: number;
+};
+
 export type MapState = {
     /**
      * If true, show Sentinel 2 Layer instead of Land Cover Layer
@@ -31,10 +36,7 @@ export type MapState = {
     /**
      * Represents the view's center point
      */
-    center?: {
-        lon?: number;
-        lat?: number;
-    };
+    center?: MapCenter;
     /**
      * Represents the size of one pixel in map units.
      * The value of resolution can be found by dividing the extent width by the view's width.
@@ -67,17 +69,10 @@ export type MapState = {
 export const initialMapState: MapState = {
     shouldShowSentinel2Layer: false,
     zoom: 10,
-    center: {
-        lon: -117.2,
-        lat: 34.06,
-    },
+    center: null,
     resolution: null,
     extent: null,
-    swipeWidget: {
-        year4LeadingLayer: 2017,
-        year4TrailingLayer: 2021,
-        position: 50,
-    },
+    swipeWidget: null,
     selectedLandCover: null,
     showMapLabel: true,
     showTerrain: true,

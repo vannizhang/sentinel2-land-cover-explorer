@@ -66,12 +66,15 @@ const TimeSlider: FC<Props> = ({
                 return new Date(year, 0, 1);
             });
 
+            const startYear = years[0];
+            const endYear = years[years.length - 1];
+
             sliderRef.current = new TimeSlider({
                 container: containerRef.current,
                 mode: 'time-window',
                 fullTimeExtent: {
-                    start: new Date(2017, 0, 1),
-                    end: new Date(2021, 0, 1),
+                    start: new Date(startYear, 0, 1),
+                    end: new Date(endYear, 0, 1),
                 },
                 timeExtent: initialTimeExtent,
                 stops: { dates: yearsAsDateObj },

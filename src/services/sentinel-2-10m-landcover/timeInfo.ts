@@ -26,9 +26,12 @@ let timeInfo: TimeInfo;
 /**
  * List of years that there are data available from Sentinel2_10m_LandCover layer
  *
- * TO-DO: need to populate this list dynamically
+ * @example
+ * ```
+ * [2017, 2018, 2019, 2020, 2021]
+ * ```
  */
-const availableYears: number[] = [2017, 2018, 2019, 2020, 2021];
+let availableYears: number[] = [];
 
 /**
  * Load Time Info from Sentinel2_10m_LandCover's JSON
@@ -45,7 +48,34 @@ export const loadTimeInfo = async (): Promise<TimeInfo> => {
 
     timeInfo = data?.timeInfo;
 
+    availableYears = populateAvailableYears(timeInfo.timeExtent);
+
     return timeInfo;
+};
+
+/**
+ * Get list of years between start and end date from the time extent
+ *
+ * @param timeExtent Time Extent from Sentinel2_10m_LandCover's Time Info
+ * @returns
+ */
+export const populateAvailableYears = (timeExtent: number[]) => {
+    const [start, end] = timeExtent;
+
+    const startYear = new Date(start).getFullYear();
+
+    const endYear = new Date(end).getFullYear();
+
+    const years = [];
+
+    let year = startYear;
+
+    while (year <= endYear) {
+        years.push(year);
+        year++;
+    }
+
+    return years;
 };
 
 /**
