@@ -12,6 +12,7 @@ type Props = {
     svgContainerData?: SvgContainerData;
     data: QuickD3ChartData;
     color?: string;
+    onHover?: (index?: number) => void;
 };
 
 const DivergingBar: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const DivergingBar: React.FC<Props> = ({
     data,
     svgContainerData,
     color,
+    onHover,
 }) => {
     const barsGroup = useRef<SVGGElement>();
 
@@ -49,6 +51,12 @@ const DivergingBar: React.FC<Props> = ({
             })
             .attr('height', (d) => {
                 return Math.abs(yScale(d.value) - yScale(0));
+            })
+            .on('mouseenter', (d, i) => {
+                onHover(i);
+            })
+            .on('mouseleave', (d) => {
+                onHover(-1);
             });
         // .attr('y', (d) => yScale(d.value))
         // .attr('height', (d) => {
