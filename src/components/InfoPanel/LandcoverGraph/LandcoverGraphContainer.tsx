@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getHistoricalLandCoverDataByClassification } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
-import {
-    selectMapExtent,
-    selectMapResolution,
-} from '../../../store/Map/selectors';
-import {
-    QuickD3ChartData,
-    QuickD3ChartDataItem,
-} from '../../QuickD3Chart/types';
+import React, { FC, useEffect, useState } from 'react';
 
-import { numberFns } from 'helper-toolkit-ts';
+import { QuickD3ChartData } from '../../QuickD3Chart/types';
+
 import BarChart from '../../QuickD3Chart/BarChart/BarChart';
 import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/timeInfo';
 import { MARGIN } from '../../QuickD3Chart/constants';
@@ -20,74 +11,16 @@ const margin = {
     bottom: 25,
 };
 
-const LandcoverGraphContainer = () => {
-    const resolution = useSelector(selectMapResolution);
+type Props = {
+    chartData: QuickD3ChartData;
+    uniqueLandCoverClasses: string[];
+};
 
-    const extent = useSelector(selectMapExtent);
-
-    const [chartData, setChartData] = useState<QuickD3ChartData>();
-
-    const [uniqueLandCoverClasses, setUniqueLandCoverClasses] = useState<
-        string[]
-    >([]);
-
+const LandcoverGraphContainer: FC<Props> = ({
+    chartData,
+    uniqueLandCoverClasses,
+}: Props) => {
     const years = getAvailableYears();
-
-    const loadChartData = async () => {
-        try {
-            const res = await getHistoricalLandCoverDataByClassification(
-                extent,
-                resolution
-            );
-
-            const data: QuickD3ChartDataItem[] = [];
-
-            const landcoverClassNames: string[] = [];
-
-            for (const item of res) {
-                const { acresByYear, landCoverClassificationData } = item;
-
-                const numberOfYearsWithoutData = acresByYear.filter(
-                    (d) => d.value === 0
-                ).length;
-
-                if (
-                    numberOfYearsWithoutData === acresByYear.length ||
-                    landCoverClassificationData.ClassName === 'No Data'
-                ) {
-                    continue;
-                }
-
-                const { ClassName, Color } = landCoverClassificationData;
-
-                const [R, G, B] = Color;
-
-                for (const { value, year } of acresByYear) {
-                    data.push({
-                        key: `${ClassName}-${year}`,
-                        value,
-                        label: numberFns.abbreviateNumber(value),
-                        labelOnTop: year.toString(),
-                        fill: `rgb(${R}, ${G}, ${B})`,
-                    });
-                }
-
-                landcoverClassNames.push(ClassName);
-            }
-
-            setChartData(data);
-
-            setUniqueLandCoverClasses(landcoverClassNames);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    useEffect(() => {
-        if (resolution && extent) {
-            loadChartData();
-        }
-    }, [resolution, extent]);
 
     if (!chartData) {
         return (

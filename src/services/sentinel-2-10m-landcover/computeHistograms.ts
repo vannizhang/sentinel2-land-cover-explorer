@@ -74,7 +74,7 @@ type AcresByYear = {
     value: number;
 };
 
-type HistoricalLandCoverData = {
+export type HistoricalLandCoverData = {
     /**
      * area of a specific land cover classification in acres by year
      */
