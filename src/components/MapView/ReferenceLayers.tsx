@@ -7,7 +7,8 @@ import {
     selectShowTerrain,
 } from '../../store/Map/selectors';
 import {
-    MAP_LABELS_LAYER_TITLE,
+    HUMAN_GEO_DARK_LABEL_LAYER_TITLE,
+    HUMAN_GEO_LIGHT_WATER_LAYER_TITLE,
     TERRAIN_LAYER_TITLE,
 } from '../../constants/map';
 
@@ -16,16 +17,19 @@ type Props = {
 };
 
 const ReferenceLayers: FC<Props> = ({ mapView }: Props) => {
-    const mapLabelLayerRef = useRef<__esri.Layer>();
+    const mapLabelLayersRef = useRef<__esri.Collection<__esri.Layer>>();
     const terrainLayerRef = useRef<__esri.Layer>();
 
     const showMapLabel = useSelector(selectShowMapLabel);
     const showTerrain = useSelector(selectShowTerrain);
 
     const init = () => {
-        mapLabelLayerRef.current = mapView.map.allLayers.find(
-            (layer) => layer.title === MAP_LABELS_LAYER_TITLE
-        );
+        mapLabelLayersRef.current = mapView.map.allLayers.filter((layer) => {
+            return (
+                layer.title === HUMAN_GEO_DARK_LABEL_LAYER_TITLE ||
+                layer.title === HUMAN_GEO_LIGHT_WATER_LAYER_TITLE
+            );
+        });
 
         terrainLayerRef.current = mapView.map.allLayers.find(
             (layer) => layer.title === TERRAIN_LAYER_TITLE
@@ -39,8 +43,10 @@ const ReferenceLayers: FC<Props> = ({ mapView }: Props) => {
     }, [mapView]);
 
     useEffect(() => {
-        if (mapLabelLayerRef.current) {
-            mapLabelLayerRef.current.visible = showMapLabel;
+        if (mapLabelLayersRef.current) {
+            for (const layer of mapLabelLayersRef.current) {
+                layer.visible = showMapLabel;
+            }
         }
     }, [showMapLabel]);
 
