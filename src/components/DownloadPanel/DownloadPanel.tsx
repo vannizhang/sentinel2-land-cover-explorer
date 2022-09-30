@@ -31,7 +31,7 @@ const DownloadPanel = () => {
     return (
         <div className="download-panel absolute top-0 left-0 w-screen h-screen flex justify-center items-center bg-custom-background-95 z-20">
             <div
-                className="h-2/3 w-full px-10 flex flex-col"
+                className="h-4/5 w-full px-10 flex flex-col"
                 style={{
                     maxWidth: 1600,
                 }}

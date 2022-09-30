@@ -133,5 +133,5 @@ export const getTimeExtentByYear = async (
  * @returns array of years (e.g. `[2017, 2018, 2019, 2020, 2021]`)
  */
 export const getAvailableYears = () => {
-    return availableYears;
+    return [...availableYears];
 };
