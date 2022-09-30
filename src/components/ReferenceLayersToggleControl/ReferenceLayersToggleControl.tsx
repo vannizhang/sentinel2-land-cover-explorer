@@ -71,15 +71,11 @@ const LayersToggleControl = () => {
 
     return (
         <div
-            className="absolute z-0 bg-custom-background-90 flex py-1 px-2 text-custom-light-blue opacity-90 text-xs"
+            className="absolute bg-custom-background-90 flex py-1 px-2 text-custom-light-blue opacity-90 text-xs"
             style={{
                 width: 240, // this is the width of JSAPI search Widget
                 right: 15, // this is the margin to right value of JSAPI search Widget
-                /**
-                 * JSAPI search Widget is 32px tall, plus 15px margin to top, which makes its bottom position at 47px from the top of the page,
-                 * therefore we can use 52px to place this component underneath ths earch Widget with 5px of space between them
-                 */
-                top: 52,
+                top: 15, // this is the margin to top value of JSAPI search Widget
             }}
         >
             <ToggleButton

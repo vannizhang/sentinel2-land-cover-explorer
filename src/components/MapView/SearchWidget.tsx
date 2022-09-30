@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { loadModules } from 'esri-loader';
 import IMapView from 'esri/views/MapView';
@@ -14,16 +14,18 @@ type SearchResult = {
 };
 
 type Props = {
-    containerId?: string;
+    // containerId?: string;
     mapView?: IMapView;
     searchCompletedHandler?: (result: SearchResult) => void;
 };
 
 const SearchWidget: React.FC<Props> = ({
-    containerId,
+    // containerId,
     mapView,
     searchCompletedHandler,
 }: Props) => {
+    const containerRef = useRef<HTMLDivElement>();
+
     const init = async () => {
         type Modules = [typeof ISearchWidget];
 
@@ -36,10 +38,10 @@ const SearchWidget: React.FC<Props> = ({
                 view: mapView,
                 resultGraphicEnabled: false,
                 popupEnabled: false,
-                container: containerId,
+                container: containerRef.current,
             });
 
-            mapView.ui.add(searchWidget, 'top-right');
+            // mapView.ui.add(searchWidget, 'top-right');
 
             if (searchCompletedHandler) {
                 searchWidget.on('search-complete', (evt) => {
@@ -65,7 +67,16 @@ const SearchWidget: React.FC<Props> = ({
         }
     }, [mapView]);
 
-    return null;
+    return (
+        <div
+            className="absolute"
+            ref={containerRef}
+            style={{
+                top: 43,
+                right: 15,
+            }}
+        ></div>
+    );
 };
 
 export default SearchWidget;
