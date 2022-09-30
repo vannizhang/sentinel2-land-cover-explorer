@@ -42,7 +42,12 @@ const DownloadPanel = () => {
                     }}
                 />
 
-                <div className="relative w-full flex-grow">
+                <div
+                    className="relative w-full flex-grow"
+                    style={{
+                        filter: `drop-shadow(1px 1px 8px #000)`,
+                    }}
+                >
                     <MapView
                         webmapId={DWONLOAD_MODE_WEB_MAP_ID}
                         center={[center.lon, center.lat]}
