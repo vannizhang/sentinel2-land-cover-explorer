@@ -43,7 +43,8 @@
   @apply bg-custom-light-blue;
 }
 
-.esri-time-slider__mode--time-window .esri-slider__segment-2 {
+.esri-time-slider__mode--time-window .esri-slider__segment-2,
+.esri-time-slider__mode--time-window .esri-slider__segment-0 {
   background-color: #00232f;
   border: 1px solid #193d49;
 }
