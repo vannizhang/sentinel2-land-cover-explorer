@@ -18,6 +18,7 @@ import {
     QuickD3ChartDataItem,
 } from '../../QuickD3Chart/types';
 import ChangeCompareGraph from './ChangeCompareGraph';
+import { numberFns } from 'helper-toolkit-ts';
 
 const ChangeCompareGraphContainer = () => {
     const dispatch = useDispatch();
@@ -88,18 +89,22 @@ const ChangeCompareGraphContainer = () => {
         const data = landCoverChangeData[idx];
 
         const {
-            landcoverClassificationData,
+            // landcoverClassificationData,
             laterYearAreaInAcres,
             earlierYearAreaInAcres,
             differenceInAcres,
         } = data;
 
-        const { ClassName } = landcoverClassificationData;
+        // const { ClassName } = landcoverClassificationData;
 
         const tooltipData = {
-            content: `${ClassName} in this area ${
-                differenceInAcres > 0 ? 'gained' : 'lost'
-            } about ${differenceInAcres} acres (from ${earlierYearAreaInAcres} to ${laterYearAreaInAcres})`,
+            content: `${numberFns.numberWithCommas(
+                earlierYearAreaInAcres
+            )} acres in ${year4LeadingLayer} and ${numberFns.numberWithCommas(
+                laterYearAreaInAcres
+            )} acres in ${year4TrailingLayer}, a change of ${
+                differenceInAcres >= 0 ? '+' : ''
+            }${numberFns.numberWithCommas(differenceInAcres)} acres`,
         };
 
         dispatch(updateTooltipData(tooltipData));
