@@ -26,7 +26,7 @@ const ChangeCompareGraphContainer = () => {
 
     const extent = useSelector(selectMapExtent);
 
-    const [year4LeadingLayer, year4TrailingLayer] = useSelector(
+    const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
     );
 

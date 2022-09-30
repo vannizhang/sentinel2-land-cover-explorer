@@ -22,21 +22,22 @@ const TimeSliderContainer = () => {
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
-
-    const [yearForLeadingLayer, yearForTailingLayer] = useSelector(
+    const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
     );
 
     useEffect(() => {
-        saveTimeExtentToHashParams(yearForLeadingLayer, yearForTailingLayer);
-    }, [yearForLeadingLayer, yearForTailingLayer]);
+        saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
+    }, [year4LeadingLayer, year4TrailingLayer]);
+
+    console.log(year4LeadingLayer, year4TrailingLayer);
 
     return (
         <TimeSlider
             years={years}
             initialTimeExtent={{
-                start: new Date(yearForLeadingLayer, 0, 1),
-                end: new Date(yearForTailingLayer, 0, 1),
+                start: new Date(year4LeadingLayer, 0, 1),
+                end: new Date(year4TrailingLayer, 0, 1),
             }}
             shouldShowSentinel2Layer={shouldShowSentinel2Layer}
             timeExtentOnChange={(startYear, endYear) => {

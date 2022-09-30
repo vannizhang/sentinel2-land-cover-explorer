@@ -9,10 +9,12 @@ import { RootState } from '../configureStore';
 export const selectYearsForSwipeWidgetLayers = createSelector(
     (state: RootState) => state.Map.swipeWidget.year4LeadingLayer,
     (state: RootState) => state.Map.swipeWidget.year4TrailingLayer,
-    (year4LeadingLayer, year4TrailingLayer) => [
-        year4LeadingLayer,
-        year4TrailingLayer,
-    ]
+    (year4LeadingLayer, year4TrailingLayer) => {
+        return {
+            year4LeadingLayer,
+            year4TrailingLayer,
+        };
+    }
 );
 
 /**

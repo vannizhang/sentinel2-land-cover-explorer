@@ -40,7 +40,7 @@ const MapViewContainer = () => {
 
     const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
-    const [year4LeadingLayer, year4TrailingLayer] = useSelector(
+    const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
     );
 

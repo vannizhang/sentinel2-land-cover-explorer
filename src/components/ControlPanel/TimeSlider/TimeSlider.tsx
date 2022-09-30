@@ -90,6 +90,8 @@ const TimeSlider: FC<Props> = ({
                 ],
             });
 
+            console.log(sliderRef.current);
+
             reactiveUtils.watch(
                 () => sliderRef.current.timeExtent,
                 (timeExtent) => {
@@ -118,6 +120,10 @@ const TimeSlider: FC<Props> = ({
 
         return () => {
             sliderRef.current.destroy();
+            console.log(
+                'sliderRef.current.destroyed',
+                sliderRef.current.destroyed
+            );
         };
     }, []);
 

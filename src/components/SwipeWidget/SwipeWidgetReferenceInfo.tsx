@@ -26,7 +26,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
         selectShouldShowSentinel2Layer
     );
 
-    const [year4LeadingLayer, year4TrailingLayer] = useSelector(
+    const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
     );
 
