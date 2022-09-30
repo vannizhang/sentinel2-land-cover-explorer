@@ -72,7 +72,7 @@ const SearchWidget: React.FC<Props> = ({
             className="absolute"
             ref={containerRef}
             style={{
-                top: 43,
+                top: 50,
                 right: 15,
             }}
         ></div>
