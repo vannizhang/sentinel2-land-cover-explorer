@@ -38,6 +38,9 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
             // URL to the imagery service
             url: SENTINEL_2_IMAGE_SERVICE_URL,
             mosaicRule: createMosaicRuleByYear(year) as any,
+            // renderingRule: {
+            //     functionName: ''
+            // }
         });
 
         setSentinel2Layer(layerRef.current);

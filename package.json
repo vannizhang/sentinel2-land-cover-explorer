@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This application displays the land use/land cover (LULC) timeseries layer derived from ESA Sentinel-2 imagery at 10m resolution. ",
   "main": "index.js",
-  "title": "Land Cover Change using Sentinel-2",
+  "title": "Land Cover Change",
   "scripts": {
     "test": "jest --passWithNoTests",
     "start": "webpack serve --mode development --open",
