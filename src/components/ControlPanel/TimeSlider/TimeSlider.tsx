@@ -90,7 +90,7 @@ const TimeSlider: FC<Props> = ({
                 ],
             });
 
-            console.log(sliderRef.current);
+            // console.log(sliderRef.current);
 
             reactiveUtils.watch(
                 () => sliderRef.current.timeExtent,

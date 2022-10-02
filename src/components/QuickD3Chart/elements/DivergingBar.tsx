@@ -53,10 +53,14 @@ const DivergingBar: React.FC<Props> = ({
                 return Math.abs(yScale(d.value) - yScale(0));
             })
             .on('mouseenter', (d, i) => {
-                onHover(i);
+                if (onHover) {
+                    onHover(i);
+                }
             })
             .on('mouseleave', (d) => {
-                onHover(-1);
+                if (onHover) {
+                    onHover(-1);
+                }
             });
         // .attr('y', (d) => yScale(d.value))
         // .attr('height', (d) => {

@@ -215,15 +215,15 @@ const DivergingBarChart: React.FC<Props> = ({
                         xScale={xScale as ScaleBand<string | number>}
                         yScale={yScale}
                         color={barColor}
-                        onHover={(idx) => {
-                            itemOnHover(idx);
-                        }}
+                        // onHover={(idx) => {
+                        //     itemOnHover(idx);
+                        // }}
                     />
                 ) : (
                     <></>
                 )}
 
-                {/* <PointerEventsOverlay
+                <PointerEventsOverlay
                     xDomain={xDomain}
                     xScale={xScale}
                     onHover={(data) => {
@@ -231,7 +231,7 @@ const DivergingBarChart: React.FC<Props> = ({
                         // console.log(data4Bars[idx])
                         itemOnHover(idx);
                     }}
-                /> */}
+                />
             </SvgContainer>
         </div>
     );

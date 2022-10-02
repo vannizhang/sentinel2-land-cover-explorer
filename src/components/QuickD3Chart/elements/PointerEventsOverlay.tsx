@@ -27,6 +27,8 @@ type Props = {
     onHover?: (data: PointerPositionOnHover) => void;
 };
 
+const DEBOUNCE_DELAY_IN_MILLISECONDS = 250;
+
 const PointerEventsOverlay: React.FC<Props> = ({
     xScale,
     xDomain,
@@ -40,6 +42,8 @@ const PointerEventsOverlay: React.FC<Props> = ({
     const xScaleRef = useRef<XScale>();
 
     const xDomainRef = useRef<XDomain>();
+
+    const debounceTimeoutRef = useRef<NodeJS.Timeout>();
 
     // const initRefLine = () => {
     //     const { dimension } = svgContainerData;
@@ -84,8 +88,13 @@ const PointerEventsOverlay: React.FC<Props> = ({
             })
             .on('mousemove', function () {
                 const mousePosX = mouse(this)[0];
-                // console.log(mousePosX)
-                setDataOnHover(getDataByMousePos(mousePosX));
+
+                clearTimeout(debounceTimeoutRef.current);
+
+                debounceTimeoutRef.current = setTimeout(() => {
+                    // console.log(mousePosX)
+                    setDataOnHover(getDataByMousePos(mousePosX));
+                }, DEBOUNCE_DELAY_IN_MILLISECONDS);
             });
     };
 
@@ -111,31 +120,19 @@ const PointerEventsOverlay: React.FC<Props> = ({
         const xScale = xScaleRef.current;
 
         const xDomain = xDomainRef.current;
+        // console.log(xDomain, mousePosX)
 
-        const { dimension } = svgContainerData;
+        // const { dimension } = svgContainerData;
 
-        const { width } = dimension;
+        // const { width } = dimension;
 
         // set offset if typeof xScale is ScaleBand
         const offset = 'bandwidth' in xScale ? xScale.bandwidth() / 2 : 0;
 
-        // when pointer at left half of first bar OR at right half of last bar
-        if (mousePosX < offset || mousePosX > width - offset) {
-            const index = mousePosX < offset ? 0 : xDomain.length - 1;
-
-            const value = xDomain[index];
-
-            const xPosition =
-                'bandwidth' in xScale ? xScale(value) + offset : xScale(+value);
-
-            return {
-                index4ItemOnHover: index,
-                xPosition,
-            };
-        }
-
         let itemIndex = -1;
         let xPosition = 0;
+
+        let minDiff = Infinity;
 
         for (let i = 0, len = xDomain.length; i < len; i++) {
             const currItem = xDomain[i];
@@ -144,25 +141,60 @@ const PointerEventsOverlay: React.FC<Props> = ({
                     ? xScale(currItem) + offset
                     : xScale(+currItem);
 
-            const nextItemIndex = xDomain[i + 1] ? i + 1 : i;
-            const nextItem = xDomain[nextItemIndex];
-            const nextItemPos =
-                'bandwidth' in xScale
-                    ? xScale(nextItem) + offset
-                    : xScale(+nextItem);
+            // console.log(currItemPos)
 
-            if (mousePosX >= currItemPos && mousePosX <= nextItemPos) {
-                const distToCurrItem = Math.abs(mousePosX - currItemPos);
-                const distToNextItem = Math.abs(mousePosX - nextItemPos);
+            const diff = Math.abs(mousePosX - currItemPos);
 
-                itemIndex = distToCurrItem < distToNextItem ? i : nextItemIndex;
-
-                xPosition =
-                    distToCurrItem < distToNextItem ? currItemPos : nextItemPos;
-
-                break;
+            if (diff < minDiff) {
+                minDiff = diff;
+                itemIndex = i;
+                xPosition = currItemPos;
             }
         }
+
+        // // when pointer at left half of first bar OR at right half of last bar
+        // if (mousePosX < offset || mousePosX > width - offset) {
+        //     const index = mousePosX < offset ? 0 : xDomain.length - 1;
+
+        //     const value = xDomain[index];
+
+        //     const xPosition =
+        //         'bandwidth' in xScale ? xScale(value) + offset : xScale(+value);
+
+        //     return {
+        //         index4ItemOnHover: index,
+        //         xPosition,
+        //     };
+        // }
+
+        // for (let i = 0, len = xDomain.length; i < len; i++) {
+        //     const currItem = xDomain[i];
+        //     const currItemPos =
+        //         'bandwidth' in xScale
+        //             ? xScale(currItem) + offset
+        //             : xScale(+currItem);
+
+        //     const nextItemIndex = xDomain[i + 1] ? i + 1 : i;
+        //     const nextItem = xDomain[nextItemIndex];
+        //     const nextItemPos =
+        //         'bandwidth' in xScale
+        //             ? xScale(nextItem) + offset
+        //             : xScale(+nextItem);
+
+        //     if (mousePosX >= currItemPos && mousePosX <= nextItemPos) {
+        //         const distToCurrItem = Math.abs(mousePosX - currItemPos);
+        //         const distToNextItem = Math.abs(mousePosX - nextItemPos);
+
+        //         itemIndex = distToCurrItem < distToNextItem ? i : nextItemIndex;
+
+        //         xPosition =
+        //             distToCurrItem < distToNextItem ? currItemPos : nextItemPos;
+
+        //         break;
+        //     }
+        // }
+
+        // console.log(itemIndex)
 
         return {
             index4ItemOnHover: itemIndex,

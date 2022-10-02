@@ -30,8 +30,6 @@ const TimeSliderContainer = () => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
     }, [year4LeadingLayer, year4TrailingLayer]);
 
-    console.log(year4LeadingLayer, year4TrailingLayer);
-
     return (
         <TimeSlider
             years={years}

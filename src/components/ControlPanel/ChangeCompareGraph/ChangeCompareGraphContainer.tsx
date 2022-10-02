@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
@@ -35,6 +35,8 @@ const ChangeCompareGraphContainer = () => {
 
     const [landCoverChangeData, setLandCoverChangeData] =
         useState<LandCoverChangeInAcres[]>();
+
+    const landCoverChangeDataRef = useRef<LandCoverChangeInAcres[]>();
 
     const fetchData = async (): Promise<void> => {
         if (
@@ -81,12 +83,15 @@ const ChangeCompareGraphContainer = () => {
     };
 
     const openTooltipForItemOnHover = (idx: number) => {
-        if (!landCoverChangeData || !landCoverChangeData[idx]) {
+        if (
+            !landCoverChangeDataRef.current ||
+            !landCoverChangeDataRef.current[idx]
+        ) {
             dispatch(updateTooltipData(null));
             return;
         }
 
-        const data = landCoverChangeData[idx];
+        const data = landCoverChangeDataRef.current[idx];
 
         const {
             // landcoverClassificationData,
@@ -114,6 +119,8 @@ const ChangeCompareGraphContainer = () => {
         if (landCoverChangeData) {
             getChartData();
         }
+
+        landCoverChangeDataRef.current = landCoverChangeData;
     }, [landCoverChangeData]);
 
     useEffect(() => {
