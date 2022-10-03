@@ -51,6 +51,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
                         className="absolute bottom-0 theme-background text-custom-light-blue text-sm py-1 px-2"
                         style={{
                             right: 7,
+                            bottom: 10,
                         }}
                     >
                         {year4LeadingLayer}
@@ -69,6 +70,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
                         className="absolute bottom-0 theme-background text-custom-light-blue text-sm py-1 px-2"
                         style={{
                             left: 2,
+                            bottom: 10,
                         }}
                     >
                         {year4TrailingLayer}

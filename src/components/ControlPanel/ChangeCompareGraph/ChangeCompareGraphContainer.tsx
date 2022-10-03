@@ -67,6 +67,9 @@ const ChangeCompareGraphContainer = () => {
 
             const [R, G, B] = Color;
 
+            const formatedDiffInAcres =
+                numberFns.numberWithCommas(differenceInAcres);
+
             return {
                 key: getLandCoverClassificationShortName(ClassName),
                 label: ClassName,
@@ -74,8 +77,8 @@ const ChangeCompareGraphContainer = () => {
                 fill: `rgb(${R}, ${G}, ${B})`,
                 labelOnTop:
                     differenceInAcres > 0
-                        ? '+' + differenceInAcres
-                        : differenceInAcres.toString(),
+                        ? '+' + formatedDiffInAcres
+                        : formatedDiffInAcres,
             };
         });
 
