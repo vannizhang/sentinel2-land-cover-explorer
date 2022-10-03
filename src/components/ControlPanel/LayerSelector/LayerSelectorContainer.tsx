@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { shouldShowSentinel2LayerToggled } from '../../../store/Map/reducer';
 import { selectShouldShowSentinel2Layer } from '../../../store/Map/selectors';
+import { showDownloadPanelToggled } from '../../../store/UI/reducer';
 import { saveshowImageryLayerToHashParams } from '../../../utils/URLHashParams';
 import LayerSelector from './LayerSelector';
 
@@ -25,6 +26,9 @@ const LayerSelectorContainer = () => {
             }}
             landcoverButtonOnClick={() => {
                 dispatch(shouldShowSentinel2LayerToggled(false));
+            }}
+            downloadLandcoverButtonOnClick={() => {
+                dispatch(showDownloadPanelToggled(true));
             }}
         />
     );

@@ -5,10 +5,6 @@ import ITimeSlider from 'esri/widgets/TimeSlider';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
 import HeaderText from '../HeaderText/HeaderText';
-import {
-    SENTINEL_2_10M_LAND_COVER_ITEM_ID,
-    SENTINEL_2_ITEM_ID,
-} from '../../../constants/map';
 
 type Props = {
     /**
@@ -135,12 +131,6 @@ const TimeSlider: FC<Props> = ({
                         ? 'Sentinel-2 Imagery'
                         : '10m Land Cover'
                 }, Choose Two Years to Compare`}
-                openButtonOnClick={() => {
-                    const targetURL = shouldShowSentinel2Layer
-                        ? SENTINEL_2_ITEM_ID
-                        : SENTINEL_2_10M_LAND_COVER_ITEM_ID;
-                    window.open(targetURL, '_blank');
-                }}
             />
 
             <div
