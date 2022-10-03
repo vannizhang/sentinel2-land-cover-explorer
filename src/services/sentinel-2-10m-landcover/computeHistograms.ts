@@ -97,7 +97,7 @@ const SQUARE_METERS_IN_ONE_ACRE = 4047;
  * @param count count of pixels
  * @returns
  */
-const convertNumOfPixel2Acres = (count: number): number => {
+export const convertNumOfPixel2Acres = (count: number): number => {
     return Math.round((count * 100) / SQUARE_METERS_IN_ONE_ACRE);
 };
 
