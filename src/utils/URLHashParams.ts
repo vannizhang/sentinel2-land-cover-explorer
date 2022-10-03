@@ -5,7 +5,8 @@ type UrlHashParamKey =
     | 'mapCenter'
     | 'timeExtent'
     | 'landCover'
-    | 'downloadMode';
+    | 'downloadMode'
+    | 'showImageryLayer';
 
 const hashParams = new URLSearchParams(window.location.hash.slice(1));
 
@@ -93,4 +94,12 @@ export const saveDonwloadModeToHashParams = (showDownloadPanel: boolean) => {
 
 export const getDonwloadModeFromHashParams = () => {
     return getHashParamValueByKey('downloadMode') === 'true';
+};
+
+export const saveshowImageryLayerToHashParams = (showImageryLayer: boolean) => {
+    updateHashParams('showImageryLayer', showImageryLayer ? 'true' : null);
+};
+
+export const getShowImageryLayerFromHashParams = () => {
+    return getHashParamValueByKey('showImageryLayer') === 'true';
 };

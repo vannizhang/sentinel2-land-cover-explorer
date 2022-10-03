@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { shouldShowSentinel2LayerToggled } from '../../../store/Map/reducer';
 import { selectShouldShowSentinel2Layer } from '../../../store/Map/selectors';
+import { saveshowImageryLayerToHashParams } from '../../../utils/URLHashParams';
 import LayerSelector from './LayerSelector';
 
 const LayerSelectorContainer = () => {
@@ -11,6 +12,10 @@ const LayerSelectorContainer = () => {
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
+
+    useEffect(() => {
+        saveshowImageryLayerToHashParams(shouldShowSentinel2Layer);
+    }, [shouldShowSentinel2Layer]);
 
     return (
         <LayerSelector
