@@ -10,7 +10,7 @@ const DownloadIcon: FC<DownloadIconProps> = ({
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="cursor-pointer mt-2"
+            className="cursor-pointer"
             viewBox="0 0 16 16"
             height="16"
             width="16"

@@ -80,7 +80,14 @@ const LayerSelector: FC<Props> = ({
                         }}
                     />
 
-                    <DownloadIcon onClick={downloadLandcoverButtonOnClick} />
+                    <div
+                        className="mt-2"
+                        title="Launch download options for Land Cover"
+                    >
+                        <DownloadIcon
+                            onClick={downloadLandcoverButtonOnClick}
+                        />
+                    </div>
                 </div>
             </div>
 
