@@ -34,6 +34,7 @@ import SearchWidget from './SearchWidget';
 import ReferenceLayersToggleControl from '../ReferenceLayersToggleControl/ReferenceLayersToggleControl';
 import ReferenceLayers from './ReferenceLayers';
 import { saveMapCenterToHashParams } from '../../utils/URLHashParams';
+import CustomMapArrtribution from '../CustomMapArrtribution/CustomMapArrtribution';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -103,6 +104,8 @@ const MapViewContainer = () => {
                 <SearchWidget />
 
                 <ReferenceLayers />
+
+                <CustomMapArrtribution />
             </MapView>
 
             <ReferenceLayersToggleControl />
