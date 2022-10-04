@@ -84,7 +84,8 @@ const PointerEventsOverlay: React.FC<Props> = ({
             .attr('height', height)
             .attr('fill', 'rgba(0,0,0,0)')
             .on('mouseleave', () => {
-                setDataOnHover(null);
+                clearTimeout(debounceTimeoutRef.current);
+                onHoverHandler(null);
             })
             .on('mousemove', function () {
                 const mousePosX = mouse(this)[0];
@@ -93,12 +94,12 @@ const PointerEventsOverlay: React.FC<Props> = ({
 
                 debounceTimeoutRef.current = setTimeout(() => {
                     // console.log(mousePosX)
-                    setDataOnHover(getDataByMousePos(mousePosX));
+                    onHoverHandler(getDataByMousePos(mousePosX));
                 }, DEBOUNCE_DELAY_IN_MILLISECONDS);
             });
     };
 
-    const setDataOnHover = (data?: PointerPositionOnHover) => {
+    const onHoverHandler = (data?: PointerPositionOnHover) => {
         itemOnHover.current = data;
         // updateVerticalRefLinePos();
         onHover(data);
