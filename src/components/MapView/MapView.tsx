@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { loadModules } from 'esri-loader';
 import IMapView from 'esri/views/MapView';
 import IWebMap from 'esri/WebMap';
+import ITileInfo from 'esri/layers/support/TileInfo';
 import classNames from 'classnames';
 
 interface Props {
@@ -37,12 +38,13 @@ const MapView: React.FC<Props> = ({
     const mapViewRef = useRef<IMapView>();
 
     const initMapView = async () => {
-        type Modules = [typeof IMapView, typeof IWebMap];
+        type Modules = [typeof IMapView, typeof IWebMap, typeof ITileInfo];
 
         try {
-            const [MapView, WebMap] = await (loadModules([
+            const [MapView, WebMap, TileInfo] = await (loadModules([
                 'esri/views/MapView',
                 'esri/WebMap',
+                'esri/layers/support/TileInfo',
             ]) as Promise<Modules>);
 
             mapViewRef.current = new MapView({
@@ -54,6 +56,9 @@ const MapView: React.FC<Props> = ({
                         id: webmapId,
                     },
                 }),
+                constraints: {
+                    lods: TileInfo.create().lods,
+                },
             });
 
             mapViewRef.current.when(() => {
