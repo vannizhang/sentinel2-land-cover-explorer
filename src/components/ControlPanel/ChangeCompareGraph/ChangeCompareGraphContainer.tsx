@@ -24,6 +24,7 @@ import {
     DEFAULT_MAP_ZOOM,
     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
 } from '../../../constants/map';
+import { abbreviateNumber } from '../../../utils/number';
 
 const ChangeCompareGraphContainer = () => {
     const dispatch = useDispatch();
@@ -74,8 +75,7 @@ const ChangeCompareGraphContainer = () => {
 
             const [R, G, B] = Color;
 
-            const formatedDiffInAcres =
-                numberFns.numberWithCommas(differenceInAcres);
+            const formatedDiffInAcres = abbreviateNumber(differenceInAcres);
 
             return {
                 key: getLandCoverClassificationShortName(ClassName),

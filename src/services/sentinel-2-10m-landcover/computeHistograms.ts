@@ -91,14 +91,25 @@ export type HistoricalLandCoverData = {
 const SQUARE_METERS_IN_ONE_ACRE = 4047;
 
 /**
+ * 1 square meter equals to 0.000247105 acre
+ */
+const ACRE_PER_SQ_METER = 0.000247105;
+
+/**
+ * get acres per pxiel based on the current map resolution,
+ * and we can then multiple this number by total number of pixels to get the area in acres
  *
- * the pixel size is 10 meter, therefore each pixel represent 100 Square meter of space,
- * and we can divide this number by 4047 (number of square meters in one acre) to get the area in acres
  * @param count count of pixels
+ * @param pixelSizeInMeters use resolution of map view as pixel size in meters
  * @returns
  */
-export const convertNumOfPixel2Acres = (count: number): number => {
-    return Math.round((count * 100) / SQUARE_METERS_IN_ONE_ACRE);
+export const convertNumOfPixel2Acres = (
+    count: number,
+    pixelSizeInMeters: number
+): number => {
+    const squareMetersPerPixel = pixelSizeInMeters ** 2;
+    const acresPerPixel = squareMetersPerPixel * ACRE_PER_SQ_METER;
+    return Math.round(count * acresPerPixel);
 };
 
 /**
@@ -185,9 +196,7 @@ export const getLandCoverChangeInAcres = async ({
             const diff = countLaterYear - countEarlierYear;
 
             // convert difference in number of pixels to acres
-            // the pixel size is 10 meter, therefore each pixel represent 100 Square meter of space,
-            // and we can divide this number by 4047 (number of square meters in one acre) to get the difference in acres
-            const diffInAcres = convertNumOfPixel2Acres(diff);
+            const diffInAcres = convertNumOfPixel2Acres(diff, resolution);
 
             if (Math.abs(diffInAcres) < 1) {
                 continue;
@@ -196,9 +205,14 @@ export const getLandCoverChangeInAcres = async ({
             output.push({
                 landcoverClassificationData:
                     getLandCoverClassificationByPixelValue(i),
-                earlierYearAreaInAcres:
-                    convertNumOfPixel2Acres(countEarlierYear),
-                laterYearAreaInAcres: convertNumOfPixel2Acres(countLaterYear),
+                earlierYearAreaInAcres: convertNumOfPixel2Acres(
+                    countEarlierYear,
+                    resolution
+                ),
+                laterYearAreaInAcres: convertNumOfPixel2Acres(
+                    countLaterYear,
+                    resolution
+                ),
                 differenceInAcres: diffInAcres,
             });
         }
@@ -267,7 +281,7 @@ export const getHistoricalLandCoverDataByClassification = async (
                 const numOfPixels = counts[j];
                 historicalLandCoverDataByLandCoverId.get(j).acresByYear[
                     i
-                ].value = convertNumOfPixel2Acres(numOfPixels);
+                ].value = convertNumOfPixel2Acres(numOfPixels, resolution);
             }
         }
 

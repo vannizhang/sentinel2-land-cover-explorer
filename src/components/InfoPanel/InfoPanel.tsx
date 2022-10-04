@@ -16,8 +16,9 @@ import {
 } from '../../store/Map/selectors';
 import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 
-import { numberFns } from 'helper-toolkit-ts';
+// import { numberFns } from 'helper-toolkit-ts';
 import { saveHistoricalLandCoverDataAsCSV } from './helper';
+import { abbreviateNumber } from '../../utils/number';
 
 const InfoPanel = () => {
     const dispatch = useDispatch();
@@ -77,7 +78,7 @@ const InfoPanel = () => {
                 data.push({
                     key: `${ClassName}-${year}`,
                     value,
-                    label: numberFns.abbreviateNumber(value),
+                    label: abbreviateNumber(value),
                     labelOnTop: year.toString(),
                     fill: `rgb(${R}, ${G}, ${B})`,
                 });
