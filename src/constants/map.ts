@@ -124,3 +124,5 @@ export const DEFAULT_MAP_CENTERS = [
 ];
 
 export const DEFAULT_MAP_ZOOM = 10;
+
+export const MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM = 10;

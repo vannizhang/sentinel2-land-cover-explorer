@@ -7,6 +7,7 @@ import {
 } from '../../../services/sentinel-2-10m-landcover/computeHistograms';
 import { getLandCoverClassificationShortName } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
+    selectMapCenterAndZoom,
     selectMapExtent,
     selectMapResolution,
     selectYearsForSwipeWidgetLayers,
@@ -19,9 +20,15 @@ import {
 } from '../../QuickD3Chart/types';
 import ChangeCompareGraph from './ChangeCompareGraph';
 import { numberFns } from 'helper-toolkit-ts';
+import {
+    DEFAULT_MAP_ZOOM,
+    MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
+} from '../../../constants/map';
 
 const ChangeCompareGraphContainer = () => {
     const dispatch = useDispatch();
+
+    const { zoom } = useSelector(selectMapCenterAndZoom);
 
     const resolution = useSelector(selectMapResolution);
 
@@ -127,14 +134,19 @@ const ChangeCompareGraphContainer = () => {
     }, [landCoverChangeData]);
 
     useEffect(() => {
+        if (zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM) {
+            return;
+        }
+
         fetchData();
-    }, [resolution, extent, year4LeadingLayer, year4TrailingLayer]);
+    }, [resolution, extent, year4LeadingLayer, year4TrailingLayer, zoom]);
 
     return (
         <ChangeCompareGraph
             earlierYear={year4LeadingLayer}
             laterYear={year4TrailingLayer}
             data={chartData}
+            outOfValidZoomLevel={zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM}
             openButtonOnClick={() => {
                 dispatch(showInfoPanelToggled(true));
             }}
