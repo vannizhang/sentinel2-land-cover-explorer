@@ -23,7 +23,7 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
             method: `attribute`,
             where: `(category = 2) OR (CloudCover < 0.1)`,
             sortField: `AcquisitionDate`,
-            sortValue: `${year}/09/01`,
+            sortValue: `${year}/09/15`,
             ascending: true,
         };
     };

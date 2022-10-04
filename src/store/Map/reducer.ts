@@ -81,7 +81,7 @@ export const initialMapState: MapState = {
     selectedLandCover: null,
     showMapLabel: true,
     showTerrain: true,
-    selectedSentinel2RasterFunction: null,
+    selectedSentinel2RasterFunction: 'Natural Color with DRA',
 };
 
 const slice = createSlice({

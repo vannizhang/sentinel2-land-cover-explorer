@@ -83,12 +83,8 @@ const ImageryRasterFunctionsListContainer = () => {
             selectedRasterFunction={selectedRasterFunction}
             data={Data}
             onSelect={(rasterFunction) => {
-                const newRasterFunction =
-                    rasterFunction !== selectedRasterFunction
-                        ? rasterFunction
-                        : null;
                 dispatch(
-                    selectedSentinel2RasterFunctionChanged(newRasterFunction)
+                    selectedSentinel2RasterFunctionChanged(rasterFunction)
                 );
             }}
             itemOnHover={(data) => {
