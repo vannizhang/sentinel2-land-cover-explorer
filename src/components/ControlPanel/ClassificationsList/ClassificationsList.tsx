@@ -38,7 +38,10 @@ const ClassificationsList: FC<Props> = ({
 
     return (
         <div className="text-center mx-4 mt-4 md:mt-0" ref={containerRef}>
-            <HeaderText text="Land Cover Categories, Click to Toggle Visibility" />
+            <HeaderText
+                title="Land Cover Categories"
+                subTitle="Click to Toggle Visibility"
+            />
 
             <div className="grid grid-cols-3 h-28 text-sm mt-8">
                 {data

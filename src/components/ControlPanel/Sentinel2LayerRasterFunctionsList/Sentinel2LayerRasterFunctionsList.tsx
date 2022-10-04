@@ -29,7 +29,10 @@ const Sentinel2LayerRasterFunctionsList: FC<Props> = ({
 
     return (
         <div className="text-center mx-4 mt-4 md:mt-0" ref={containerRef}>
-            <HeaderText text="Visual Renderings, Click to Toggle Visibility" />
+            <HeaderText
+                title="Visual Renderings"
+                subTitle="Click to Toggle Visibility"
+            />
 
             <div className="grid grid-cols-2 h-28 text-sm mt-4">
                 {data.map((d) => {

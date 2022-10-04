@@ -59,8 +59,9 @@ const ChangeCompareGraph: FC<Props> = ({
             ref={containerRef}
         >
             <HeaderText
-                text={`Land Cover Change (Acres) from ${earlierYear} to ${laterYear}`}
-                openButtonOnClick={
+                title={`Land Cover Change (Acres)`}
+                subTitle={`from ${earlierYear} to ${laterYear}`}
+                expandButtonOnClick={
                     !outOfValidZoomLevel ? openButtonOnClick : undefined
                 }
             />

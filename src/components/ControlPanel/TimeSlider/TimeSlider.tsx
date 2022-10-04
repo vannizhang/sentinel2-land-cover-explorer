@@ -139,11 +139,12 @@ const TimeSlider: FC<Props> = ({
     return (
         <div className="text-center">
             <HeaderText
-                text={`${
+                title={`${
                     shouldShowSentinel2Layer
                         ? 'Sentinel-2 Imagery'
                         : '10m Land Cover'
-                }, Choose Two Years to Compare`}
+                }`}
+                subTitle={'Choose Two Years to Compare'}
             />
 
             <div className="relative max-w-md mt-10">
