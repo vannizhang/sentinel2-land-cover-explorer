@@ -15,9 +15,13 @@ export const updateTooltipData =
     (dispatch: StoreDispatch, getState: StoreGetState) => {
         clearTimeout(debounceTimeOut);
 
-        debounceTimeOut = setTimeout(() => {
+        if (!data) {
             dispatch(tooltipDataChanged(data));
-        }, DebounceDealy);
+        } else {
+            debounceTimeOut = setTimeout(() => {
+                dispatch(tooltipDataChanged(data));
+            }, DebounceDealy);
+        }
     };
 
 export const toggleShowSwipeWidgetYearIndicator =

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { FC, useRef } from 'react';
 import useGetTooltipPositionOnHover from '../../../hooks/useGetTooltipPositionOnHover';
+import { TooltipData } from '../../../store/UI/reducer';
 import HeaderText from '../HeaderText/HeaderText';
 import {
     RasterFunctionData,
@@ -11,12 +12,17 @@ type Props = {
     data: RasterFunctionData[];
     selectedRasterFunction?: Sentinel2RasterFunction;
     onSelect: (data?: Sentinel2RasterFunction) => void;
+    /**
+     * Fires when users hovers a land cover item in th list
+     */
+    itemOnHover: (data?: TooltipData) => void;
 };
 
 const Sentinel2LayerRasterFunctionsList: FC<Props> = ({
     data,
     selectedRasterFunction,
     onSelect,
+    itemOnHover,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
     useGetTooltipPositionOnHover(containerRef);
@@ -43,6 +49,14 @@ const Sentinel2LayerRasterFunctionsList: FC<Props> = ({
                                 }
                             )}
                             onClick={onSelect.bind(null, name)}
+                            onMouseEnter={() => {
+                                itemOnHover({
+                                    content: description,
+                                });
+                            }}
+                            onMouseLeave={() => {
+                                itemOnHover(null);
+                            }}
                         >
                             <img src={thumbnail} />
                             <span className="ml-2">{label}</span>

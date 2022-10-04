@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { selectedSentinel2RasterFunctionChanged } from '../../../store/Map/reducer';
 import { useSelector } from 'react-redux';
 import { selectSentinel2RasterFunction } from '../../../store/Map/selectors';
+import { updateTooltipData } from '../../../store/UI/thunks';
 
 export type Sentinel2RasterFunction =
     | 'Natural Color with DRA'
@@ -89,6 +90,9 @@ const ImageryRasterFunctionsListContainer = () => {
                 dispatch(
                     selectedSentinel2RasterFunctionChanged(newRasterFunction)
                 );
+            }}
+            itemOnHover={(data) => {
+                dispatch(updateTooltipData(data));
             }}
         />
     );
