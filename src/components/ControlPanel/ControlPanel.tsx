@@ -11,6 +11,7 @@ import Tooltip from './Tooltip/TooltipContainer';
 import ToggleButton from './ToggleButton/ToggleButtonContainer';
 import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 import ActionBar from './ActionBar/ActionBar';
+import Sentinel2LayerRasterFunctionsList from './Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 
 const ControlPanel = () => {
     // const dispatch = useDispatch();
@@ -38,6 +39,10 @@ const ControlPanel = () => {
                         <div className="md:flex">
                             {shouldShowSentinel2Layer === false && (
                                 <ClassificationsList />
+                            )}
+
+                            {shouldShowSentinel2Layer && (
+                                <Sentinel2LayerRasterFunctionsList />
                             )}
                             <ChangeCompareGraph />
                         </div>

@@ -3,6 +3,8 @@ import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
 // import IMapView from 'esri/views/MapView';
 import { SENTINEL_2_IMAGE_SERVICE_URL } from './config';
+import { useSelector } from 'react-redux';
+import { selectSentinel2RasterFunction } from '../../store/Map/selectors';
 
 type UseLandCoverLayerParams = {
     year: number;
@@ -13,6 +15,8 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
     const layerRef = useRef<IImageryLayer>();
 
     const [sentinel2Layer, setSentinel2Layer] = useState<IImageryLayer>();
+
+    const selectedRasterFunction = useSelector(selectSentinel2RasterFunction);
 
     const createMosaicRuleByYear = (year: number) => {
         return {
@@ -53,6 +57,16 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
             layerRef.current.mosaicRule = createMosaicRuleByYear(year) as any;
         }
     }, [year]);
+
+    useEffect(() => {
+        console.log(selectedRasterFunction);
+
+        if (layerRef.current) {
+            layerRef.current.renderingRule = {
+                functionName: selectedRasterFunction || '',
+            } as any;
+        }
+    }, [selectedRasterFunction]);
 
     return sentinel2Layer;
 };

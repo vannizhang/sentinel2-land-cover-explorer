@@ -4,6 +4,7 @@ import {
     PayloadAction,
     // createAsyncThunk
 } from '@reduxjs/toolkit';
+import { Sentinel2RasterFunction } from '../../components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 
 // import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
@@ -64,6 +65,10 @@ export type MapState = {
      * If true, Terrain Layer will be on
      */
     showTerrain?: boolean;
+    /**
+     * Sentinel 2 Raster function that will be used to render the layer
+     */
+    selectedSentinel2RasterFunction?: Sentinel2RasterFunction;
 };
 
 export const initialMapState: MapState = {
@@ -76,6 +81,7 @@ export const initialMapState: MapState = {
     selectedLandCover: null,
     showMapLabel: true,
     showTerrain: true,
+    selectedSentinel2RasterFunction: null,
 };
 
 const slice = createSlice({
@@ -121,6 +127,12 @@ const slice = createSlice({
         zoomUpdated: (state, action: PayloadAction<number>) => {
             state.zoom = action.payload;
         },
+        selectedSentinel2RasterFunctionChanged: (
+            state,
+            action: PayloadAction<Sentinel2RasterFunction>
+        ) => {
+            state.selectedSentinel2RasterFunction = action.payload;
+        },
     },
 });
 
@@ -138,6 +150,7 @@ export const {
     showTerrainToggled,
     mapCenterUpdated,
     zoomUpdated,
+    selectedSentinel2RasterFunctionChanged,
 } = slice.actions;
 
 export default reducer;

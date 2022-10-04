@@ -67,3 +67,8 @@ export const selectShowTerrain = createSelector(
     (state: RootState) => state.Map.showTerrain,
     (showTerrain) => showTerrain
 );
+
+export const selectSentinel2RasterFunction = createSelector(
+    (state: RootState) => state.Map.selectedSentinel2RasterFunction,
+    (selectedSentinel2RasterFunction) => selectedSentinel2RasterFunction
+);
