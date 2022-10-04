@@ -29,7 +29,7 @@ const ChangeCompareGraph: FC<Props> = ({
     const getContent = () => {
         if (outOfValidZoomLevel) {
             return (
-                <div className="w-full h-full flex justify-center items-center text-sm opacity-50">
+                <div className="w-full flex justify-center items-center text-sm opacity-50 mt-16">
                     <p>Zoom in to see Land Cover Change Graph</p>
                 </div>
             );

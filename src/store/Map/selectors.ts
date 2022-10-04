@@ -1,4 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { zoom } from 'd3';
+import { MIN_MAP_ZOOM_FOR_COMPARE_SENTINEL_2_LAYER } from '../../constants/map';
 import { RootState } from '../configureStore';
 
 /**
@@ -71,4 +73,15 @@ export const selectShowTerrain = createSelector(
 export const selectSentinel2RasterFunction = createSelector(
     (state: RootState) => state.Map.selectedSentinel2RasterFunction,
     (selectedSentinel2RasterFunction) => selectedSentinel2RasterFunction
+);
+
+export const selectShouldHideSwipeWidget = createSelector(
+    (state: RootState) => state.Map.shouldShowSentinel2Layer,
+    (state: RootState) => state.Map.zoom,
+    (shouldShowSentinel2Layer, zoom) => {
+        return (
+            shouldShowSentinel2Layer &&
+            zoom < MIN_MAP_ZOOM_FOR_COMPARE_SENTINEL_2_LAYER
+        );
+    }
 );

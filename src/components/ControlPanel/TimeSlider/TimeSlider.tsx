@@ -5,6 +5,7 @@ import ITimeSlider from 'esri/widgets/TimeSlider';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
 import HeaderText from '../HeaderText/HeaderText';
+import classNames from 'classnames';
 
 type Props = {
     /**
@@ -28,6 +29,10 @@ type Props = {
      */
     shouldShowSentinel2Layer?: boolean;
     /**
+     * If true, Time Slider will be hidden, need to do this when viewing Sentinel-2 Imagery layer at zoom level 10 or less
+     */
+    shouldDisableTimeSlider?: boolean;
+    /**
      * Fires when the time extent of the Time Slider is changed
      *
      * @param startYear new start year
@@ -40,6 +45,7 @@ const TimeSlider: FC<Props> = ({
     years,
     initialTimeExtent,
     shouldShowSentinel2Layer,
+    shouldDisableTimeSlider,
     timeExtentOnChange,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
@@ -84,6 +90,7 @@ const TimeSlider: FC<Props> = ({
                         },
                     } as any,
                 ],
+                visible: shouldDisableTimeSlider === false,
             });
 
             // console.log(sliderRef.current);
@@ -123,6 +130,12 @@ const TimeSlider: FC<Props> = ({
         };
     }, []);
 
+    useEffect(() => {
+        if (sliderRef.current) {
+            sliderRef.current.visible = shouldDisableTimeSlider === false;
+        }
+    }, [shouldDisableTimeSlider]);
+
     return (
         <div className="text-center">
             <HeaderText
@@ -133,11 +146,21 @@ const TimeSlider: FC<Props> = ({
                 }, Choose Two Years to Compare`}
             />
 
-            <div
-                id="timeSliderDiv"
-                ref={containerRef}
-                className="time-slider-container max-w-md mt-10"
-            ></div>
+            <div className="relative max-w-md mt-10">
+                <div
+                    id="timeSliderDiv"
+                    ref={containerRef}
+                    className={classNames('time-slider-container')}
+                ></div>
+
+                {shouldDisableTimeSlider && (
+                    <div className="absolute top-0 left-0 w-full h-full text-center text-sm opacity-50">
+                        <p className="mt-6">
+                            Zoom in to compare Sentinel-2 Imagery Layers
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

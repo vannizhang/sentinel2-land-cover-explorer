@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
+    selectShouldHideSwipeWidget,
     selectShouldShowSentinel2Layer,
     selectSwipePosition,
     selectYearsForSwipeWidgetLayers,
@@ -17,6 +18,8 @@ type Props = {
 
 const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
     const position = useSelector(selectSwipePosition);
+
+    const shouldHideSwipeWidget = useSelector(selectShouldHideSwipeWidget);
 
     const showSwipeWidgetYearIndicator = useSelector(
         selectShowSwipeWidgetYearIndicator
@@ -39,7 +42,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
             <div
                 className="absolute top-0 bottom-0 left-0 flex items-center"
                 style={{
-                    width: `${position}%`,
+                    width: shouldHideSwipeWidget ? '100%' : `${position}%`,
                 }}
             >
                 {isUpdating && shouldShowSentinel2Layer && (
@@ -60,7 +63,12 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
             </div>
 
             <div
-                className="absolute top-0 bottom-0 right-0 flex items-center"
+                className={classNames(
+                    'absolute top-0 bottom-0 right-0 flex items-center',
+                    {
+                        hidden: shouldHideSwipeWidget,
+                    }
+                )}
                 style={{
                     width: `${100 - position}%`,
                 }}

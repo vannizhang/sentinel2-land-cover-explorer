@@ -28,6 +28,10 @@ type Props = {
      */
     selectedLandCover: LandCoverClassification;
     /**
+     * Indicate if Swipe Widget is visible
+     */
+    visible: boolean;
+    /**
      * Map view that contains Swipe Widget
      */
     mapView?: IMapView;
@@ -50,6 +54,7 @@ const SwipeWidget: FC<Props> = ({
     yearForTailingLayer,
     selectedLandCover,
     mapView,
+    visible,
     positionOnChange,
     referenceInfoOnToggle,
 }: Props) => {
@@ -89,6 +94,7 @@ const SwipeWidget: FC<Props> = ({
             trailingLayers: [],
             direction: 'horizontal',
             position: 50, // position set to middle of the view (50%)
+            visible,
         });
 
         // console.log(swipeWidgetRef.current)
@@ -190,6 +196,12 @@ const SwipeWidget: FC<Props> = ({
             toggleDisplayLayers();
         }
     }, [shouldShowSentinel2Layer]);
+
+    useEffect(() => {
+        if (swipeWidgetRef.current) {
+            swipeWidgetRef.current.visible = visible;
+        }
+    }, [visible]);
 
     return null;
 };
