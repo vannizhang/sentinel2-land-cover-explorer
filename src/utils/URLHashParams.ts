@@ -1,12 +1,13 @@
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import { MapCenter } from '../store/Map/reducer';
+import { MapCenter, MapMode } from '../store/Map/reducer';
 
 type UrlHashParamKey =
     | 'mapCenter'
     | 'timeExtent'
     | 'landCover'
     | 'downloadMode'
-    | 'showImageryLayer';
+    | 'showImageryLayer'
+    | 'mode';
 
 const hashParams = new URLSearchParams(window.location.hash.slice(1));
 
@@ -102,4 +103,12 @@ export const saveshowImageryLayerToHashParams = (showImageryLayer: boolean) => {
 
 export const getShowImageryLayerFromHashParams = () => {
     return getHashParamValueByKey('showImageryLayer') === 'true';
+};
+
+export const saveMapModeToHashParams = (mode: MapMode) => {
+    updateHashParams('mode', mode);
+};
+
+export const getMapModeFromHashParams = () => {
+    return getHashParamValueByKey('mode');
 };

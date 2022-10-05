@@ -1,9 +1,10 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { modeChanged } from '../../../store/Map/reducer';
 import { selectMapMode } from '../../../store/Map/selectors';
+import { saveMapModeToHashParams } from '../../../utils/URLHashParams';
 
 const BTN_CLASSNAMES =
     'p-1 mx-2 cursor-pointer uppercase border-custom-light-blue-80';
@@ -15,6 +16,10 @@ const ModeSelector = () => {
 
     const isSwipeBtnActive = activeMode === 'swipe';
     const isStepBtnActive = activeMode === 'step';
+
+    useEffect(() => {
+        saveMapModeToHashParams(activeMode);
+    }, [activeMode]);
 
     return (
         <div className="flex justify-center text-xs mt-4">

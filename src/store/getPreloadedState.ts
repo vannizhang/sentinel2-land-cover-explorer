@@ -1,10 +1,11 @@
 import { PartialRootState } from './configureStore';
 
-import { initialMapState, MapState } from '../store/Map/reducer';
+import { initialMapState, MapMode, MapState } from '../store/Map/reducer';
 import { initialUIState, UIState } from './UI/reducer';
 import {
     getDonwloadModeFromHashParams,
     getMapCenterFromHashParams,
+    getMapModeFromHashParams,
     getSelectedLandCoverFromHashParams,
     getShowImageryLayerFromHashParams,
     getTimeExtentFromHashParams,
@@ -37,8 +38,11 @@ const getPreloadedMapState = (): MapState => {
     const endYear =
         timeExtent?.endYear || availableYears[availableYears.length - 1];
 
+    const mode = (getMapModeFromHashParams() as MapMode) || 'swipe';
+
     return {
         ...initialMapState,
+        mode,
         year: availableYears[0],
         zoom: mapCenterInfo?.zoom || DEFAULT_MAP_ZOOM,
         center: mapCenterInfo?.center || getMapCenterFromDefaultLocations(),
