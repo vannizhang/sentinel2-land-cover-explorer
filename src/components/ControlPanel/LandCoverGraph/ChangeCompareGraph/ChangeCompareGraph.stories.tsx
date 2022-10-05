@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import DivergingBarChart from '../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
+import DivergingBarChart from '../../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

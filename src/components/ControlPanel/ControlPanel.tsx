@@ -2,7 +2,7 @@ import './ControlPanel.css';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { year4LeadingLayerUpdated } from '../../store/Map/reducer';
-import ChangeCompareGraph from './ChangeCompareGraph/ChangeCompareGraphContainer';
+import ChangeCompareGraph from './LandCoverGraph/ChangeCompareGraph/ChangeCompareGraphContainer';
 import ClassificationsList from './ClassificationsList/ClassificationsListContainer';
 import LayerSelector from './LayerSelector/LayerSelectorContainer';
 import TimeSlider from './TimeSlider/TimeSliderContainer';
@@ -12,6 +12,7 @@ import ToggleButton from './ToggleButton/ToggleButtonContainer';
 import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 import ActionBar from './ActionBar/ActionBar';
 import Sentinel2LayerRasterFunctionsList from './Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
+import LandCoverGraph from './LandCoverGraph/LandCoverGraphContainer';
 
 const ControlPanel = () => {
     // const dispatch = useDispatch();
@@ -43,7 +44,8 @@ const ControlPanel = () => {
                             {shouldShowSentinel2Layer && (
                                 <Sentinel2LayerRasterFunctionsList />
                             )}
-                            <ChangeCompareGraph />
+
+                            <LandCoverGraph />
                         </div>
                     </div>
 

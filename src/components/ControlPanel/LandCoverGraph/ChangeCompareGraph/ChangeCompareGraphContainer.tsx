@@ -4,27 +4,28 @@ import { useSelector } from 'react-redux';
 import {
     getLandCoverChangeInAcres,
     LandCoverChangeInAcres,
-} from '../../../services/sentinel-2-10m-landcover/computeHistograms';
-import { getLandCoverClassificationShortName } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+} from '../../../../services/sentinel-2-10m-landcover/computeHistograms';
+import { getLandCoverClassificationShortName } from '../../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
     selectMapCenterAndZoom,
     selectMapExtent,
+    selectMapMode,
     selectMapResolution,
     selectYearsForSwipeWidgetLayers,
-} from '../../../store/Map/selectors';
-import { showInfoPanelToggled } from '../../../store/UI/reducer';
-import { updateTooltipData } from '../../../store/UI/thunks';
+} from '../../../../store/Map/selectors';
+import { showInfoPanelToggled } from '../../../../store/UI/reducer';
+import { updateTooltipData } from '../../../../store/UI/thunks';
 import {
     QuickD3ChartData,
     QuickD3ChartDataItem,
-} from '../../QuickD3Chart/types';
+} from '../../../QuickD3Chart/types';
 import ChangeCompareGraph from './ChangeCompareGraph';
 import { numberFns } from 'helper-toolkit-ts';
 import {
     DEFAULT_MAP_ZOOM,
     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
-} from '../../../constants/map';
-import { abbreviateNumber } from '../../../utils/number';
+} from '../../../../constants/map';
+import { abbreviateNumber } from '../../../../utils/number';
 
 const ChangeCompareGraphContainer = () => {
     const dispatch = useDispatch();
@@ -143,13 +144,7 @@ const ChangeCompareGraphContainer = () => {
 
     return (
         <ChangeCompareGraph
-            earlierYear={year4LeadingLayer}
-            laterYear={year4TrailingLayer}
             data={chartData}
-            outOfValidZoomLevel={zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM}
-            openButtonOnClick={() => {
-                dispatch(showInfoPanelToggled(true));
-            }}
             itemOnHover={openTooltipForItemOnHover}
         />
     );
