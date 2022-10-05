@@ -36,6 +36,8 @@ import ReferenceLayersToggleControl from '../ReferenceLayersToggleControl/Refere
 import ReferenceLayers from './ReferenceLayers';
 import { saveMapCenterToHashParams } from '../../utils/URLHashParams';
 import CustomMapArrtribution from '../CustomMapArrtribution/CustomMapArrtribution';
+import Sentinel2Layer from '../Sentinel2Layer/Sentinel2Layer';
+import LandcoverLayer from '../LandcoverLayer/LandCoverLayer';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -103,6 +105,13 @@ const MapViewContainer = () => {
                         setIsUpdating(val);
                     }}
                 />
+
+                {/* sentinel 2 layer that will be displayed in step mode, or when swipe widget is disabled */}
+                <Sentinel2Layer />
+
+                {/* land cover 2 layer that will be displayed in step mode */}
+                <LandcoverLayer />
+
                 <Popup />
 
                 <SearchWidget />
