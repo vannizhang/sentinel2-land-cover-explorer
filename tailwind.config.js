@@ -14,8 +14,8 @@ module.exports = {
           DEFAULT: '#BFEEFF',
           90: 'rgba(191,238,255, .9)',
           80: 'rgba(191,238,255, .8)',
-          50: 'rgba(191,238,255, .5)'
-
+          50: 'rgba(191,238,255, .5)',
+          0: 'rgba(191,238,255, .0)'
         },
         'background': {
           DEFAULT: 'rgb(0,35,47)',

@@ -3,6 +3,7 @@ import { PartialRootState } from './configureStore';
 import { initialMapState, MapMode, MapState } from '../store/Map/reducer';
 import { initialUIState, UIState } from './UI/reducer';
 import {
+    getActiveYearFromHashParams,
     getDonwloadModeFromHashParams,
     getMapCenterFromHashParams,
     getMapModeFromHashParams,
@@ -40,10 +41,12 @@ const getPreloadedMapState = (): MapState => {
 
     const mode = (getMapModeFromHashParams() as MapMode) || 'swipe';
 
+    const year = getActiveYearFromHashParams();
+
     return {
         ...initialMapState,
         mode,
-        year: availableYears[0],
+        year: year ? +year : availableYears[0],
         zoom: mapCenterInfo?.zoom || DEFAULT_MAP_ZOOM,
         center: mapCenterInfo?.center || getMapCenterFromDefaultLocations(),
         selectedLandCover: selectedLandCover as LandCoverClassification,

@@ -7,7 +7,7 @@ import { selectMapMode } from '../../../store/Map/selectors';
 import { saveMapModeToHashParams } from '../../../utils/URLHashParams';
 
 const BTN_CLASSNAMES =
-    'p-1 mx-2 cursor-pointer uppercase border-custom-light-blue-80 flex items-center';
+    'p-1 mx-2 cursor-pointer uppercase flex items-center border-b';
 
 const ModeSelector = () => {
     const dispatch = useDispatch();
@@ -26,7 +26,8 @@ const ModeSelector = () => {
             <div
                 className={classNames(BTN_CLASSNAMES, {
                     'opacity-50': !isSwipeBtnActive,
-                    'border-b': isSwipeBtnActive,
+                    'border-custom-light-blue-80': isSwipeBtnActive,
+                    'border-custom-light-blue-0': !isSwipeBtnActive,
                 })}
                 onClick={() => {
                     dispatch(modeChanged('swipe'));
@@ -50,13 +51,26 @@ const ModeSelector = () => {
             <div
                 className={classNames(BTN_CLASSNAMES, {
                     'opacity-50': !isStepBtnActive,
-                    'border-b': isStepBtnActive,
+                    'border-custom-light-blue-80': isStepBtnActive,
+                    'border-custom-light-blue-0': !isStepBtnActive,
                 })}
                 onClick={() => {
                     dispatch(modeChanged('step'));
                 }}
             >
-                <span>step mode</span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    height="16"
+                    width="16"
+                >
+                    <path
+                        fill="currentColor"
+                        d="M2 8h7.26L7.674 6.415l.707-.707 2.809 2.81-2.81 2.808-.706-.707L9.295 9H2zm11 5h1V4h-1z"
+                    />
+                    <path fill="none" d="M0 0h16v16H0z" />
+                </svg>
+                <span className="ml-1">step mode</span>
             </div>
         </div>
     );

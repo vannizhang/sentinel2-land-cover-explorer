@@ -15,7 +15,10 @@ import {
     selectYear,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
-import { saveTimeExtentToHashParams } from '../../../utils/URLHashParams';
+import {
+    saveActiveYearToHashParams,
+    saveTimeExtentToHashParams,
+} from '../../../utils/URLHashParams';
 import HeaderText from '../HeaderText/HeaderText';
 import ModeSelector from './ModeSelector';
 import MonthPicker from './MonthPicker';
@@ -55,6 +58,10 @@ const TimeSliderContainer = () => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
     }, [year4LeadingLayer, year4TrailingLayer]);
 
+    useEffect(() => {
+        saveActiveYearToHashParams(mode === 'step' ? year : null);
+    }, [year, mode]);
+
     return (
         <div className="text-center">
             <HeaderText
@@ -63,7 +70,11 @@ const TimeSliderContainer = () => {
                         ? 'Sentinel-2 Imagery'
                         : '10m Land Cover'
                 }`}
-                subTitle={'Choose Two Years to Compare'}
+                subTitle={
+                    mode === 'swipe'
+                        ? 'Choose Two Years to Compare'
+                        : 'Choose a Year to View'
+                }
             />
 
             <ModeSelector />
@@ -118,7 +129,7 @@ const TimeSliderContainer = () => {
                     <p>
                         {mode === 'swipe'
                             ? 'Zoom in to compare Sentinel-2 Imagery Layers'
-                            : 'Zoom in enable time slider'}
+                            : 'Zoom in to enable time slider'}
                     </p>
                 </div>
             )}

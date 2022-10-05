@@ -7,7 +7,8 @@ type UrlHashParamKey =
     | 'landCover'
     | 'downloadMode'
     | 'showImageryLayer'
-    | 'mode';
+    | 'mode'
+    | 'year';
 
 const hashParams = new URLSearchParams(window.location.hash.slice(1));
 
@@ -111,4 +112,12 @@ export const saveMapModeToHashParams = (mode: MapMode) => {
 
 export const getMapModeFromHashParams = () => {
     return getHashParamValueByKey('mode');
+};
+
+export const saveActiveYearToHashParams = (year: number) => {
+    updateHashParams('year', year?.toString());
+};
+
+export const getActiveYearFromHashParams = () => {
+    return getHashParamValueByKey('year');
 };
