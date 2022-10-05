@@ -8,12 +8,13 @@ import {
     year4TrailingLayerUpdated,
 } from '../../../store/Map/reducer';
 import {
-    selectShouldSwipeWidgetBeDisabled,
+    selectIsFilterbyTime4Sentinel2LayerDisabled,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
 import { saveTimeExtentToHashParams } from '../../../utils/URLHashParams';
 import HeaderText from '../HeaderText/HeaderText';
+import ModeSelector from './ModeSelector';
 import MonthPicker from './MonthPicker';
 import TimeRangeSlider from './TimeRangeSlider';
 
@@ -22,8 +23,8 @@ const TimeSliderContainer = () => {
 
     const years = getAvailableYears();
 
-    const shouldSwipeWidgetBeDisabled = useSelector(
-        selectShouldSwipeWidgetBeDisabled
+    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
+        selectIsFilterbyTime4Sentinel2LayerDisabled
     );
 
     const shouldShowSentinel2Layer = useSelector(
@@ -34,9 +35,11 @@ const TimeSliderContainer = () => {
     );
 
     const shouldShowMonthPicker =
-        shouldShowSentinel2Layer && shouldSwipeWidgetBeDisabled === false;
+        shouldShowSentinel2Layer &&
+        isFilterbyTime4Sentinel2LayerDisabled === false;
 
-    const timeRangeSliderVisibility = shouldSwipeWidgetBeDisabled === false;
+    const timeRangeSliderVisibility =
+        isFilterbyTime4Sentinel2LayerDisabled === false;
 
     useEffect(() => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
@@ -52,6 +55,8 @@ const TimeSliderContainer = () => {
                 }`}
                 subTitle={'Choose Two Years to Compare'}
             />
+
+            <ModeSelector />
 
             <div className="relative max-w-md mt-2">
                 <TimeRangeSlider
@@ -81,7 +86,7 @@ const TimeSliderContainer = () => {
                 {shouldShowMonthPicker && <MonthPicker />}
             </div>
 
-            {shouldSwipeWidgetBeDisabled && (
+            {isFilterbyTime4Sentinel2LayerDisabled && (
                 <div className="mt-16 text-center text-sm opacity-50">
                     <p>Zoom in to compare Sentinel-2 Imagery Layers</p>
                 </div>

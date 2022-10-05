@@ -15,7 +15,7 @@ import {
 import {
     selectMapCenterAndZoom,
     selectSelectedLandCover,
-    selectShouldSwipeWidgetBeDisabled,
+    selectIsFilterbyTime4Sentinel2LayerDisabled,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
 } from '../../store/Map/selectors';
@@ -44,8 +44,8 @@ const MapViewContainer = () => {
 
     const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
-    const shouldSwipeWidgetBeDisabled = useSelector(
-        selectShouldSwipeWidgetBeDisabled
+    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
+        selectIsFilterbyTime4Sentinel2LayerDisabled
     );
 
     const { year4LeadingLayer, year4TrailingLayer } = useSelector(
@@ -83,7 +83,7 @@ const MapViewContainer = () => {
                     yearForLeadingLayer={year4LeadingLayer}
                     yearForTailingLayer={year4TrailingLayer}
                     selectedLandCover={selectedLandCover}
-                    visible={shouldSwipeWidgetBeDisabled === false}
+                    visible={isFilterbyTime4Sentinel2LayerDisabled === false}
                     positionOnChange={(position) => {
                         dispatch(swipePositionChanged(position));
                     }}
