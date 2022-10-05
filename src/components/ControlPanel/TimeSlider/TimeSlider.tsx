@@ -1,5 +1,5 @@
 import './style.css';
-import React, { useRef, useEffect, FC } from 'react';
+import React, { useRef, useEffect, FC, useMemo } from 'react';
 // import ISlider from 'esri/widgets/Slider';
 import ITimeSlider from 'esri/widgets/TimeSlider';
 import IReactiveUtils from 'esri/core/reactiveUtils';
@@ -53,6 +53,9 @@ const TimeSlider: FC<Props> = ({
     const sliderRef = useRef<ITimeSlider>();
 
     const debounceDelay = useRef<NodeJS.Timeout>();
+
+    const shouldShowMonthPicker =
+        shouldShowSentinel2Layer && shouldDisableTimeSlider === false;
 
     const init = async () => {
         type Modules = [typeof ITimeSlider, typeof IReactiveUtils];
@@ -153,6 +156,19 @@ const TimeSlider: FC<Props> = ({
                     ref={containerRef}
                     className={classNames('time-slider-container')}
                 ></div>
+
+                {shouldShowMonthPicker && (
+                    <div
+                        className="absolute top-3"
+                        style={{
+                            right: -15,
+                        }}
+                    >
+                        <div className="border border-custom-light-blue-900 opacity-80 p-1 text-xs cursor-pointer">
+                            <span>SEP</span>
+                        </div>
+                    </div>
+                )}
 
                 {shouldDisableTimeSlider && (
                     <div className="absolute top-0 left-0 w-full h-full text-center text-sm opacity-50">
