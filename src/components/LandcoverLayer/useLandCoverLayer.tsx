@@ -15,12 +15,14 @@ import {
 type UseLandCoverLayerParams = {
     year: number;
     selectedLandCover?: LandCoverClassification;
+    visible?: boolean;
     // mapView?: IMapView;
 };
 
 const useLandCoverLayer = ({
     year,
     selectedLandCover,
+    visible = true,
 }: UseLandCoverLayerParams) => {
     const layerRef = useRef<IImageryLayer>();
 
@@ -47,6 +49,7 @@ const useLandCoverLayer = ({
                     getRasterFunctionByLandCoverClassName(selectedLandCover),
             },
             effect: 'drop-shadow(2px, 2px, 3px, #000)',
+            visible,
         });
 
         setLandCoverLayer(layerRef.current);
@@ -75,6 +78,14 @@ const useLandCoverLayer = ({
                 getRasterFunctionByLandCoverClassName(selectedLandCover),
         } as any;
     }, [selectedLandCover]);
+
+    useEffect(() => {
+        if (!layerRef.current) {
+            return;
+        }
+
+        layerRef.current.visible = visible;
+    }, [visible]);
 
     return landCoverLayer;
 };

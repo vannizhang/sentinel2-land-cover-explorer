@@ -20,12 +20,23 @@ export type MapExtent = {
     ymax?: number;
 };
 
+export type MapMode = 'swipe' | 'step';
+
 export type MapCenter = {
     lon?: number;
     lat?: number;
 };
 
 export type MapState = {
+    /**
+     * In Swipe Mode, user is allowed to pick up two years from the Time Slider and compare the map layers from those two years using the Swipe Mode
+     * In Step Mode, user can only select one year at a time and the Swipe Widget will be disabled
+     */
+    mode?: MapMode;
+    /**
+     * the selected year in Step Mode, that will be used to display layers and fetch data for land cover graph
+     */
+    year?: number;
     /**
      * If true, show Sentinel 2 Layer instead of Land Cover Layer
      */
@@ -76,6 +87,8 @@ export type MapState = {
 };
 
 export const initialMapState: MapState = {
+    mode: 'swipe',
+    year: null,
     shouldShowSentinel2Layer: false,
     sentinel2AquisitionMonth: 9,
     zoom: 11,
@@ -93,6 +106,12 @@ const slice = createSlice({
     name: 'Map',
     initialState: initialMapState,
     reducers: {
+        modeChanged: (state, action: PayloadAction<MapMode>) => {
+            state.mode = action.payload;
+        },
+        yearUpdated: (state, action: PayloadAction<number>) => {
+            state.year = action.payload;
+        },
         year4LeadingLayerUpdated: (state, action: PayloadAction<number>) => {
             state.swipeWidget.year4LeadingLayer = action.payload;
         },
@@ -150,6 +169,8 @@ const slice = createSlice({
 const { reducer } = slice;
 
 export const {
+    modeChanged,
+    yearUpdated,
     year4LeadingLayerUpdated,
     year4TrailingLayerUpdated,
     resolutionUpdated,

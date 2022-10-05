@@ -63,19 +63,23 @@ const SwipeWidget: FC<Props> = ({
     const leadingLandCoverLayer = useLandCoverLayer({
         year: yearForLeadingLayer,
         selectedLandCover,
+        visible,
     });
 
     const leadingSentinel2Layer = useSentinel2Layer({
         year: yearForLeadingLayer,
+        visible,
     });
 
     const trailingLandcoverLayer = useLandCoverLayer({
         year: yearForTailingLayer,
         selectedLandCover,
+        visible,
     });
 
     const trailingSentinel2Layer = useSentinel2Layer({
         year: yearForTailingLayer,
+        visible,
     });
 
     const init = async () => {

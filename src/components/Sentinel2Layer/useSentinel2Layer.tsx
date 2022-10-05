@@ -11,10 +11,14 @@ import {
 
 type UseLandCoverLayerParams = {
     year: number;
+    visible?: boolean;
     // mapView?: IMapView;
 };
 
-const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
+const useSentinel2Layer = ({
+    year,
+    visible = true,
+}: UseLandCoverLayerParams) => {
     const layerRef = useRef<IImageryLayer>();
 
     const [sentinel2Layer, setSentinel2Layer] = useState<IImageryLayer>();
@@ -52,6 +56,7 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
             // renderingRule: {
             //     functionName: ''
             // }
+            visible,
         });
 
         setSentinel2Layer(layerRef.current);
@@ -77,6 +82,14 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
             } as any;
         }
     }, [selectedRasterFunction]);
+
+    useEffect(() => {
+        if (!layerRef.current) {
+            return;
+        }
+
+        layerRef.current.visible = visible;
+    }, [visible]);
 
     return sentinel2Layer;
 };

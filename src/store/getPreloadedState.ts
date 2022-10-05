@@ -39,6 +39,7 @@ const getPreloadedMapState = (): MapState => {
 
     return {
         ...initialMapState,
+        year: availableYears[0],
         zoom: mapCenterInfo?.zoom || DEFAULT_MAP_ZOOM,
         center: mapCenterInfo?.center || getMapCenterFromDefaultLocations(),
         selectedLandCover: selectedLandCover as LandCoverClassification,

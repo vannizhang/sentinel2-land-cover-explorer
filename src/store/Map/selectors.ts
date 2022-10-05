@@ -90,3 +90,13 @@ export const selectSentinel2AquisitionMonth = createSelector(
     (state: RootState) => state.Map.sentinel2AquisitionMonth,
     (sentinel2AquisitionMonth) => sentinel2AquisitionMonth
 );
+
+export const selectMapMode = createSelector(
+    (state: RootState) => state.Map.mode,
+    (mode) => mode
+);
+
+export const selectYear = createSelector(
+    (state: RootState) => state.Map.year,
+    (year) => year
+);
