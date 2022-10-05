@@ -4,11 +4,12 @@ import React, { useRef, useEffect, FC, useMemo } from 'react';
 import ITimeSlider from 'esri/widgets/TimeSlider';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
-import HeaderText from '../HeaderText/HeaderText';
 import classNames from 'classnames';
-import MonthPicker from './MonthPicker';
+
+type TimeSliderMode = 'time-window' | 'instant';
 
 type Props = {
+    mode?: TimeSliderMode;
     /**
      * Available years
      *
@@ -38,7 +39,8 @@ type Props = {
     timeExtentOnChange: (startYear: number, endYear: number) => void;
 };
 
-const TimeRangeSlider: FC<Props> = ({
+const TimeSliderWidget: FC<Props> = ({
+    mode = 'time-window',
     years,
     initialTimeExtent,
     visible,
@@ -69,7 +71,7 @@ const TimeRangeSlider: FC<Props> = ({
 
             sliderRef.current = new TimeSlider({
                 container: containerRef.current,
-                mode: 'time-window',
+                mode,
                 fullTimeExtent: {
                     start: new Date(startYear, 0, 1),
                     end: new Date(endYear, 0, 1),
@@ -138,4 +140,4 @@ const TimeRangeSlider: FC<Props> = ({
     );
 };
 
-export default TimeRangeSlider;
+export default TimeSliderWidget;

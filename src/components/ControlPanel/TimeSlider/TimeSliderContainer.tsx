@@ -6,18 +6,20 @@ import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/ti
 import {
     year4LeadingLayerUpdated,
     year4TrailingLayerUpdated,
+    yearUpdated,
 } from '../../../store/Map/reducer';
 import {
     selectIsFilterbyTime4Sentinel2LayerDisabled,
     selectMapMode,
     selectShouldShowSentinel2Layer,
+    selectYear,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
 import { saveTimeExtentToHashParams } from '../../../utils/URLHashParams';
 import HeaderText from '../HeaderText/HeaderText';
 import ModeSelector from './ModeSelector';
 import MonthPicker from './MonthPicker';
-import TimeRangeSlider from './TimeRangeSlider';
+import TimeSliderWidget from './TimeSliderWidget';
 
 const TimeSliderContainer = () => {
     const dispatch = useDispatch();
@@ -37,12 +39,17 @@ const TimeSliderContainer = () => {
         selectYearsForSwipeWidgetLayers
     );
 
+    const year = useSelector(selectYear);
+
     const shouldShowMonthPicker =
         shouldShowSentinel2Layer &&
         isFilterbyTime4Sentinel2LayerDisabled === false;
 
     const timeRangeSliderVisibility =
         mode === 'swipe' && isFilterbyTime4Sentinel2LayerDisabled === false;
+
+    const timeStepSliderVisibility =
+        mode === 'step' && isFilterbyTime4Sentinel2LayerDisabled === false;
 
     useEffect(() => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
@@ -62,7 +69,7 @@ const TimeSliderContainer = () => {
             <ModeSelector />
 
             <div className="relative max-w-md mt-2">
-                <TimeRangeSlider
+                <TimeSliderWidget
                     years={years}
                     initialTimeExtent={{
                         start: new Date(year4LeadingLayer, 0, 1),
@@ -82,6 +89,23 @@ const TimeSliderContainer = () => {
                         batch(() => {
                             dispatch(year4LeadingLayerUpdated(startYear));
                             dispatch(year4TrailingLayerUpdated(endYear));
+                        });
+                    }}
+                />
+
+                <TimeSliderWidget
+                    mode="instant"
+                    years={years}
+                    initialTimeExtent={{
+                        start: new Date(year, 0, 1),
+                        end: new Date(year, 0, 1),
+                    }}
+                    visible={timeStepSliderVisibility}
+                    timeExtentOnChange={(startYear) => {
+                        // console.log(startYear)
+
+                        batch(() => {
+                            dispatch(yearUpdated(startYear));
                         });
                     }}
                 />
