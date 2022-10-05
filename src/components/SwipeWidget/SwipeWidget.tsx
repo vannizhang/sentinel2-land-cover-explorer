@@ -63,23 +63,23 @@ const SwipeWidget: FC<Props> = ({
     const leadingLandCoverLayer = useLandCoverLayer({
         year: yearForLeadingLayer,
         selectedLandCover,
-        visible,
+        visible: visible && shouldShowSentinel2Layer === false,
     });
 
     const leadingSentinel2Layer = useSentinel2Layer({
         year: yearForLeadingLayer,
-        visible,
+        visible: visible && shouldShowSentinel2Layer,
     });
 
     const trailingLandcoverLayer = useLandCoverLayer({
         year: yearForTailingLayer,
         selectedLandCover,
-        visible,
+        visible: visible && shouldShowSentinel2Layer === false,
     });
 
     const trailingSentinel2Layer = useSentinel2Layer({
         year: yearForTailingLayer,
-        visible,
+        visible: visible && shouldShowSentinel2Layer,
     });
 
     const init = async () => {
@@ -90,12 +90,17 @@ const SwipeWidget: FC<Props> = ({
             'esri/core/reactiveUtils',
         ]) as Promise<Modules>);
 
-        // mapView.map.addMany([leadingLayer, trailingLayer]);
+        mapView.map.addMany([
+            leadingLandCoverLayer,
+            leadingSentinel2Layer,
+            trailingLandcoverLayer,
+            trailingSentinel2Layer,
+        ]);
 
         swipeWidgetRef.current = new Swipe({
             view: mapView,
-            leadingLayers: [],
-            trailingLayers: [],
+            leadingLayers: [leadingLandCoverLayer, leadingSentinel2Layer],
+            trailingLayers: [trailingLandcoverLayer, trailingSentinel2Layer],
             direction: 'horizontal',
             position: 50, // position set to middle of the view (50%)
             visible,
@@ -117,49 +122,49 @@ const SwipeWidget: FC<Props> = ({
         });
 
         // swipe widget is ready, add layers to it
-        toggleDisplayLayers();
+        // toggleDisplayLayers();
     };
 
-    /**
-     * Toggle display Land Cover and Sentinel 2 layer
-     */
-    const toggleDisplayLayers = () => {
-        const landcoverLayers: IImageryLayer[] = [
-            leadingLandCoverLayer,
-            trailingLandcoverLayer,
-        ];
-        const sentinel2layers: IImageryLayer[] = [
-            leadingSentinel2Layer,
-            trailingSentinel2Layer,
-        ];
+    // /**
+    //  * Toggle display Land Cover and Sentinel 2 layer
+    //  */
+    // const toggleDisplayLayers = () => {
+    //     const landcoverLayers: IImageryLayer[] = [
+    //         leadingLandCoverLayer,
+    //         trailingLandcoverLayer,
+    //     ];
+    //     const sentinel2layers: IImageryLayer[] = [
+    //         leadingSentinel2Layer,
+    //         trailingSentinel2Layer,
+    //     ];
 
-        // toggle add/remove layers on map
-        const layers2Add: IImageryLayer[] = shouldShowSentinel2Layer
-            ? sentinel2layers
-            : landcoverLayers;
+    //     // toggle add/remove layers on map
+    //     const layers2Add: IImageryLayer[] = shouldShowSentinel2Layer
+    //         ? sentinel2layers
+    //         : landcoverLayers;
 
-        const layers2Remove: IImageryLayer[] = shouldShowSentinel2Layer
-            ? landcoverLayers
-            : sentinel2layers;
+    //     const layers2Remove: IImageryLayer[] = shouldShowSentinel2Layer
+    //         ? landcoverLayers
+    //         : sentinel2layers;
 
-        mapView.map.removeMany(layers2Remove);
-        mapView.map.addMany(layers2Add);
+    //     mapView.map.removeMany(layers2Remove);
+    //     mapView.map.addMany(layers2Add);
 
-        // toggle add/remove layers on swipe widget
-        const leadingLayer = shouldShowSentinel2Layer
-            ? leadingSentinel2Layer
-            : leadingLandCoverLayer;
+    //     // toggle add/remove layers on swipe widget
+    //     const leadingLayer = shouldShowSentinel2Layer
+    //         ? leadingSentinel2Layer
+    //         : leadingLandCoverLayer;
 
-        const trailingLayer = shouldShowSentinel2Layer
-            ? trailingSentinel2Layer
-            : trailingLandcoverLayer;
+    //     const trailingLayer = shouldShowSentinel2Layer
+    //         ? trailingSentinel2Layer
+    //         : trailingLandcoverLayer;
 
-        swipeWidgetRef.current.leadingLayers.removeAll();
-        swipeWidgetRef.current.leadingLayers.add(leadingLayer);
+    //     swipeWidgetRef.current.leadingLayers.removeAll();
+    //     swipeWidgetRef.current.leadingLayers.add(leadingLayer);
 
-        swipeWidgetRef.current.trailingLayers.removeAll();
-        swipeWidgetRef.current.trailingLayers.add(trailingLayer);
-    };
+    //     swipeWidgetRef.current.trailingLayers.removeAll();
+    //     swipeWidgetRef.current.trailingLayers.add(trailingLayer);
+    // };
 
     const addMouseEventHandlers = () => {
         const handleElem = document.querySelector('.esri-swipe__container');
@@ -200,11 +205,11 @@ const SwipeWidget: FC<Props> = ({
         trailingSentinel2Layer,
     ]);
 
-    useEffect(() => {
-        if (swipeWidgetRef.current) {
-            toggleDisplayLayers();
-        }
-    }, [shouldShowSentinel2Layer]);
+    // useEffect(() => {
+    //     if (swipeWidgetRef.current) {
+    //         toggleDisplayLayers();
+    //     }
+    // }, [shouldShowSentinel2Layer]);
 
     useEffect(() => {
         if (swipeWidgetRef.current) {
