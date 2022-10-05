@@ -159,7 +159,10 @@ const SwipeWidget: FC<Props> = ({
 
     const addMouseEventHandlers = () => {
         const handleElem = document.querySelector('.esri-swipe__container');
-        // console.log(handleElem)
+
+        if (!handleElem) {
+            return;
+        }
 
         handleElem.addEventListener('mouseenter', () => {
             // console.log('mouseenter');
@@ -170,6 +173,8 @@ const SwipeWidget: FC<Props> = ({
             // console.log('mouseleave');
             referenceInfoOnToggle(false);
         });
+
+        // console.log(handleElem)
     };
 
     useEffect(() => {
@@ -200,6 +205,18 @@ const SwipeWidget: FC<Props> = ({
     useEffect(() => {
         if (swipeWidgetRef.current) {
             swipeWidgetRef.current.visible = visible;
+
+            if (visible) {
+                // why need to wait for 1 second??
+                // for some reason '.esri-swipe__container' won't be ready
+                // if we call `addMouseEventHandlers` right after swipe widget becomes visible,
+                // tried using swipeWidgetRef.current.when but that didn't work either,
+                // so the only workaround that I can come up with add this moment is using a setTimeout,
+                // not a decent solution, definitely need to be fixed in future
+                setTimeout(() => {
+                    addMouseEventHandlers();
+                }, 1000);
+            }
         }
     }, [visible]);
 

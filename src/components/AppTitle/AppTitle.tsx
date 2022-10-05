@@ -1,16 +1,19 @@
 import './style.css';
 import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 const AppTitle = () => {
-    const appTitleContainerRef = useRef<HTMLDivElement>();
+    const [hideTitle, setHideTitle] = useState(false);
 
-    const startFadingAway = () => {
-        appTitleContainerRef.current.classList.add('hidden');
-    };
+    // const appTitleContainerRef = useRef<HTMLDivElement>();
+
+    // const startFadingAway = () => {
+    //     appTitleContainerRef.current.classList.add('hidden');
+    // };
 
     useEffect(() => {
         setTimeout(() => {
-            startFadingAway();
+            setHideTitle(true);
         }, 10000);
     }, []);
 
@@ -22,7 +25,11 @@ const AppTitle = () => {
                 left: 15,
             }}
         >
-            <div className="theme-background p-1">
+            <div
+                className="theme-background p-1"
+                onMouseEnter={setHideTitle.bind(null, false)}
+                onMouseLeave={setHideTitle.bind(null, true)}
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -39,8 +46,12 @@ const AppTitle = () => {
             </div>
 
             <div
-                className="app-title theme-background p-1 px-2 text-sm flex items-center"
-                ref={appTitleContainerRef}
+                className={classNames(
+                    'app-title theme-background p-1 px-2 text-sm flex items-center',
+                    {
+                        hidden: hideTitle,
+                    }
+                )}
             >
                 <span>Esri | Sentinel-2 Land Cover Explorer</span>
             </div>
