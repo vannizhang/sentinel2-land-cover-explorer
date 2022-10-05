@@ -4,7 +4,10 @@ import { loadModules } from 'esri-loader';
 // import IMapView from 'esri/views/MapView';
 import { SENTINEL_2_IMAGE_SERVICE_URL } from './config';
 import { useSelector } from 'react-redux';
-import { selectSentinel2RasterFunction } from '../../store/Map/selectors';
+import {
+    selectSentinel2AquisitionMonth,
+    selectSentinel2RasterFunction,
+} from '../../store/Map/selectors';
 
 type UseLandCoverLayerParams = {
     year: number;
@@ -18,12 +21,16 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
 
     const selectedRasterFunction = useSelector(selectSentinel2RasterFunction);
 
-    const createMosaicRuleByYear = (year: number) => {
+    const aquisitionMonth = useSelector(selectSentinel2AquisitionMonth);
+
+    const createMosaicRuleByYear = (year: number, month: number) => {
+        const monthStr = month < 10 ? '0' + month : month.toString();
+
         return {
             method: `attribute`,
             where: `(category = 2) OR (CloudCover < 0.1)`,
             sortField: `AcquisitionDate`,
-            sortValue: `${year}/09/15`,
+            sortValue: `${year}/${monthStr}/15`,
             ascending: true,
         };
     };
@@ -41,7 +48,7 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
         layerRef.current = new ImageryLayer({
             // URL to the imagery service
             url: SENTINEL_2_IMAGE_SERVICE_URL,
-            mosaicRule: createMosaicRuleByYear(year) as any,
+            mosaicRule: createMosaicRuleByYear(year, aquisitionMonth) as any,
             // renderingRule: {
             //     functionName: ''
             // }
@@ -54,9 +61,12 @@ const useSentinel2Layer = ({ year }: UseLandCoverLayerParams) => {
         if (!layerRef.current) {
             getSentinel2Layer();
         } else {
-            layerRef.current.mosaicRule = createMosaicRuleByYear(year) as any;
+            layerRef.current.mosaicRule = createMosaicRuleByYear(
+                year,
+                aquisitionMonth
+            ) as any;
         }
-    }, [year]);
+    }, [year, aquisitionMonth]);
 
     useEffect(() => {
         console.log(selectedRasterFunction);

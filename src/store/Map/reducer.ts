@@ -31,6 +31,10 @@ export type MapState = {
      */
     shouldShowSentinel2Layer?: boolean;
     /**
+     * The month that will be used to fetch sentinel-2 imagery layer
+     */
+    sentinel2AquisitionMonth?: number;
+    /**
      * Represents the level of detail (LOD) at the center of the view.
      */
     zoom?: number;
@@ -73,7 +77,8 @@ export type MapState = {
 
 export const initialMapState: MapState = {
     shouldShowSentinel2Layer: false,
-    zoom: 10,
+    sentinel2AquisitionMonth: 9,
+    zoom: 11,
     center: null,
     resolution: null,
     extent: null,
@@ -133,6 +138,12 @@ const slice = createSlice({
         ) => {
             state.selectedSentinel2RasterFunction = action.payload;
         },
+        sentinel2AquisitionMonthChanged: (
+            state,
+            action: PayloadAction<number>
+        ) => {
+            state.sentinel2AquisitionMonth = action.payload;
+        },
     },
 });
 
@@ -151,6 +162,7 @@ export const {
     mapCenterUpdated,
     zoomUpdated,
     selectedSentinel2RasterFunctionChanged,
+    sentinel2AquisitionMonthChanged,
 } = slice.actions;
 
 export default reducer;

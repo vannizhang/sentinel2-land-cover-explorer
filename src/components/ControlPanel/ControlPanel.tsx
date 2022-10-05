@@ -27,10 +27,9 @@ const ControlPanel = () => {
             {hideControlPanel === false && (
                 <div className="control-panel absolute bottom-0 left-0 w-full h-control-panel-height z-10">
                     <div className="theme-background absolute top-0 left-0 w-full h-full"></div>
-
                     <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
 
-                    <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around overflow-y-auto z-10">
+                    <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around z-10">
                         <div className="flex">
                             <LayerSelector />
                             <TimeSlider />

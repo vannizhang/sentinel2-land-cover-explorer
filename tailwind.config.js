@@ -12,7 +12,9 @@ module.exports = {
       custom: {
         'light-blue': {
           DEFAULT: '#BFEEFF',
-          900: 'rgba(191,238,255, .9)'
+          90: 'rgba(191,238,255, .9)',
+          80: 'rgba(191,238,255, .8)',
+          50: 'rgba(191,238,255, .5)'
 
         },
         'background': {

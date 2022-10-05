@@ -232,7 +232,6 @@ export const getHistoricalLandCoverDataByClassification = async (
 
     const distinctLandCoverClassificationPixelValues =
         getDistinctLandCoverClassificationPixelValues();
-    console.log(distinctLandCoverClassificationPixelValues);
 
     const historicalLandCoverDataByLandCoverId = new Map<
         number,

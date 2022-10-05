@@ -85,3 +85,8 @@ export const selectShouldHideSwipeWidget = createSelector(
         );
     }
 );
+
+export const selectSentinel2AquisitionMonth = createSelector(
+    (state: RootState) => state.Map.sentinel2AquisitionMonth,
+    (sentinel2AquisitionMonth) => sentinel2AquisitionMonth
+);

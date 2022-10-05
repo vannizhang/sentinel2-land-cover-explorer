@@ -6,6 +6,7 @@ import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
 import HeaderText from '../HeaderText/HeaderText';
 import classNames from 'classnames';
+import MonthPicker from './MonthPicker';
 
 type Props = {
     /**
@@ -126,10 +127,7 @@ const TimeSlider: FC<Props> = ({
 
         return () => {
             sliderRef.current.destroy();
-            console.log(
-                'sliderRef.current.destroyed',
-                sliderRef.current.destroyed
-            );
+            console.log(sliderRef.current.destroyed);
         };
     }, []);
 
@@ -157,18 +155,7 @@ const TimeSlider: FC<Props> = ({
                     className={classNames('time-slider-container')}
                 ></div>
 
-                {shouldShowMonthPicker && (
-                    <div
-                        className="absolute top-3"
-                        style={{
-                            right: -15,
-                        }}
-                    >
-                        <div className="border border-custom-light-blue-900 opacity-80 p-1 text-xs cursor-pointer">
-                            <span>SEP</span>
-                        </div>
-                    </div>
-                )}
+                {shouldShowMonthPicker && <MonthPicker />}
 
                 {shouldDisableTimeSlider && (
                     <div className="absolute top-0 left-0 w-full h-full text-center text-sm opacity-50">
