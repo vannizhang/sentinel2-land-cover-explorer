@@ -5,8 +5,8 @@ import useSentinel2Layer from './useSentinel2Layer';
 import { useSelector } from 'react-redux';
 import {
     selectMapMode,
-    selectShouldHideSwipeWidget,
     selectShouldShowSentinel2Layer,
+    selectShouldSwipeWidgetBeDisabled,
     selectYear,
 } from '../../store/Map/selectors';
 
@@ -19,10 +19,12 @@ const Sentinel2Layer: FC<Props> = ({ mapView }: Props) => {
 
     const mode = useSelector(selectMapMode);
 
-    const shouldHideSwipeWidget = useSelector(selectShouldHideSwipeWidget);
-
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
+    );
+
+    const shouldSwipeWidgetBeDisabled = useSelector(
+        selectShouldSwipeWidgetBeDisabled
     );
 
     const getVisibility = () => {
@@ -30,7 +32,7 @@ const Sentinel2Layer: FC<Props> = ({ mapView }: Props) => {
             return false;
         }
 
-        return mode === 'step' || shouldHideSwipeWidget;
+        return mode === 'step' || shouldSwipeWidgetBeDisabled;
     };
 
     const layer = useSentinel2Layer({

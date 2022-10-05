@@ -26,13 +26,9 @@ type Props = {
         end: Date;
     };
     /**
-     * If it is currently showing Sentinel 2 layer instead of Land Cover layer
+     * Visibility of Time Slider, no need to show this slider when is step mode, or viewing Sentinel-2 Imagery layer at zoom level 10 or less
      */
-    shouldShowSentinel2Layer?: boolean;
-    /**
-     * If true, Time Slider will be hidden, need to do this when viewing Sentinel-2 Imagery layer at zoom level 10 or less
-     */
-    shouldDisableTimeSlider?: boolean;
+    visible?: boolean;
     /**
      * Fires when the time extent of the Time Slider is changed
      *
@@ -42,11 +38,10 @@ type Props = {
     timeExtentOnChange: (startYear: number, endYear: number) => void;
 };
 
-const TimeSlider: FC<Props> = ({
+const TimeRangeSlider: FC<Props> = ({
     years,
     initialTimeExtent,
-    shouldShowSentinel2Layer,
-    shouldDisableTimeSlider,
+    visible,
     timeExtentOnChange,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
@@ -54,9 +49,6 @@ const TimeSlider: FC<Props> = ({
     const sliderRef = useRef<ITimeSlider>();
 
     const debounceDelay = useRef<NodeJS.Timeout>();
-
-    const shouldShowMonthPicker =
-        shouldShowSentinel2Layer && shouldDisableTimeSlider === false;
 
     const init = async () => {
         type Modules = [typeof ITimeSlider, typeof IReactiveUtils];
@@ -94,7 +86,7 @@ const TimeSlider: FC<Props> = ({
                         },
                     } as any,
                 ],
-                visible: shouldDisableTimeSlider === false,
+                visible,
             });
 
             // console.log(sliderRef.current);
@@ -133,40 +125,17 @@ const TimeSlider: FC<Props> = ({
 
     useEffect(() => {
         if (sliderRef.current) {
-            sliderRef.current.visible = shouldDisableTimeSlider === false;
+            sliderRef.current.visible = visible;
         }
-    }, [shouldDisableTimeSlider]);
+    }, [visible]);
 
     return (
-        <div className="text-center">
-            <HeaderText
-                title={`${
-                    shouldShowSentinel2Layer
-                        ? 'Sentinel-2 Imagery'
-                        : '10m Land Cover'
-                }`}
-                subTitle={'Choose Two Years to Compare'}
-            />
-
-            <div className="relative max-w-md mt-10">
-                <div
-                    id="timeSliderDiv"
-                    ref={containerRef}
-                    className={classNames('time-slider-container')}
-                ></div>
-
-                {shouldShowMonthPicker && <MonthPicker />}
-
-                {shouldDisableTimeSlider && (
-                    <div className="absolute top-0 left-0 w-full h-full text-center text-sm opacity-50">
-                        <p className="mt-6">
-                            Zoom in to compare Sentinel-2 Imagery Layers
-                        </p>
-                    </div>
-                )}
-            </div>
-        </div>
+        <div
+            id="timeSliderDiv"
+            ref={containerRef}
+            className={classNames('time-slider-container')}
+        ></div>
     );
 };
 
-export default TimeSlider;
+export default TimeRangeSlider;

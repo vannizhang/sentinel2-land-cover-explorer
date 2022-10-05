@@ -75,7 +75,7 @@ export const selectSentinel2RasterFunction = createSelector(
     (selectedSentinel2RasterFunction) => selectedSentinel2RasterFunction
 );
 
-export const selectShouldHideSwipeWidget = createSelector(
+export const selectShouldSwipeWidgetBeDisabled = createSelector(
     (state: RootState) => state.Map.shouldShowSentinel2Layer,
     (state: RootState) => state.Map.zoom,
     (shouldShowSentinel2Layer, zoom) => {

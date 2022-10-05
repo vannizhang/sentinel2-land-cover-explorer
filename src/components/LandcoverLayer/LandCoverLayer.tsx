@@ -4,7 +4,6 @@ import IMapView from 'esri/views/MapView';
 import { useSelector } from 'react-redux';
 import {
     selectMapMode,
-    selectShouldHideSwipeWidget,
     selectShouldShowSentinel2Layer,
     selectYear,
 } from '../../store/Map/selectors';
@@ -19,8 +18,6 @@ const LandcoverLayer: FC<Props> = ({ mapView }: Props) => {
 
     const mode = useSelector(selectMapMode);
 
-    const shouldHideSwipeWidget = useSelector(selectShouldHideSwipeWidget);
-
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
@@ -30,7 +27,7 @@ const LandcoverLayer: FC<Props> = ({ mapView }: Props) => {
             return false;
         }
 
-        return mode === 'step' || shouldHideSwipeWidget;
+        return mode === 'step';
     };
 
     const layer = useLandCoverLayer({

@@ -8,19 +8,23 @@ import {
     year4TrailingLayerUpdated,
 } from '../../../store/Map/reducer';
 import {
-    selectShouldHideSwipeWidget,
+    selectShouldSwipeWidgetBeDisabled,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
 import { saveTimeExtentToHashParams } from '../../../utils/URLHashParams';
-import TimeSlider from './TimeSlider';
+import HeaderText from '../HeaderText/HeaderText';
+import MonthPicker from './MonthPicker';
+import TimeRangeSlider from './TimeRangeSlider';
 
 const TimeSliderContainer = () => {
     const dispatch = useDispatch();
 
     const years = getAvailableYears();
 
-    const shouldHideSwipeWidget = useSelector(selectShouldHideSwipeWidget);
+    const shouldSwipeWidgetBeDisabled = useSelector(
+        selectShouldSwipeWidgetBeDisabled
+    );
 
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
@@ -29,33 +33,60 @@ const TimeSliderContainer = () => {
         selectYearsForSwipeWidgetLayers
     );
 
+    const shouldShowMonthPicker =
+        shouldShowSentinel2Layer && shouldSwipeWidgetBeDisabled === false;
+
+    const timeRangeSliderVisibility = shouldSwipeWidgetBeDisabled === false;
+
     useEffect(() => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
     }, [year4LeadingLayer, year4TrailingLayer]);
 
     return (
-        <TimeSlider
-            years={years}
-            initialTimeExtent={{
-                start: new Date(year4LeadingLayer, 0, 1),
-                end: new Date(year4TrailingLayer, 0, 1),
-            }}
-            shouldShowSentinel2Layer={shouldShowSentinel2Layer}
-            shouldDisableTimeSlider={shouldHideSwipeWidget}
-            timeExtentOnChange={(startYear, endYear) => {
-                // console.log(startYear, endYear)
+        <div className="text-center">
+            <HeaderText
+                title={`${
+                    shouldShowSentinel2Layer
+                        ? 'Sentinel-2 Imagery'
+                        : '10m Land Cover'
+                }`}
+                subTitle={'Choose Two Years to Compare'}
+            />
 
-                if (startYear === endYear) {
-                    console.log('start year and end year cannot be same');
-                    return;
-                }
+            <div className="relative max-w-md mt-2">
+                <TimeRangeSlider
+                    years={years}
+                    initialTimeExtent={{
+                        start: new Date(year4LeadingLayer, 0, 1),
+                        end: new Date(year4TrailingLayer, 0, 1),
+                    }}
+                    visible={timeRangeSliderVisibility}
+                    timeExtentOnChange={(startYear, endYear) => {
+                        // console.log(startYear, endYear)
 
-                batch(() => {
-                    dispatch(year4LeadingLayerUpdated(startYear));
-                    dispatch(year4TrailingLayerUpdated(endYear));
-                });
-            }}
-        />
+                        if (startYear === endYear) {
+                            console.log(
+                                'start year and end year cannot be same'
+                            );
+                            return;
+                        }
+
+                        batch(() => {
+                            dispatch(year4LeadingLayerUpdated(startYear));
+                            dispatch(year4TrailingLayerUpdated(endYear));
+                        });
+                    }}
+                />
+
+                {shouldShowMonthPicker && <MonthPicker />}
+            </div>
+
+            {shouldSwipeWidgetBeDisabled && (
+                <div className="mt-16 text-center text-sm opacity-50">
+                    <p>Zoom in to compare Sentinel-2 Imagery Layers</p>
+                </div>
+            )}
+        </div>
     );
 };
 
