@@ -3,6 +3,7 @@ import React, { useEffect, FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
     selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectMapMode,
     selectShouldShowSentinel2Layer,
     selectSwipePosition,
     selectYearsForSwipeWidgetLayers,
@@ -14,14 +15,21 @@ type Props = {
      * If true, map view is in process of update (e.g. fetch layer data, render layer)
      */
     isUpdating: boolean;
+    /**
+     * Indicate if swipe widget is currently visible
+     */
+    visible: boolean;
 };
 
-const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
+const SwipeWidgetReferenceInfo: FC<Props> = ({
+    isUpdating,
+    visible,
+}: Props) => {
     const position = useSelector(selectSwipePosition);
 
-    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
-        selectIsFilterbyTime4Sentinel2LayerDisabled
-    );
+    // const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
+    //     selectIsFilterbyTime4Sentinel2LayerDisabled
+    // );
 
     const showSwipeWidgetYearIndicator = useSelector(
         selectShowSwipeWidgetYearIndicator
@@ -44,9 +52,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
             <div
                 className="absolute top-0 bottom-0 left-0 flex items-center"
                 style={{
-                    width: isFilterbyTime4Sentinel2LayerDisabled
-                        ? '100%'
-                        : `${position}%`,
+                    width: visible === false ? '100%' : `${position}%`,
                 }}
             >
                 {isUpdating && shouldShowSentinel2Layer && (
@@ -70,7 +76,7 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({ isUpdating }: Props) => {
                 className={classNames(
                     'absolute top-0 bottom-0 right-0 flex items-center',
                     {
-                        hidden: isFilterbyTime4Sentinel2LayerDisabled,
+                        hidden: visible === false,
                     }
                 )}
                 style={{

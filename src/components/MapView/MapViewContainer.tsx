@@ -18,6 +18,7 @@ import {
     selectIsFilterbyTime4Sentinel2LayerDisabled,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
+    selectMapMode,
 } from '../../store/Map/selectors';
 import SwipeWidget from '../SwipeWidget/SwipeWidget';
 // import LandcoverLayer from '../LandcoverLayer/LandcoverLayerContainer';
@@ -42,6 +43,8 @@ import LandcoverLayer from '../LandcoverLayer/LandCoverLayer';
 const MapViewContainer = () => {
     const dispatch = useDispatch();
 
+    const mode = useSelector(selectMapMode);
+
     const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
     const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
@@ -61,6 +64,14 @@ const MapViewContainer = () => {
     const [isUpdating, setIsUpdating] = useState<boolean>(true);
 
     const { center, zoom } = useSelector(selectMapCenterAndZoom);
+
+    /**
+     * Show Swipe Widget when in swipe mode
+     * if viewing sentinel 2 layer, swipe widget can only be used if sentinel-2 layer can be fitered by time,
+     * which requires map zoom to be 11 or bigger
+     */
+    const isSwipeWidgetVisible =
+        mode === 'swipe' && isFilterbyTime4Sentinel2LayerDisabled === false;
 
     useEffect(() => {
         saveMapCenterToHashParams(center, zoom);
@@ -83,7 +94,7 @@ const MapViewContainer = () => {
                     yearForLeadingLayer={year4LeadingLayer}
                     yearForTailingLayer={year4TrailingLayer}
                     selectedLandCover={selectedLandCover}
-                    visible={isFilterbyTime4Sentinel2LayerDisabled === false}
+                    visible={isSwipeWidgetVisible}
                     positionOnChange={(position) => {
                         dispatch(swipePositionChanged(position));
                     }}
@@ -125,7 +136,10 @@ const MapViewContainer = () => {
 
             <ReferenceLayersToggleControl />
 
-            <SwipeWidgetReferenceInfo isUpdating={isUpdating} />
+            <SwipeWidgetReferenceInfo
+                isUpdating={isUpdating}
+                visible={isSwipeWidgetVisible}
+            />
 
             {/* <ToggleAttribution /> */}
         </div>

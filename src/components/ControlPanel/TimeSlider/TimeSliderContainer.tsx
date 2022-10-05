@@ -9,6 +9,7 @@ import {
 } from '../../../store/Map/reducer';
 import {
     selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectMapMode,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
@@ -20,6 +21,8 @@ import TimeRangeSlider from './TimeRangeSlider';
 
 const TimeSliderContainer = () => {
     const dispatch = useDispatch();
+
+    const mode = useSelector(selectMapMode);
 
     const years = getAvailableYears();
 
@@ -39,7 +42,7 @@ const TimeSliderContainer = () => {
         isFilterbyTime4Sentinel2LayerDisabled === false;
 
     const timeRangeSliderVisibility =
-        isFilterbyTime4Sentinel2LayerDisabled === false;
+        mode === 'swipe' && isFilterbyTime4Sentinel2LayerDisabled === false;
 
     useEffect(() => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
@@ -87,8 +90,12 @@ const TimeSliderContainer = () => {
             </div>
 
             {isFilterbyTime4Sentinel2LayerDisabled && (
-                <div className="mt-16 text-center text-sm opacity-50">
-                    <p>Zoom in to compare Sentinel-2 Imagery Layers</p>
+                <div className="mt-9 text-center text-sm opacity-50">
+                    <p>
+                        {mode === 'swipe'
+                            ? 'Zoom in to compare Sentinel-2 Imagery Layers'
+                            : 'Zoom in enable time slider'}
+                    </p>
                 </div>
             )}
         </div>
