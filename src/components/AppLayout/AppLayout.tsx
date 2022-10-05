@@ -1,4 +1,5 @@
 import React from 'react';
+import AppTitle from '../AppTitle/AppTitle';
 import ControlPanel from '../ControlPanel/ControlPanel';
 import DownloadPanel from '../DownloadPanel/DownloadPanel';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
@@ -12,6 +13,7 @@ const AppLayout = () => {
             <ControlPanel />
             <InfoPanel />
             <DownloadPanel />
+            <AppTitle />
         </ErrorBoundary>
     );
 };
