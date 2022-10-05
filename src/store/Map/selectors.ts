@@ -50,9 +50,9 @@ export const selectShouldShowSentinel2Layer = createSelector(
     (shouldShowSentinel2Layer) => shouldShowSentinel2Layer
 );
 
-export const selectSelectedLandCover = createSelector(
-    (state: RootState) => state.Map.selectedLandCover,
-    (selectedLandCover) => selectedLandCover
+export const selectActiveLandCoverType = createSelector(
+    (state: RootState) => state.Map.activeLandCoverType,
+    (activeLandCoverType) => activeLandCoverType
 );
 
 export const selectSwipePosition = createSelector(

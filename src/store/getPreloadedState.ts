@@ -7,7 +7,7 @@ import {
     getDonwloadModeFromHashParams,
     getMapCenterFromHashParams,
     getMapModeFromHashParams,
-    getSelectedLandCoverFromHashParams,
+    getActiveLandCoverTypeFromHashParams,
     getShowImageryLayerFromHashParams,
     getTimeExtentFromHashParams,
 } from '../utils/URLHashParams';
@@ -32,7 +32,7 @@ const getPreloadedMapState = (): MapState => {
 
     const mapCenterInfo = getMapCenterFromHashParams();
     const timeExtent = getTimeExtentFromHashParams();
-    const selectedLandCover = getSelectedLandCoverFromHashParams();
+    const activelandCoverType = getActiveLandCoverTypeFromHashParams();
     const shouldShowSentinel2Layer = getShowImageryLayerFromHashParams();
 
     const startYear = timeExtent?.startYear || availableYears[0];
@@ -49,7 +49,7 @@ const getPreloadedMapState = (): MapState => {
         year: year ? +year : availableYears[0],
         zoom: mapCenterInfo?.zoom || DEFAULT_MAP_ZOOM,
         center: mapCenterInfo?.center || getMapCenterFromDefaultLocations(),
-        selectedLandCover: selectedLandCover as LandCoverClassification,
+        activeLandCoverType: activelandCoverType as LandCoverClassification,
         shouldShowSentinel2Layer,
         swipeWidget: {
             year4LeadingLayer: startYear,

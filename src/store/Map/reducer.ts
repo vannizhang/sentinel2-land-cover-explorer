@@ -71,7 +71,7 @@ export type MapState = {
      * The active Land Cover type selected by the user that will be used to
      * get the raster functions to filter the Land Cover layer
      */
-    selectedLandCover?: LandCoverClassification;
+    activeLandCoverType?: LandCoverClassification;
     /**
      * If true, Map Reference Labels layer will be on
      */
@@ -96,7 +96,7 @@ export const initialMapState: MapState = {
     resolution: null,
     extent: null,
     swipeWidget: null,
-    selectedLandCover: null,
+    activeLandCoverType: null,
     showMapLabel: true,
     showTerrain: true,
     selectedSentinel2RasterFunction: 'Natural Color with DRA',
@@ -130,11 +130,11 @@ const slice = createSlice({
         ) => {
             state.shouldShowSentinel2Layer = action.payload;
         },
-        selectedLandCoverChanged: (
+        activeLandCoverTypeChanged: (
             state,
             action: PayloadAction<LandCoverClassification>
         ) => {
-            state.selectedLandCover = action.payload;
+            state.activeLandCoverType = action.payload;
         },
         swipePositionChanged: (state, action: PayloadAction<number>) => {
             state.swipeWidget.position = action.payload;
@@ -176,7 +176,7 @@ export const {
     resolutionUpdated,
     extentUpdated,
     shouldShowSentinel2LayerToggled,
-    selectedLandCoverChanged,
+    activeLandCoverTypeChanged,
     swipePositionChanged,
     showMapLabelToggled,
     showTerrainToggled,

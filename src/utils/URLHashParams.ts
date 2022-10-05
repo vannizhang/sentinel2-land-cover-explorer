@@ -80,13 +80,13 @@ export const getTimeExtentFromHashParams = () => {
     };
 };
 
-export const saveSelectedLandCoverToHashParams = (
+export const saveActiveLandCoverTypeToHashParams = (
     landCoverType: LandCoverClassification
 ) => {
     updateHashParams('landCover', landCoverType);
 };
 
-export const getSelectedLandCoverFromHashParams = () => {
+export const getActiveLandCoverTypeFromHashParams = () => {
     return getHashParamValueByKey('landCover');
 };
 

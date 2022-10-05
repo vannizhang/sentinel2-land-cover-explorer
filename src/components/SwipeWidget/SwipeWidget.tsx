@@ -24,10 +24,6 @@ type Props = {
      */
     yearForTailingLayer: number;
     /**
-     *
-     */
-    selectedLandCover: LandCoverClassification;
-    /**
      * Indicate if Swipe Widget is visible
      */
     visible: boolean;
@@ -52,7 +48,6 @@ const SwipeWidget: FC<Props> = ({
     shouldShowSentinel2Layer,
     yearForLeadingLayer,
     yearForTailingLayer,
-    selectedLandCover,
     mapView,
     visible,
     positionOnChange,
@@ -62,7 +57,6 @@ const SwipeWidget: FC<Props> = ({
 
     const leadingLandCoverLayer = useLandCoverLayer({
         year: yearForLeadingLayer,
-        selectedLandCover,
         visible: visible && shouldShowSentinel2Layer === false,
     });
 
@@ -73,7 +67,6 @@ const SwipeWidget: FC<Props> = ({
 
     const trailingLandcoverLayer = useLandCoverLayer({
         year: yearForTailingLayer,
-        selectedLandCover,
         visible: visible && shouldShowSentinel2Layer === false,
     });
 

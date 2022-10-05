@@ -10,20 +10,22 @@ import {
     getRasterFunctionByLandCoverClassName,
     LandCoverClassification,
 } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { useSelector } from 'react-redux';
+import { selectActiveLandCoverType } from '../../store/Map/selectors';
 // import IMapView from 'esri/views/MapView';
 
 type UseLandCoverLayerParams = {
     year: number;
-    selectedLandCover?: LandCoverClassification;
     visible?: boolean;
     // mapView?: IMapView;
 };
 
 const useLandCoverLayer = ({
     year,
-    selectedLandCover,
     visible = true,
 }: UseLandCoverLayerParams) => {
+    const activeLandCoverType = useSelector(selectActiveLandCoverType);
+
     const layerRef = useRef<IImageryLayer>();
 
     const [landCoverLayer, setLandCoverLayer] = useState<IImageryLayer>();
@@ -46,7 +48,7 @@ const useLandCoverLayer = ({
             timeExtent,
             renderingRule: {
                 functionName:
-                    getRasterFunctionByLandCoverClassName(selectedLandCover),
+                    getRasterFunctionByLandCoverClassName(activeLandCoverType),
             },
             effect: 'drop-shadow(2px, 2px, 3px, #000)',
             visible,
@@ -75,9 +77,9 @@ const useLandCoverLayer = ({
 
         layerRef.current.renderingRule = {
             functionName:
-                getRasterFunctionByLandCoverClassName(selectedLandCover),
+                getRasterFunctionByLandCoverClassName(activeLandCoverType),
         } as any;
-    }, [selectedLandCover]);
+    }, [activeLandCoverType]);
 
     useEffect(() => {
         if (!layerRef.current) {

@@ -2,31 +2,31 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getLandCoverClassifications } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import { selectedLandCoverChanged } from '../../../store/Map/reducer';
-import { selectSelectedLandCover } from '../../../store/Map/selectors';
+import { activeLandCoverTypeChanged } from '../../../store/Map/reducer';
+import { selectActiveLandCoverType } from '../../../store/Map/selectors';
 import { tooltipDataChanged } from '../../../store/UI/reducer';
 import { updateTooltipData } from '../../../store/UI/thunks';
-import { saveSelectedLandCoverToHashParams } from '../../../utils/URLHashParams';
+import { saveActiveLandCoverTypeToHashParams } from '../../../utils/URLHashParams';
 import ClassificationsList from './ClassificationsList';
 
 const ClassificationsListContainer = () => {
     const dispatch = useDispatch();
 
-    const selectedLandCover = useSelector(selectSelectedLandCover);
+    const activeLandCoverType = useSelector(selectActiveLandCoverType);
 
     const data = useMemo(() => {
         return getLandCoverClassifications();
     }, []);
 
     useEffect(() => {
-        saveSelectedLandCoverToHashParams(selectedLandCover);
-    }, [selectedLandCover]);
+        saveActiveLandCoverTypeToHashParams(activeLandCoverType);
+    }, [activeLandCoverType]);
 
     return (
         <ClassificationsList
-            selectedLandCover={selectedLandCover}
+            selectedLandCover={activeLandCoverType}
             activeLandCoverOnChange={(newVal) => {
-                dispatch(selectedLandCoverChanged(newVal));
+                dispatch(activeLandCoverTypeChanged(newVal));
             }}
             data={data}
             itemOnHover={(data) => {

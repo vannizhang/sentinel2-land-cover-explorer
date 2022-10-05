@@ -7,14 +7,13 @@ import { identifyLandcoverClassificationsByLocation } from '../../services/senti
 import {
     extentUpdated,
     mapCenterUpdated,
-    MapExtent,
+    // MapExtent,
     resolutionUpdated,
     swipePositionChanged,
     zoomUpdated,
 } from '../../store/Map/reducer';
 import {
     selectMapCenterAndZoom,
-    selectSelectedLandCover,
     selectIsFilterbyTime4Sentinel2LayerDisabled,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
@@ -30,7 +29,7 @@ import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
 // import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
 import { selectShouldHideControlPanel } from '../../store/UI/selectors';
 import classNames from 'classnames';
-import ToggleAttribution from './ToggleAttribution';
+// import ToggleAttribution from './ToggleAttribution';
 import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
 import SearchWidget from './SearchWidget';
 import ReferenceLayersToggleControl from '../ReferenceLayersToggleControl/ReferenceLayersToggleControl';
@@ -58,8 +57,6 @@ const MapViewContainer = () => {
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
-
-    const selectedLandCover = useSelector(selectSelectedLandCover);
 
     const [isUpdating, setIsUpdating] = useState<boolean>(true);
 
@@ -93,7 +90,6 @@ const MapViewContainer = () => {
                     shouldShowSentinel2Layer={shouldShowSentinel2Layer}
                     yearForLeadingLayer={year4LeadingLayer}
                     yearForTailingLayer={year4TrailingLayer}
-                    selectedLandCover={selectedLandCover}
                     visible={isSwipeWidgetVisible}
                     positionOnChange={(position) => {
                         dispatch(swipePositionChanged(position));
