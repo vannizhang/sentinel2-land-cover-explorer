@@ -1,3 +1,4 @@
+import { Sentinel2RasterFunction } from '../components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import { MapCenter, MapMode } from '../store/Map/reducer';
 
@@ -8,7 +9,17 @@ type UrlHashParamKey =
     | 'downloadMode'
     | 'showImageryLayer'
     | 'mode'
-    | 'year';
+    | 'year'
+    | 'renderingRule';
+
+const SupportedSentinel2RasterFunctions: Sentinel2RasterFunction[] = [
+    'Natural Color with DRA',
+    'Agriculture with DRA',
+    'Color Infrared with DRA',
+    'Short-wave Infrared with DRA',
+    'NDVI Colormap',
+    'NDMI Colorized',
+];
 
 const hashParams = new URLSearchParams(window.location.hash.slice(1));
 
@@ -120,4 +131,28 @@ export const saveActiveYearToHashParams = (year: number) => {
 
 export const getActiveYearFromHashParams = () => {
     return getHashParamValueByKey('year');
+};
+
+export const saveSentinel2RasterFunctionToHashParams = (
+    rasterFunctionName: Sentinel2RasterFunction
+) => {
+    const idx = SupportedSentinel2RasterFunctions.indexOf(rasterFunctionName);
+
+    if (idx === -1) {
+        return;
+    }
+
+    updateHashParams('renderingRule', idx.toString());
+};
+
+export const getSentinel2RasterFunctionFromHashParams = () => {
+    const val = getHashParamValueByKey('renderingRule');
+
+    if (!val) {
+        return null;
+    }
+
+    const idx = +val;
+
+    return SupportedSentinel2RasterFunctions[idx];
 };

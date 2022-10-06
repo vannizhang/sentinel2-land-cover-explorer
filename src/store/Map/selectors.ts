@@ -71,8 +71,8 @@ export const selectShowTerrain = createSelector(
 );
 
 export const selectSentinel2RasterFunction = createSelector(
-    (state: RootState) => state.Map.selectedSentinel2RasterFunction,
-    (selectedSentinel2RasterFunction) => selectedSentinel2RasterFunction
+    (state: RootState) => state.Map.sentinel2RasterFunction,
+    (sentinel2RasterFunction) => sentinel2RasterFunction
 );
 
 export const selectIsFilterbyTime4Sentinel2LayerDisabled = createSelector(

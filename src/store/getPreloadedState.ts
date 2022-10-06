@@ -10,10 +10,12 @@ import {
     getActiveLandCoverTypeFromHashParams,
     getShowImageryLayerFromHashParams,
     getTimeExtentFromHashParams,
+    getSentinel2RasterFunctionFromHashParams,
 } from '../utils/URLHashParams';
 import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import { getAvailableYears } from '../services/sentinel-2-10m-landcover/timeInfo';
+import { Sentinel2RasterFunction } from '../components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 
 /**
  * Get a map center from list of default map centers randomly
@@ -35,13 +37,16 @@ const getPreloadedMapState = (): MapState => {
     const activelandCoverType = getActiveLandCoverTypeFromHashParams();
     const shouldShowSentinel2Layer = getShowImageryLayerFromHashParams();
 
-    const startYear = timeExtent?.startYear || availableYears[0];
-    const endYear =
-        timeExtent?.endYear || availableYears[availableYears.length - 1];
-
     const mode = (getMapModeFromHashParams() as MapMode) || 'swipe';
 
     const year = getActiveYearFromHashParams();
+    const sentinel2RasterFunction =
+        (getSentinel2RasterFunctionFromHashParams() as Sentinel2RasterFunction) ||
+        'Natural Color with DRA';
+
+    const startYear = timeExtent?.startYear || availableYears[0];
+    const endYear =
+        timeExtent?.endYear || availableYears[availableYears.length - 1];
 
     return {
         ...initialMapState,
@@ -56,6 +61,7 @@ const getPreloadedMapState = (): MapState => {
             year4TrailingLayer: endYear,
             position: 50,
         },
+        sentinel2RasterFunction,
     };
 };
 

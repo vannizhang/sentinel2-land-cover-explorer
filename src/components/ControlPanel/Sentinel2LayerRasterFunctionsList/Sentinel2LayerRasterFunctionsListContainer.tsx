@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sentinel2LayerRasterFunctionsList from './Sentinel2LayerRasterFunctionsList';
 
 import ThumbnailNatrualColor from './thumbnails/Imagery_NaturalColor.png';
@@ -8,10 +8,11 @@ import ThumbnailNDMI from './thumbnails/Imagery_NDMI.png';
 import ThumbnailNDVI from './thumbnails/Imagery_NDVI.png';
 import ThumbnailSWIR from './thumbnails/Imagery_SWIR.png';
 import { useDispatch } from 'react-redux';
-import { selectedSentinel2RasterFunctionChanged } from '../../../store/Map/reducer';
+import { sentinel2RasterFunctionChanged } from '../../../store/Map/reducer';
 import { useSelector } from 'react-redux';
 import { selectSentinel2RasterFunction } from '../../../store/Map/selectors';
 import { updateTooltipData } from '../../../store/UI/thunks';
+import { saveSentinel2RasterFunctionToHashParams } from '../../../utils/URLHashParams';
 
 export type Sentinel2RasterFunction =
     | 'Natural Color with DRA'
@@ -28,7 +29,7 @@ export type RasterFunctionData = {
     thumbnail: string;
 };
 
-const Data: RasterFunctionData[] = [
+export const Sentinel2RasterFunctionsData: RasterFunctionData[] = [
     {
         name: 'Natural Color with DRA',
         label: 'Natural Color',
@@ -78,14 +79,16 @@ const ImageryRasterFunctionsListContainer = () => {
 
     const selectedRasterFunction = useSelector(selectSentinel2RasterFunction);
 
+    useEffect(() => {
+        saveSentinel2RasterFunctionToHashParams(selectedRasterFunction);
+    }, [selectedRasterFunction]);
+
     return (
         <Sentinel2LayerRasterFunctionsList
             selectedRasterFunction={selectedRasterFunction}
-            data={Data}
+            data={Sentinel2RasterFunctionsData}
             onSelect={(rasterFunction) => {
-                dispatch(
-                    selectedSentinel2RasterFunctionChanged(rasterFunction)
-                );
+                dispatch(sentinel2RasterFunctionChanged(rasterFunction));
             }}
             itemOnHover={(data) => {
                 dispatch(updateTooltipData(data));

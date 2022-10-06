@@ -83,7 +83,7 @@ export type MapState = {
     /**
      * Sentinel 2 Raster function that will be used to render the layer
      */
-    selectedSentinel2RasterFunction?: Sentinel2RasterFunction;
+    sentinel2RasterFunction?: Sentinel2RasterFunction;
 };
 
 export const initialMapState: MapState = {
@@ -99,7 +99,7 @@ export const initialMapState: MapState = {
     activeLandCoverType: null,
     showMapLabel: true,
     showTerrain: true,
-    selectedSentinel2RasterFunction: 'Natural Color with DRA',
+    sentinel2RasterFunction: 'Natural Color with DRA',
 };
 
 const slice = createSlice({
@@ -151,11 +151,11 @@ const slice = createSlice({
         zoomUpdated: (state, action: PayloadAction<number>) => {
             state.zoom = action.payload;
         },
-        selectedSentinel2RasterFunctionChanged: (
+        sentinel2RasterFunctionChanged: (
             state,
             action: PayloadAction<Sentinel2RasterFunction>
         ) => {
-            state.selectedSentinel2RasterFunction = action.payload;
+            state.sentinel2RasterFunction = action.payload;
         },
         sentinel2AquisitionMonthChanged: (
             state,
@@ -182,7 +182,7 @@ export const {
     showTerrainToggled,
     mapCenterUpdated,
     zoomUpdated,
-    selectedSentinel2RasterFunctionChanged,
+    sentinel2RasterFunctionChanged,
     sentinel2AquisitionMonthChanged,
 } = slice.actions;
 

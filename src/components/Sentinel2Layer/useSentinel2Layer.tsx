@@ -53,9 +53,9 @@ const useSentinel2Layer = ({
             // URL to the imagery service
             url: SENTINEL_2_IMAGE_SERVICE_URL,
             mosaicRule: createMosaicRuleByYear(year, aquisitionMonth) as any,
-            // renderingRule: {
-            //     functionName: ''
-            // }
+            renderingRule: {
+                functionName: selectedRasterFunction,
+            },
             visible,
         });
 
@@ -74,7 +74,7 @@ const useSentinel2Layer = ({
     }, [year, aquisitionMonth]);
 
     useEffect(() => {
-        console.log(selectedRasterFunction);
+        // console.log(selectedRasterFunction);
 
         if (layerRef.current) {
             layerRef.current.renderingRule = {
