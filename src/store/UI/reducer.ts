@@ -37,6 +37,10 @@ export type UIState = {
      * If true, hide control panel at bottom
      */
     hideControlPanel?: boolean;
+    /**
+     * if true, animation mode is on and should animating land cover or sentinel-2 layers
+     */
+    animationMode?: boolean;
 };
 
 export const initialUIState: UIState = {
@@ -46,6 +50,7 @@ export const initialUIState: UIState = {
     tooltipData: null,
     showSwipeWidgetYearIndicator: false,
     hideControlPanel: false,
+    animationMode: false,
 };
 
 const slice = createSlice({
@@ -73,6 +78,9 @@ const slice = createSlice({
         showDownloadPanelToggled: (state, action: PayloadAction<boolean>) => {
             state.showDownloadPanel = action.payload;
         },
+        animationModeToggled: (state, action: PayloadAction<boolean>) => {
+            state.animationMode = action.payload;
+        },
     },
 });
 
@@ -85,6 +93,7 @@ export const {
     showSwipeWidgetYearIndicatorToggled,
     hideControlPanelToggled,
     showDownloadPanelToggled,
+    animationModeToggled,
 } = slice.actions;
 
 export default reducer;

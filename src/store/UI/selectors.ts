@@ -30,3 +30,8 @@ export const selectShouldHideControlPanel = createSelector(
     (state: RootState) => state.UI.hideControlPanel,
     (hideControlPanel) => hideControlPanel
 );
+
+export const selectAnimationMode = createSelector(
+    (state: RootState) => state.UI.animationMode,
+    (animationMode) => animationMode
+);

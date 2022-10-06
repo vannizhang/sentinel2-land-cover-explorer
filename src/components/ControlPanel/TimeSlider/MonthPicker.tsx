@@ -40,11 +40,11 @@ const MonthPicker = () => {
 
     return (
         <div
-            className="absolute"
-            style={{
-                right: -40,
-                bottom: 11,
-            }}
+            // className="absolute"
+            // style={{
+            //     right: -40,
+            //     bottom: 11,
+            // }}
             ref={containerRef}
         >
             <div

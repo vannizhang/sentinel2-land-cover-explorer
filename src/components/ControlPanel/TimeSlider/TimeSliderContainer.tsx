@@ -20,6 +20,7 @@ import {
     saveTimeExtentToHashParams,
 } from '../../../utils/URLHashParams';
 import HeaderText from '../HeaderText/HeaderText';
+import AnimationButton from './AnimationButton';
 import ModeSelector from './ModeSelector';
 import MonthPicker from './MonthPicker';
 import TimeSliderWidget from './TimeSliderWidget';
@@ -121,7 +122,16 @@ const TimeSliderContainer = () => {
                     }}
                 />
 
-                {shouldShowMonthPicker && <MonthPicker />}
+                <div
+                    className="absolute"
+                    style={{
+                        right: -40,
+                        bottom: 11,
+                    }}
+                >
+                    {/* { mode === 'step' && <AnimationButton /> } */}
+                    {shouldShowMonthPicker && <MonthPicker />}
+                </div>
             </div>
 
             {isFilterbyTime4Sentinel2LayerDisabled && (
