@@ -129,7 +129,7 @@ const TimeSliderContainer = () => {
                         bottom: 11,
                     }}
                 >
-                    {/* { mode === 'step' && <AnimationButton /> } */}
+                    {mode === 'step' && <AnimationButton />}
                     {shouldShowMonthPicker && <MonthPicker />}
                 </div>
             </div>

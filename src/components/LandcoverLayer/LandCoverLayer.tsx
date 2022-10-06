@@ -8,6 +8,7 @@ import {
     selectYear,
 } from '../../store/Map/selectors';
 import useLandCoverLayer from './useLandCoverLayer';
+import { selectAnimationMode } from '../../store/UI/selectors';
 
 type Props = {
     mapView?: IMapView;
@@ -18,12 +19,14 @@ const LandcoverLayer: FC<Props> = ({ mapView }: Props) => {
 
     const mode = useSelector(selectMapMode);
 
+    const animationMode = useSelector(selectAnimationMode);
+
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
 
     const getVisibility = () => {
-        if (shouldShowSentinel2Layer) {
+        if (shouldShowSentinel2Layer || animationMode) {
             return false;
         }
 

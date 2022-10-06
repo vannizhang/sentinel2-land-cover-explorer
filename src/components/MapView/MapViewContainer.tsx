@@ -38,6 +38,7 @@ import { saveMapCenterToHashParams } from '../../utils/URLHashParams';
 import CustomMapArrtribution from '../CustomMapArrtribution/CustomMapArrtribution';
 import Sentinel2Layer from '../Sentinel2Layer/Sentinel2Layer';
 import LandcoverLayer from '../LandcoverLayer/LandCoverLayer';
+import AnimationPanel from './AnimationPanel';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -128,6 +129,8 @@ const MapViewContainer = () => {
                 <ReferenceLayers />
 
                 <CustomMapArrtribution />
+
+                <AnimationPanel />
             </MapView>
 
             <ReferenceLayersToggleControl />

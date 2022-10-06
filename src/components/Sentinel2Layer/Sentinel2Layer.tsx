@@ -9,6 +9,7 @@ import {
     selectIsFilterbyTime4Sentinel2LayerDisabled,
     selectYear,
 } from '../../store/Map/selectors';
+import { selectAnimationMode } from '../../store/UI/selectors';
 
 type Props = {
     mapView?: IMapView;
@@ -19,6 +20,8 @@ const Sentinel2Layer: FC<Props> = ({ mapView }: Props) => {
 
     const mode = useSelector(selectMapMode);
 
+    const animationMode = useSelector(selectAnimationMode);
+
     const shouldShowSentinel2Layer = useSelector(
         selectShouldShowSentinel2Layer
     );
@@ -28,7 +31,7 @@ const Sentinel2Layer: FC<Props> = ({ mapView }: Props) => {
     );
 
     const getVisibility = () => {
-        if (!shouldShowSentinel2Layer) {
+        if (!shouldShowSentinel2Layer || animationMode) {
             return false;
         }
 
