@@ -51,7 +51,7 @@ const ControlPanel = () => {
 
                     <Tooltip />
 
-                    <ActionBar />
+                    {/* <ActionBar /> */}
                 </div>
             )}
 
