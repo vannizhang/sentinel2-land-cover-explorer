@@ -11,6 +11,7 @@ import {
 import { showInfoPanelToggled } from '../../../store/UI/reducer';
 import ChangeCompareGraph from './ChangeCompareGraph/ChangeCompareGraphContainer';
 import HeaderText from '../HeaderText/HeaderText';
+import TotalAreaGraph from './TotalAreaGraph/TotalAreaGraphContainer';
 
 const LandCoverGraphContainer = () => {
     const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const LandCoverGraphContainer = () => {
                 title={`${
                     mode === 'swipe'
                         ? 'Land Cover Change (Acres)'
-                        : 'Land Cover Total (Acres)'
+                        : 'Land Cover Totals (Acres)'
                 }`}
                 subTitle={getSubtitle()}
                 expandButtonOnClick={() => {
@@ -51,12 +52,19 @@ const LandCoverGraphContainer = () => {
 
             {outOfValidZoomLevel && (
                 <div className="w-full flex justify-center items-center text-sm opacity-50 mt-16">
-                    <p>Zoom in to see Land Cover Change Graph</p>
+                    <p>
+                        Zoom in to see Land Cover{' '}
+                        {mode === 'swipe' ? 'Change' : 'Totals'} Graph
+                    </p>
                 </div>
             )}
 
             {outOfValidZoomLevel === false && mode === 'swipe' && (
                 <ChangeCompareGraph />
+            )}
+
+            {outOfValidZoomLevel === false && mode === 'step' && (
+                <TotalAreaGraph />
             )}
         </div>
     );

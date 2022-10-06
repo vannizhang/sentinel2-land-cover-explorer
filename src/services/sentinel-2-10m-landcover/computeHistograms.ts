@@ -50,6 +50,21 @@ type GetLandCoverChangeParams = {
     laterYear: number;
 };
 
+type GetLandCoverAreaInAcresByYearParams = {
+    /**
+     * Map Extent to be used as input geomerty
+     */
+    extent: MapExtent;
+    /**
+     * Map resolution
+     */
+    resolution: number;
+    /**
+     * the year that will be used to query land cover data
+     */
+    year: number;
+};
+
 export type LandCoverChangeInAcres = {
     /**
      * Area (in acres) of a specific land cover in earlier year
@@ -63,6 +78,17 @@ export type LandCoverChangeInAcres = {
      * Difference (in acres) of a specific land cover type between two years
      */
     differenceInAcres: number;
+    /**
+     * Detailed Land Cover Classification Data
+     */
+    landcoverClassificationData: LandcoverClassificationData;
+};
+
+export type LandCoverArea = {
+    /**
+     * area (in acres) of a specific land cover type between two years
+     */
+    area: number;
     /**
      * Detailed Land Cover Classification Data
      */
@@ -156,6 +182,43 @@ const computeHistograms = async ({
     }
 
     return null;
+};
+
+export const getLandCoverAreaByYear = async ({
+    extent,
+    resolution,
+    year,
+}: GetLandCoverAreaInAcresByYearParams): Promise<LandCoverArea[]> => {
+    try {
+        const res = await computeHistograms({
+            extent,
+            resolution,
+            year,
+        });
+
+        const counts = res?.histograms[0]?.counts || [];
+
+        const output: LandCoverArea[] = [];
+
+        for (let i = 0; i < counts.length; i++) {
+            const areaInAcres = convertNumOfPixel2Acres(counts[i], resolution);
+
+            if (areaInAcres < 1) {
+                continue;
+            }
+
+            output.push({
+                area: areaInAcres,
+                landcoverClassificationData:
+                    getLandCoverClassificationByPixelValue(i),
+            });
+        }
+
+        return output;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
 };
 
 /**

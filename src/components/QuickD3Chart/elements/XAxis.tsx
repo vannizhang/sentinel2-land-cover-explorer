@@ -1,3 +1,4 @@
+import './XAxis.css';
 import React, { useEffect } from 'react';
 
 import { select, axisBottom, timeFormat, AxisScale } from 'd3';
@@ -5,12 +6,14 @@ import { select, axisBottom, timeFormat, AxisScale } from 'd3';
 import { SvgContainerData } from '../types';
 
 import { AXIS_TEXT_COLOR, AXIS_LINE_COLOR } from '../constants';
+import { THEME_COLOR_LIGHT_BLUE } from '../../../constants/style';
 
 type Props = {
     scale: AxisScale<string | number>;
     svgContainerData?: SvgContainerData;
     tickValues?: (string | number)[];
     timeFormatSpecifier?: string;
+    showAxisLine?: boolean;
 };
 
 const YAxis: React.FC<Props> = ({
@@ -18,6 +21,7 @@ const YAxis: React.FC<Props> = ({
     svgContainerData,
     tickValues,
     timeFormatSpecifier,
+    showAxisLine,
 }) => {
     // const containerGroup = useRef<SVGGElement>();
 
@@ -58,12 +62,16 @@ const YAxis: React.FC<Props> = ({
 
             xAxisG
                 .selectAll('.domain, .tick line')
-                .attr('stroke', AXIS_LINE_COLOR);
+                .attr('opacity', 0.2)
+                .attr(
+                    'stroke',
+                    showAxisLine ? THEME_COLOR_LIGHT_BLUE : 'tansparent'
+                );
 
             xAxisG
                 .selectAll('.tick text')
                 .style('fill', AXIS_TEXT_COLOR)
-                .attr('dy', '.35em')
+                .attr('dy', '.75rem')
                 // .attr('transform', 'rotate(-20)')
                 .style('text-anchor', 'middle');
         } else {

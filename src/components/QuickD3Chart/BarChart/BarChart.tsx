@@ -21,6 +21,7 @@ import {
 
 import {
     Bars,
+    PointerEventsOverlay,
     SvgContainer,
     XAxis,
     // YAxis,
@@ -70,7 +71,15 @@ type Props = {
     /**
      * use this value to adjust the style (height, opacity) of divider line to make it easier to separate groups visualy
      */
-    numberOfBarsPerGroup: number;
+    numberOfBarsPerGroup?: number;
+    /**
+     * if true, show line along x axis at the bottom
+     */
+    showXAxisLine?: boolean;
+    /**
+     * Fires when user hovers an diverging bar
+     */
+    itemOnHover?: (index: number) => void;
 };
 
 const BarChart: React.FC<Props> = ({
@@ -79,13 +88,15 @@ const BarChart: React.FC<Props> = ({
     margin,
     timeFormatSpecifier,
     // xScaleTickValues,
-    numOfTicksOnXAxisToHide,
+    // numOfTicksOnXAxisToHide,
     showAxis = true,
     resizable = true,
     showVerticalDividerLines,
     showLabelOnTop,
     showValueLabel,
     numberOfBarsPerGroup,
+    showXAxisLine,
+    itemOnHover,
 }) => {
     const [dimension, setDimension] = useState<Dimension>({
         height: 0,
@@ -170,6 +181,7 @@ const BarChart: React.FC<Props> = ({
 
                 {showAxis ? (
                     <XAxis
+                        showAxisLine={showXAxisLine}
                         scale={xScale as AxisScale<string | number>}
                         timeFormatSpecifier={timeFormatSpecifier}
                         // tickValues={xScaleTickValues}
@@ -185,7 +197,9 @@ const BarChart: React.FC<Props> = ({
                         data={data4Bars}
                         xScale={xScale as ScaleBand<string | number>}
                         yScale={yScale}
-                        numberOfBarsPerGroup={numberOfBarsPerGroup}
+                        numberOfBarsPerGroup={
+                            numberOfBarsPerGroup || data4Bars.length
+                        }
                     />
                 ) : (
                     <></>
@@ -208,6 +222,20 @@ const BarChart: React.FC<Props> = ({
                         data={data4Bars}
                         xScale={xScale as ScaleBand<string | number>}
                         yScale={yScale}
+                    />
+                ) : (
+                    <></>
+                )}
+
+                {itemOnHover ? (
+                    <PointerEventsOverlay
+                        xDomain={xDomain}
+                        xScale={xScale}
+                        onHover={(data) => {
+                            const idx = data ? data.index4ItemOnHover : -1;
+                            // console.log(data4Bars[idx])
+                            itemOnHover(idx);
+                        }}
                     />
                 ) : (
                     <></>
