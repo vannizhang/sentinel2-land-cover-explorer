@@ -37,7 +37,7 @@ const getPreloadedMapState = (): MapState => {
     const activelandCoverType = getActiveLandCoverTypeFromHashParams();
     const shouldShowSentinel2Layer = getShowImageryLayerFromHashParams();
 
-    const mode = (getMapModeFromHashParams() as MapMode) || 'swipe';
+    const mode = (getMapModeFromHashParams() as MapMode) || 'step';
 
     const year = getActiveYearFromHashParams();
     const sentinel2RasterFunction =
