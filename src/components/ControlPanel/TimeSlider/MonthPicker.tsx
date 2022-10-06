@@ -35,14 +35,15 @@ const MonthPicker = () => {
 
     return (
         <div
-            className="absolute top-3"
+            className="absolute"
             style={{
-                right: -25,
+                right: -40,
+                bottom: 11,
             }}
             ref={containerRef}
         >
             <div
-                className="border border-custom-light-blue-90 opacity-80 p-1 text-xs cursor-pointer flex items-center"
+                className="border border-custom-light-blue-50 opacity-80 p-1 text-xs cursor-pointer flex items-center"
                 onClick={() => {
                     setShouldShowOptions(true);
                 }}
