@@ -11,6 +11,7 @@ import {
     getShowImageryLayerFromHashParams,
     getTimeExtentFromHashParams,
     getSentinel2RasterFunctionFromHashParams,
+    getActiveMonthFromHashParams,
 } from '../utils/URLHashParams';
 import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -40,6 +41,8 @@ const getPreloadedMapState = (): MapState => {
     const mode = (getMapModeFromHashParams() as MapMode) || 'step';
 
     const year = getActiveYearFromHashParams();
+    const sentinel2AquisitionMonth = getActiveMonthFromHashParams();
+
     const sentinel2RasterFunction =
         (getSentinel2RasterFunctionFromHashParams() as Sentinel2RasterFunction) ||
         'Natural Color with DRA';
@@ -52,6 +55,9 @@ const getPreloadedMapState = (): MapState => {
         ...initialMapState,
         mode,
         year: year ? +year : availableYears[0],
+        sentinel2AquisitionMonth: sentinel2AquisitionMonth
+            ? +sentinel2AquisitionMonth
+            : 9,
         zoom: mapCenterInfo?.zoom || DEFAULT_MAP_ZOOM,
         center: mapCenterInfo?.center || getMapCenterFromDefaultLocations(),
         activeLandCoverType: activelandCoverType as LandCoverClassification,

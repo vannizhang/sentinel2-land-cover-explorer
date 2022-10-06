@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import { sentinel2AquisitionMonthChanged } from '../../../store/Map/reducer';
 import { selectSentinel2AquisitionMonth } from '../../../store/Map/selectors';
+import { saveActiveMonthToHashParams } from '../../../utils/URLHashParams';
 
 const MONTH_ABBR = [
     'JAN',
@@ -32,6 +33,10 @@ const MonthPicker = () => {
     useOnClickOutside(containerRef, () => {
         setShouldShowOptions(false);
     });
+
+    useEffect(() => {
+        saveActiveMonthToHashParams(month);
+    }, [month]);
 
     return (
         <div

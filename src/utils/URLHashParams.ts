@@ -10,6 +10,7 @@ type UrlHashParamKey =
     | 'showImageryLayer'
     | 'mode'
     | 'year'
+    | 'month'
     | 'renderingRule';
 
 const SupportedSentinel2RasterFunctions: Sentinel2RasterFunction[] = [
@@ -131,6 +132,14 @@ export const saveActiveYearToHashParams = (year: number) => {
 
 export const getActiveYearFromHashParams = () => {
     return getHashParamValueByKey('year');
+};
+
+export const saveActiveMonthToHashParams = (month: number) => {
+    updateHashParams('month', month?.toString());
+};
+
+export const getActiveMonthFromHashParams = () => {
+    return getHashParamValueByKey('month');
 };
 
 export const saveSentinel2RasterFunctionToHashParams = (
