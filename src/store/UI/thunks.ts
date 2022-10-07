@@ -1,6 +1,6 @@
-import { dispatch } from 'd3';
 import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
 import {
+    animationModeToggled,
     showSwipeWidgetYearIndicatorToggled,
     TooltipData,
     tooltipDataChanged,

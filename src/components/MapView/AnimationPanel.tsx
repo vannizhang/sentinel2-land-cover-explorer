@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAnimationMode } from '../../store/UI/selectors';
 
@@ -7,15 +7,38 @@ import IMediaLayer from 'esri/layers/MediaLayer';
 import IImageElement from 'esri/layers/support/ImageElement';
 import IExtentAndRotationGeoreference from 'esri/layers/support/ExtentAndRotationGeoreference';
 import { loadModules } from 'esri-loader';
+import { exportImage as exportImageFromLandCoverLayer } from '../LandcoverLayer/exportImage';
+import {
+    selectActiveLandCoverType,
+    selectYear,
+} from '../../store/Map/selectors';
+import { getRasterFunctionByLandCoverClassName } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
+import { useDispatch } from 'react-redux';
+import { yearUpdated } from '../../store/Map/reducer';
 
 type Props = {
     mapView?: IMapView;
 };
 
 const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
+    const dispatch = useDispatch();
+
     const animationMode = useSelector(selectAnimationMode);
 
+    const activeLandCoverType = useSelector(selectActiveLandCoverType);
+
+    const activeYear = useSelector(selectYear);
+
     const mediaLayerRef = useRef<IMediaLayer>();
+
+    const imageElementsRef = useRef<IImageElement[]>();
+
+    const animationInterval = useRef<NodeJS.Timeout>();
+
+    const indexOfCurrentFrame = useRef<number>(0);
+
+    const years = getAvailableYears();
 
     const init = async () => {
         type Modules = [typeof IMediaLayer];
@@ -35,7 +58,7 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
         }
     };
 
-    const loadData = async () => {
+    const loadFrameData = async () => {
         type Modules = [
             typeof IImageElement,
             typeof IExtentAndRotationGeoreference
@@ -48,35 +71,92 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
                     'esri/layers/support/ExtentAndRotationGeoreference',
                 ]) as Promise<Modules>);
 
-            const extent = mapView.extent;
+            const { extent, width, height } = mapView;
 
-            const { xmin, xmax, ymin, ymax } = extent;
+            const { xmin, ymin, xmax, ymax } = extent;
 
-            const res = await fetch(
-                'https://icdev.imagery1.arcgis.com/arcgis/rest/services/Sentinel2_10m_LandCover/ImageServer/exportImage?f=image&bbox=-13088351.635108855%2C4017785.5744985836%2C-13002933.256000191%2C4053787.414820892&bboxSR=102100&imageSR=102100&size=2235%2C942&format=jpgpng&mosaicRule=%7B%22ascending%22%3Atrue%2C%22mosaicMethod%22%3A%22esriMosaicNorthwest%22%2C%22mosaicOperation%22%3A%22MT_FIRST%22%7D&renderingRule=%7B%22rasterFunction%22%3A%22Trees%20Only%22%7D&time=1483272000000'
-            );
-
-            const blob = await res.blob();
-
-            const imageElement = new ImageElement({
-                image: URL.createObjectURL(blob),
-                georeference: new ExtentAndRotationGeoreference({
-                    extent: {
-                        spatialReference: {
-                            wkid: 102100,
-                        },
-                        xmin,
-                        ymin,
-                        xmax,
-                        ymax,
-                    },
-                }),
+            const requests = years.map((year) => {
+                return exportImageFromLandCoverLayer({
+                    extent,
+                    width,
+                    height,
+                    year,
+                    rasterFunctionName:
+                        getRasterFunctionByLandCoverClassName(
+                            activeLandCoverType
+                        ),
+                });
             });
 
-            mediaLayerRef.current.source.elements.add(imageElement);
+            const responses = await Promise.all(requests);
+
+            imageElementsRef.current = responses.map((blob) => {
+                return new ImageElement({
+                    image: URL.createObjectURL(blob),
+                    georeference: new ExtentAndRotationGeoreference({
+                        extent: {
+                            spatialReference: {
+                                wkid: 102100,
+                            },
+                            xmin,
+                            ymin,
+                            xmax,
+                            ymax,
+                        },
+                    }),
+                    opacity: 0,
+                });
+            });
+
+            mediaLayerRef.current.source.elements.addMany(
+                imageElementsRef.current
+            );
+
+            startAnimation(imageElementsRef.current);
         } catch (err) {
             console.error(err);
         }
+    };
+
+    const startAnimation = (imageElements: IImageElement[]) => {
+        animationInterval.current = setInterval(() => {
+            const year = years[indexOfCurrentFrame.current];
+
+            dispatch(yearUpdated(year));
+
+            const prevIdx =
+                indexOfCurrentFrame.current === 0
+                    ? imageElements.length - 1
+                    : indexOfCurrentFrame.current - 1;
+
+            const elem2show = imageElements[indexOfCurrentFrame.current];
+            const elem2hide = imageElements[prevIdx];
+
+            elem2show.opacity = 1;
+            elem2hide.opacity = 0;
+
+            const nextIdx =
+                indexOfCurrentFrame.current + 1 === imageElements.length
+                    ? 0
+                    : indexOfCurrentFrame.current + 1;
+
+            indexOfCurrentFrame.current = nextIdx;
+        }, 500);
+    };
+
+    const animationModeOnOffHandler = () => {
+        clearInterval(animationInterval.current);
+
+        // setImageElements(null)
+        for (const elem of imageElementsRef.current) {
+            URL.revokeObjectURL(elem.image as string);
+        }
+
+        indexOfCurrentFrame.current = 0;
+
+        imageElementsRef.current = null;
+
+        mediaLayerRef.current.source.elements.removeAll();
     };
 
     useEffect(() => {
@@ -87,9 +167,9 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
         }
 
         if (animationMode) {
-            loadData();
+            loadFrameData();
         } else {
-            mediaLayerRef.current.source.elements.removeAll();
+            animationModeOnOffHandler();
         }
     }, [animationMode]);
 

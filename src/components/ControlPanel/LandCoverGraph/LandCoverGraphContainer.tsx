@@ -12,6 +12,7 @@ import { showInfoPanelToggled } from '../../../store/UI/reducer';
 import ChangeCompareGraph from './ChangeCompareGraph/ChangeCompareGraphContainer';
 import HeaderText from '../HeaderText/HeaderText';
 import TotalAreaGraph from './TotalAreaGraph/TotalAreaGraphContainer';
+import { selectAnimationMode } from '../../../store/UI/selectors';
 
 const LandCoverGraphContainer = () => {
     const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const LandCoverGraphContainer = () => {
 
     const { zoom } = useSelector(selectMapCenterAndZoom);
 
+    const animationMode = useSelector(selectAnimationMode);
+
     const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
     );
@@ -27,6 +30,9 @@ const LandCoverGraphContainer = () => {
     const year = useSelector(selectYear);
 
     const outOfValidZoomLevel = zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM;
+
+    const shouldShowChart =
+        outOfValidZoomLevel === false && animationMode === false;
 
     const getSubtitle = () => {
         if (mode === 'swipe') {
@@ -50,22 +56,22 @@ const LandCoverGraphContainer = () => {
                 }}
             />
 
-            {outOfValidZoomLevel && (
+            {shouldShowChart === false && (
                 <div className="w-full flex justify-center items-center text-sm opacity-50 mt-16">
-                    <p>
-                        Zoom in to see Land Cover{' '}
-                        {mode === 'swipe' ? 'Change' : 'Totals'} Graph
-                    </p>
+                    {animationMode ? (
+                        <p> Graph is disabled when animation is on</p>
+                    ) : (
+                        <p>
+                            Zoom in to see Land Cover{' '}
+                            {mode === 'swipe' ? 'Change' : 'Totals'} Graph
+                        </p>
+                    )}
                 </div>
             )}
 
-            {outOfValidZoomLevel === false && mode === 'swipe' && (
-                <ChangeCompareGraph />
-            )}
+            {shouldShowChart && mode === 'swipe' && <ChangeCompareGraph />}
 
-            {outOfValidZoomLevel === false && mode === 'step' && (
-                <TotalAreaGraph />
-            )}
+            {shouldShowChart && mode === 'step' && <TotalAreaGraph />}
         </div>
     );
 };
