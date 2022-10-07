@@ -123,29 +123,31 @@ const TimeSliderContainer = () => {
                     selectedYear={year}
                 />
 
-                <div
-                    className="absolute"
-                    style={{
-                        right: -40,
-                        bottom: 11,
-                        width: 55,
-                    }}
-                >
-                    {mode === 'step' && (
-                        <div className="mb-3">
-                            <AnimationButton />
-                        </div>
-                    )}
-
+                {isFilterbyTime4Sentinel2LayerDisabled === false && (
                     <div
-                        className="w-full"
+                        className="absolute"
                         style={{
-                            height: 26,
+                            right: -40,
+                            bottom: 11,
+                            width: 55,
                         }}
                     >
-                        {shouldShowMonthPicker && <MonthPicker />}
+                        {mode === 'step' && (
+                            <div className="mb-3">
+                                <AnimationButton />
+                            </div>
+                        )}
+
+                        <div
+                            className="w-full"
+                            style={{
+                                height: 26,
+                            }}
+                        >
+                            {shouldShowMonthPicker && <MonthPicker />}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             {isFilterbyTime4Sentinel2LayerDisabled && (

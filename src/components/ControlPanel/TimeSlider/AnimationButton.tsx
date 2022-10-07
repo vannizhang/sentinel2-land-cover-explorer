@@ -67,7 +67,7 @@ const AnimationButton = () => {
             )}
             {animationMode === 'loading' && (
                 <div>
-                    <calcite-loader scale="s" active inline></calcite-loader>
+                    <calcite-loader scale="m" active inline></calcite-loader>
                 </div>
             )}
             {animationMode === 'playing' && (
@@ -88,7 +88,7 @@ const AnimationButton = () => {
                     {PlayButton}
                 </div>
             )}
-            {(animationMode === 'playing' || animationMode === 'pausing') && (
+            {animationMode && (
                 <div
                     onClick={() => {
                         dispatch(animationModeUpdated(null));
