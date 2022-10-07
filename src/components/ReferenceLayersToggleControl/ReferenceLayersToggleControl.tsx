@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -9,6 +10,8 @@ import {
     selectShowMapLabel,
     selectShowTerrain,
 } from '../../store/Map/selectors';
+import { selectAnimationMode } from '../../store/UI/selectors';
+import { SEARCH_WIDGET_WIDTH } from '../MapView/SearchWidget';
 
 type ToggleButtonProps = {
     label: string;
@@ -65,15 +68,22 @@ const ToggleButton: FC<ToggleButtonProps> = ({
 const LayersToggleControl = () => {
     const dispatch = useDispatch();
 
+    const animationMode = useSelector(selectAnimationMode);
+
     const showMapLabel = useSelector(selectShowMapLabel);
 
     const showTerrain = useSelector(selectShowTerrain);
 
     return (
         <div
-            className="absolute bg-custom-background flex py-2 px-2 text-custom-light-blue text-xs"
+            className={classNames(
+                'absolute bg-custom-background flex py-2 px-2 text-custom-light-blue text-xs',
+                {
+                    hidden: animationMode !== null,
+                }
+            )}
             style={{
-                width: 240, // this is the width of JSAPI search Widget
+                width: SEARCH_WIDGET_WIDTH, // this is the width of JSAPI search Widget
                 right: 15, // this is the margin to right value of JSAPI search Widget
                 top: 15, // this is the margin to top value of JSAPI search Widget
             }}

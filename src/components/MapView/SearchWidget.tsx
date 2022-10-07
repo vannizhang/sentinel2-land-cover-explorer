@@ -5,6 +5,7 @@ import IMapView from 'esri/views/MapView';
 import IExtent from 'esri/geometry/Extent';
 import IGraphic from 'esri/Graphic';
 import ISearchWidget from 'esri/widgets/Search';
+import classNames from 'classnames';
 
 type SearchResult = {
     extent: IExtent;
@@ -16,12 +17,16 @@ type SearchResult = {
 type Props = {
     // containerId?: string;
     mapView?: IMapView;
+    hide?: boolean;
     searchCompletedHandler?: (result: SearchResult) => void;
 };
+
+export const SEARCH_WIDGET_WIDTH = 240;
 
 const SearchWidget: React.FC<Props> = ({
     // containerId,
     mapView,
+    hide,
     searchCompletedHandler,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
@@ -69,11 +74,14 @@ const SearchWidget: React.FC<Props> = ({
 
     return (
         <div
-            className="absolute"
+            className={classNames('absolute', {
+                'opacity-0': hide,
+            })}
             ref={containerRef}
             style={{
                 top: 50,
                 right: 15,
+                width: SEARCH_WIDGET_WIDTH,
             }}
         ></div>
     );

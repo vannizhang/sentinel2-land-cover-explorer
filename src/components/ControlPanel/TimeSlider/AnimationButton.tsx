@@ -55,7 +55,7 @@ const AnimationButton = () => {
     const animationMode = useSelector(selectAnimationMode);
 
     return (
-        <div className="flex">
+        <div className="flex cursor-pointer">
             {!animationMode && (
                 <div
                     onClick={() => {

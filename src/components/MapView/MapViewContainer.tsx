@@ -27,7 +27,10 @@ import IPoint from 'esri/geometry/Point';
 import Popup from '../Popup/Popup';
 import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
 // import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
-import { selectShouldHideControlPanel } from '../../store/UI/selectors';
+import {
+    selectAnimationMode,
+    selectShouldHideControlPanel,
+} from '../../store/UI/selectors';
 import classNames from 'classnames';
 // import ToggleAttribution from './ToggleAttribution';
 import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
@@ -44,6 +47,8 @@ const MapViewContainer = () => {
     const dispatch = useDispatch();
 
     const mode = useSelector(selectMapMode);
+
+    const animationMode = useSelector(selectAnimationMode);
 
     const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
@@ -124,7 +129,7 @@ const MapViewContainer = () => {
 
                 <Popup />
 
-                <SearchWidget />
+                <SearchWidget hide={animationMode !== null} />
 
                 <ReferenceLayers />
 

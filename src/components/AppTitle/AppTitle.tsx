@@ -1,15 +1,13 @@
 import './style.css';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { selectAnimationMode } from '../../store/UI/selectors';
 
 const AppTitle = () => {
+    const animationMode = useSelector(selectAnimationMode);
+
     const [hideTitle, setHideTitle] = useState(false);
-
-    // const appTitleContainerRef = useRef<HTMLDivElement>();
-
-    // const startFadingAway = () => {
-    //     appTitleContainerRef.current.classList.add('hidden');
-    // };
 
     useEffect(() => {
         setTimeout(() => {
@@ -19,7 +17,9 @@ const AppTitle = () => {
 
     return (
         <div
-            className="absolute z-10 text-custom-light-blue flex"
+            className={classNames('absolute z-10 text-custom-light-blue flex', {
+                hidden: animationMode !== null,
+            })}
             style={{
                 top: 15,
                 left: 15,
