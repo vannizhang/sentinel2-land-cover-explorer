@@ -12,6 +12,8 @@ export type TooltipData = {
     content?: string;
 };
 
+export type AnimationMode = 'loading' | 'playing' | 'pausing';
+
 export type UIState = {
     /**
      * If true, open info panel that shows detailed land cover info
@@ -40,7 +42,7 @@ export type UIState = {
     /**
      * if true, animation mode is on and should animating land cover or sentinel-2 layers
      */
-    animationMode?: boolean;
+    animationMode?: AnimationMode;
 };
 
 export const initialUIState: UIState = {
@@ -50,7 +52,7 @@ export const initialUIState: UIState = {
     tooltipData: null,
     showSwipeWidgetYearIndicator: false,
     hideControlPanel: false,
-    animationMode: false,
+    animationMode: null,
 };
 
 const slice = createSlice({
@@ -78,7 +80,7 @@ const slice = createSlice({
         showDownloadPanelToggled: (state, action: PayloadAction<boolean>) => {
             state.showDownloadPanel = action.payload;
         },
-        animationModeToggled: (state, action: PayloadAction<boolean>) => {
+        animationModeUpdated: (state, action: PayloadAction<AnimationMode>) => {
             state.animationMode = action.payload;
         },
     },
@@ -93,7 +95,7 @@ export const {
     showSwipeWidgetYearIndicatorToggled,
     hideControlPanelToggled,
     showDownloadPanelToggled,
-    animationModeToggled,
+    animationModeUpdated,
 } = slice.actions;
 
 export default reducer;

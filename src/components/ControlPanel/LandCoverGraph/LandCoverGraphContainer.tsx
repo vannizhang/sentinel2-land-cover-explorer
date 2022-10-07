@@ -31,8 +31,7 @@ const LandCoverGraphContainer = () => {
 
     const outOfValidZoomLevel = zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM;
 
-    const shouldShowChart =
-        outOfValidZoomLevel === false && animationMode === false;
+    const shouldShowChart = outOfValidZoomLevel === false && !animationMode;
 
     const getSubtitle = () => {
         if (mode === 'swipe') {

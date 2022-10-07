@@ -26,7 +26,11 @@ const LandcoverLayer: FC<Props> = ({ mapView }: Props) => {
     );
 
     const getVisibility = () => {
-        if (shouldShowSentinel2Layer || animationMode) {
+        if (shouldShowSentinel2Layer) {
+            return false;
+        }
+
+        if (animationMode && animationMode !== 'loading') {
             return false;
         }
 

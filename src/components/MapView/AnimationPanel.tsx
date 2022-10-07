@@ -17,15 +17,20 @@ import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeI
 import { useDispatch } from 'react-redux';
 import { yearUpdated } from '../../store/Map/reducer';
 import classNames from 'classnames';
+import { animationModeUpdated } from '../../store/UI/reducer';
 
 type Props = {
     mapView?: IMapView;
 };
 
+const ANIMATION_SPEED_IN_MILLISECONDS = 500;
+
 const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     const dispatch = useDispatch();
 
     const years = getAvailableYears();
+
+    const year = useSelector(selectYear);
 
     const animationMode = useSelector(selectAnimationMode);
 
@@ -35,11 +40,11 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
 
     const imageElementsRef = useRef<IImageElement[]>();
 
-    const animationInterval = useRef<NodeJS.Timeout>();
+    const isPlayingRef = useRef<boolean>(false);
+
+    const timeLastFrameDisplayed = useRef<number>(performance.now());
 
     const indexOfCurrentFrame = useRef<number>(0);
-
-    const [isLoading, setIsLoading] = useState(true);
 
     const init = async () => {
         type Modules = [typeof IMediaLayer];
@@ -64,8 +69,6 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             typeof IImageElement,
             typeof IExtentAndRotationGeoreference
         ];
-
-        setIsLoading(true);
 
         try {
             const [ImageElement, ExtentAndRotationGeoreference] =
@@ -115,53 +118,60 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
                 imageElementsRef.current
             );
 
-            setIsLoading(false);
-
-            startAnimation(imageElementsRef.current);
+            dispatch(animationModeUpdated('playing'));
         } catch (err) {
             console.error(err);
         }
     };
 
-    const startAnimation = (imageElements: IImageElement[]) => {
-        animationInterval.current = setInterval(() => {
-            const year = years[indexOfCurrentFrame.current];
+    const showCurrentFrame = () => {
+        if (!isPlayingRef.current) {
+            return;
+        }
 
-            dispatch(yearUpdated(year));
+        const now = performance.now();
 
-            const prevIdx =
-                indexOfCurrentFrame.current === 0
-                    ? imageElements.length - 1
-                    : indexOfCurrentFrame.current - 1;
+        const millisecondsSinceLastFrame = now - timeLastFrameDisplayed.current;
 
-            const elem2show = imageElements[indexOfCurrentFrame.current];
-            const elem2hide = imageElements[prevIdx];
+        if (millisecondsSinceLastFrame < ANIMATION_SPEED_IN_MILLISECONDS) {
+            requestAnimationFrame(showCurrentFrame);
+            return;
+        }
 
-            elem2show.opacity = 1;
-            elem2hide.opacity = 0;
+        timeLastFrameDisplayed.current = now;
 
-            const nextIdx =
-                indexOfCurrentFrame.current + 1 === imageElements.length
-                    ? 0
-                    : indexOfCurrentFrame.current + 1;
+        const year = years[indexOfCurrentFrame.current];
 
-            indexOfCurrentFrame.current = nextIdx;
-        }, 500);
+        dispatch(yearUpdated(year));
+
+        const imageElements: IImageElement[] = imageElementsRef.current;
+
+        for (let i = 0; i < imageElements.length; i++) {
+            const opacity = i === indexOfCurrentFrame.current ? 1 : 0;
+            imageElements[i].opacity = opacity;
+        }
+
+        const nextIdx =
+            indexOfCurrentFrame.current + 1 === imageElements.length
+                ? 0
+                : indexOfCurrentFrame.current + 1;
+
+        indexOfCurrentFrame.current = nextIdx;
+
+        requestAnimationFrame(showCurrentFrame);
     };
 
-    const animationModeOnOffHandler = () => {
-        clearInterval(animationInterval.current);
-
-        mediaLayerRef.current.source.elements.removeAll();
+    const stopAnimation = () => {
+        // clearInterval(animationInterval.current);
 
         // setImageElements(null)
         for (const elem of imageElementsRef.current) {
             URL.revokeObjectURL(elem.image as string);
         }
 
-        indexOfCurrentFrame.current = 0;
-
         imageElementsRef.current = null;
+
+        mediaLayerRef.current.source.elements.removeAll();
     };
 
     useEffect(() => {
@@ -171,10 +181,18 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             return;
         }
 
-        if (animationMode) {
+        isPlayingRef.current = animationMode === 'playing';
+
+        if (animationMode === 'loading') {
             loadFrameData();
+        } else if (animationMode === 'playing') {
+            indexOfCurrentFrame.current = years.indexOf(year);
+            requestAnimationFrame(showCurrentFrame);
+        } else if (animationMode === 'pausing') {
+            // clearInterval(animationInterval.current);
+            // isPlayingRef.current = false;
         } else {
-            animationModeOnOffHandler();
+            stopAnimation();
         }
     }, [animationMode]);
 
@@ -189,14 +207,10 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     return (
         <div
             className={classNames(
-                'absolute top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center',
-                {
-                    ' bg-custom-background-90': isLoading,
-                    // 'opacity-50': isLoading
-                }
+                'absolute top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center'
             )}
         >
-            {isLoading && (
+            {animationMode === 'loading' && (
                 <calcite-loader active scale="l">
                     Loading Images
                 </calcite-loader>
