@@ -85,47 +85,53 @@ const TimeSliderContainer = () => {
             <ModeSelector disabled={animationMode !== null} />
 
             <div className={classNames('relative max-w-md mt-2')}>
-                <TimeSliderWidget
-                    years={years}
-                    initialTimeExtent={{
-                        start: new Date(year4LeadingLayer, 0, 1),
-                        end: new Date(year4TrailingLayer, 0, 1),
-                    }}
-                    visible={timeRangeSliderVisibility}
-                    timeExtentOnChange={(startYear, endYear) => {
-                        // console.log(startYear, endYear)
+                <div
+                    className={classNames('w-full', {
+                        'pointer-events-none': animationMode !== null,
+                    })}
+                >
+                    <TimeSliderWidget
+                        years={years}
+                        initialTimeExtent={{
+                            start: new Date(year4LeadingLayer, 0, 1),
+                            end: new Date(year4TrailingLayer, 0, 1),
+                        }}
+                        visible={timeRangeSliderVisibility}
+                        timeExtentOnChange={(startYear, endYear) => {
+                            // console.log(startYear, endYear)
 
-                        if (startYear === endYear) {
-                            console.log(
-                                'start year and end year cannot be same'
-                            );
-                            return;
-                        }
+                            if (startYear === endYear) {
+                                console.log(
+                                    'start year and end year cannot be same'
+                                );
+                                return;
+                            }
 
-                        batch(() => {
-                            dispatch(year4LeadingLayerUpdated(startYear));
-                            dispatch(year4TrailingLayerUpdated(endYear));
-                        });
-                    }}
-                />
+                            batch(() => {
+                                dispatch(year4LeadingLayerUpdated(startYear));
+                                dispatch(year4TrailingLayerUpdated(endYear));
+                            });
+                        }}
+                    />
 
-                <TimeSliderWidget
-                    mode="instant"
-                    years={years}
-                    initialTimeExtent={{
-                        start: new Date(year, 0, 1),
-                        end: new Date(year, 0, 1),
-                    }}
-                    visible={timeStepSliderVisibility}
-                    timeExtentOnChange={(startYear) => {
-                        // console.log(startYear)
+                    <TimeSliderWidget
+                        mode="instant"
+                        years={years}
+                        initialTimeExtent={{
+                            start: new Date(year, 0, 1),
+                            end: new Date(year, 0, 1),
+                        }}
+                        visible={timeStepSliderVisibility}
+                        timeExtentOnChange={(startYear) => {
+                            // console.log(startYear)
 
-                        batch(() => {
-                            dispatch(yearUpdated(startYear));
-                        });
-                    }}
-                    selectedYear={year}
-                />
+                            batch(() => {
+                                dispatch(yearUpdated(startYear));
+                            });
+                        }}
+                        selectedYear={year}
+                    />
+                </div>
 
                 {isFilterbyTime4Sentinel2LayerDisabled === false && (
                     <div

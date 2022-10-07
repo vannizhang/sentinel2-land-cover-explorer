@@ -8,7 +8,10 @@ import {
     selectSwipePosition,
     selectYearsForSwipeWidgetLayers,
 } from '../../store/Map/selectors';
-import { selectShowSwipeWidgetYearIndicator } from '../../store/UI/selectors';
+import {
+    selectAnimationMode,
+    selectShowSwipeWidgetYearIndicator,
+} from '../../store/UI/selectors';
 
 type Props = {
     /**
@@ -27,6 +30,8 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
 }: Props) => {
     const position = useSelector(selectSwipePosition);
 
+    const animationMode = useSelector(selectAnimationMode);
+
     // const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
     //     selectIsFilterbyTime4Sentinel2LayerDisabled
     // );
@@ -42,6 +47,10 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
     const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
     );
+
+    if (animationMode) {
+        return null;
+    }
 
     return (
         <div
