@@ -26,6 +26,7 @@ type ExportImageParams = {
      * Land cover layer raster function name that will be used in the rendering rule
      */
     rasterFunctionName: string;
+    abortController: AbortController;
 };
 
 export const exportImage = async ({
@@ -34,6 +35,7 @@ export const exportImage = async ({
     height,
     year,
     rasterFunctionName,
+    abortController,
 }: ExportImageParams) => {
     const { xmin, xmax, ymin, ymax } = extent;
 
@@ -57,7 +59,7 @@ export const exportImage = async ({
 
     const requestURL = `${SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL}/exportImage?${params.toString()}`;
 
-    const res = await fetch(requestURL);
+    const res = await fetch(requestURL, { signal: abortController.signal });
 
     const blob = await res.blob();
 

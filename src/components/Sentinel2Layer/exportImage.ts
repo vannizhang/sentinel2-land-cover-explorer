@@ -30,6 +30,7 @@ type ExportImageParams = {
      * Sentinel 2 layer raster function name that will be used in the rendering rule
      */
     rasterFunctionName: Sentinel2RasterFunction;
+    abortController: AbortController;
 };
 
 export const exportImage = async ({
@@ -39,6 +40,7 @@ export const exportImage = async ({
     year,
     month,
     rasterFunctionName,
+    abortController,
 }: ExportImageParams) => {
     const { xmin, xmax, ymin, ymax } = extent;
 
@@ -61,7 +63,7 @@ export const exportImage = async ({
 
     const requestURL = `${SENTINEL_2_IMAGE_SERVICE_URL}/exportImage?${params.toString()}`;
 
-    const res = await fetch(requestURL);
+    const res = await fetch(requestURL, { signal: abortController.signal });
 
     const blob = await res.blob();
 
