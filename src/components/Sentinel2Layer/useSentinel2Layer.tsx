@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import IImageryLayer from 'esri/layers/ImageryLayer';
 import { loadModules } from 'esri-loader';
 // import IMapView from 'esri/views/MapView';
-import { SENTINEL_2_IMAGE_SERVICE_URL } from './config';
+import {
+    SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,
+    SENTINEL_2_IMAGE_SERVICE_URL,
+} from './config';
 import { useSelector } from 'react-redux';
 import {
     selectSentinel2AquisitionMonth,
@@ -13,6 +16,20 @@ type UseLandCoverLayerParams = {
     year: number;
     visible?: boolean;
     // mapView?: IMapView;
+};
+
+const { AcquisitionDate } = SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES;
+
+export const createMosaicRuleByYear = (year: number, month: number) => {
+    const monthStr = month < 10 ? '0' + month : month.toString();
+
+    return {
+        method: `attribute`,
+        where: `(category = 2) OR (CloudCover < 0.1)`,
+        sortField: AcquisitionDate,
+        sortValue: `${year}/${monthStr}/15`,
+        ascending: true,
+    };
 };
 
 const useSentinel2Layer = ({
@@ -26,18 +43,6 @@ const useSentinel2Layer = ({
     const selectedRasterFunction = useSelector(selectSentinel2RasterFunction);
 
     const aquisitionMonth = useSelector(selectSentinel2AquisitionMonth);
-
-    const createMosaicRuleByYear = (year: number, month: number) => {
-        const monthStr = month < 10 ? '0' + month : month.toString();
-
-        return {
-            method: `attribute`,
-            where: `(category = 2) OR (CloudCover < 0.1)`,
-            sortField: `AcquisitionDate`,
-            sortValue: `${year}/${monthStr}/15`,
-            ascending: true,
-        };
-    };
 
     /**
      * get sentinel 2 layer using mosaic created using the input year

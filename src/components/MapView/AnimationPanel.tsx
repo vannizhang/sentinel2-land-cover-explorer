@@ -8,8 +8,12 @@ import IImageElement from 'esri/layers/support/ImageElement';
 import IExtentAndRotationGeoreference from 'esri/layers/support/ExtentAndRotationGeoreference';
 import { loadModules } from 'esri-loader';
 import { exportImage as exportImageFromLandCoverLayer } from '../LandcoverLayer/exportImage';
+import { exportImage as exportImageFromSentinel2Layer } from '../Sentinel2Layer/exportImage';
 import {
     selectActiveLandCoverType,
+    selectSentinel2AquisitionMonth,
+    selectSentinel2RasterFunction,
+    selectShouldShowSentinel2Layer,
     selectYear,
 } from '../../store/Map/selectors';
 import { getRasterFunctionByLandCoverClassName } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -31,6 +35,16 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     const years = getAvailableYears();
 
     const year = useSelector(selectYear);
+
+    const sentinel2AquisitionMonth = useSelector(
+        selectSentinel2AquisitionMonth
+    );
+
+    const sentinel2RasterFunction = useSelector(selectSentinel2RasterFunction);
+
+    const shouldShowSentinel2Layer = useSelector(
+        selectShouldShowSentinel2Layer
+    );
 
     const animationMode = useSelector(selectAnimationMode);
 
@@ -82,16 +96,25 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             const { xmin, ymin, xmax, ymax } = extent;
 
             const requests = years.map((year) => {
-                return exportImageFromLandCoverLayer({
-                    extent,
-                    width,
-                    height,
-                    year,
-                    rasterFunctionName:
-                        getRasterFunctionByLandCoverClassName(
-                            activeLandCoverType
-                        ),
-                });
+                return shouldShowSentinel2Layer
+                    ? exportImageFromSentinel2Layer({
+                          extent,
+                          width,
+                          height,
+                          year,
+                          month: sentinel2AquisitionMonth,
+                          rasterFunctionName: sentinel2RasterFunction,
+                      })
+                    : exportImageFromLandCoverLayer({
+                          extent,
+                          width,
+                          height,
+                          year,
+                          rasterFunctionName:
+                              getRasterFunctionByLandCoverClassName(
+                                  activeLandCoverType
+                              ),
+                      });
             });
 
             const responses = await Promise.all(requests);

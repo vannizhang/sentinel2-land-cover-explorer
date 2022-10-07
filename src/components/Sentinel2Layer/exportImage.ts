@@ -1,9 +1,9 @@
 import IExtent from 'esri/geometry/Extent';
+import { Sentinel2RasterFunction } from '../ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 import {
-    getTimeExtentByYear,
-    // TimeExtentData,
-} from '../../services/sentinel-2-10m-landcover/timeInfo';
-import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
+    SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,
+    SENTINEL_2_IMAGE_SERVICE_URL,
+} from './config';
 
 type ExportImageParams = {
     /**
@@ -23,9 +23,13 @@ type ExportImageParams = {
      */
     year: number;
     /**
-     * Land cover layer raster function name that will be used in the rendering rule
+     * the year that will be used as time filter
      */
-    rasterFunctionName: string;
+    month: number;
+    /**
+     * Sentinel 2 layer raster function name that will be used in the rendering rule
+     */
+    rasterFunctionName: Sentinel2RasterFunction;
 };
 
 export const exportImage = async ({
@@ -33,29 +37,29 @@ export const exportImage = async ({
     width,
     height,
     year,
+    month,
     rasterFunctionName,
 }: ExportImageParams) => {
     const { xmin, xmax, ymin, ymax } = extent;
-
-    const { start } = await getTimeExtentByYear(year);
 
     const params = new URLSearchParams({
         f: 'image',
         bbox: `${xmin},${ymin},${xmax},${ymax}`,
         bboxSR: '102100',
         imageSR: '102100',
-        format: 'jpgpng',
         size: `${width},${height}`,
+        format: 'jpgpng',
         mosaicRule: JSON.stringify({
             ascending: true,
-            mosaicMethod: 'esriMosaicNorthwest',
-            mosaicOperation: 'MT_FIRST',
+            mosaicMethod: 'esriMosaicAttribute',
+            sortField: SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES.AcquisitionDate,
+            sortValue: `${year}/${month}/15`,
+            where: '(category = 2) OR (CloudCover < 0.1)',
         }),
         renderingRule: JSON.stringify({ rasterFunction: rasterFunctionName }),
-        time: start.toString(),
     });
 
-    const requestURL = `${SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL}/exportImage?${params.toString()}`;
+    const requestURL = `${SENTINEL_2_IMAGE_SERVICE_URL}/exportImage?${params.toString()}`;
 
     const res = await fetch(requestURL);
 
