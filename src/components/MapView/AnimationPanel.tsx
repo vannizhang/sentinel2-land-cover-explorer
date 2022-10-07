@@ -16,6 +16,7 @@ import { getRasterFunctionByLandCoverClassName } from '../../services/sentinel-2
 import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
 import { useDispatch } from 'react-redux';
 import { yearUpdated } from '../../store/Map/reducer';
+import classNames from 'classnames';
 
 type Props = {
     mapView?: IMapView;
@@ -24,11 +25,11 @@ type Props = {
 const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     const dispatch = useDispatch();
 
+    const years = getAvailableYears();
+
     const animationMode = useSelector(selectAnimationMode);
 
     const activeLandCoverType = useSelector(selectActiveLandCoverType);
-
-    const activeYear = useSelector(selectYear);
 
     const mediaLayerRef = useRef<IMediaLayer>();
 
@@ -38,7 +39,7 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
 
     const indexOfCurrentFrame = useRef<number>(0);
 
-    const years = getAvailableYears();
+    const [isLoading, setIsLoading] = useState(true);
 
     const init = async () => {
         type Modules = [typeof IMediaLayer];
@@ -63,6 +64,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             typeof IImageElement,
             typeof IExtentAndRotationGeoreference
         ];
+
+        setIsLoading(true);
 
         try {
             const [ImageElement, ExtentAndRotationGeoreference] =
@@ -112,6 +115,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
                 imageElementsRef.current
             );
 
+            setIsLoading(false);
+
             startAnimation(imageElementsRef.current);
         } catch (err) {
             console.error(err);
@@ -147,6 +152,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     const animationModeOnOffHandler = () => {
         clearInterval(animationInterval.current);
 
+        mediaLayerRef.current.source.elements.removeAll();
+
         // setImageElements(null)
         for (const elem of imageElementsRef.current) {
             URL.revokeObjectURL(elem.image as string);
@@ -155,8 +162,6 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
         indexOfCurrentFrame.current = 0;
 
         imageElementsRef.current = null;
-
-        mediaLayerRef.current.source.elements.removeAll();
     };
 
     useEffect(() => {
@@ -181,7 +186,23 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
         return null;
     }
 
-    return <div className="absolute top-0 left-0 bottom-0 right-0 z-50"></div>;
+    return (
+        <div
+            className={classNames(
+                'absolute top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center',
+                {
+                    ' bg-custom-background-90': isLoading,
+                    // 'opacity-50': isLoading
+                }
+            )}
+        >
+            {isLoading && (
+                <calcite-loader active scale="l">
+                    Loading Images
+                </calcite-loader>
+            )}
+        </div>
+    );
 };
 
 export default AnimationPanel;

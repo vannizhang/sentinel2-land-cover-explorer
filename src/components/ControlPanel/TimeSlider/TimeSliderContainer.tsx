@@ -120,6 +120,7 @@ const TimeSliderContainer = () => {
                             dispatch(yearUpdated(startYear));
                         });
                     }}
+                    selectedYear={year}
                 />
 
                 <div

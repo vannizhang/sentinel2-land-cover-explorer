@@ -37,6 +37,10 @@ type Props = {
      * @param endYear ned end year
      */
     timeExtentOnChange: (startYear: number, endYear: number) => void;
+    /**
+     * selected year
+     */
+    selectedYear?: number;
 };
 
 const TimeSliderWidget: FC<Props> = ({
@@ -45,6 +49,7 @@ const TimeSliderWidget: FC<Props> = ({
     initialTimeExtent,
     visible,
     timeExtentOnChange,
+    selectedYear,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
 
@@ -130,6 +135,24 @@ const TimeSliderWidget: FC<Props> = ({
             sliderRef.current.visible = visible;
         }
     }, [visible]);
+
+    useEffect(() => {
+        if (!sliderRef.current || !selectedYear) {
+            return;
+        }
+
+        const yearFromTimeSlider =
+            sliderRef.current.timeExtent.start.getFullYear();
+
+        if (yearFromTimeSlider === selectedYear) {
+            return;
+        }
+
+        sliderRef.current.timeExtent = {
+            start: new Date(selectedYear, 0, 1),
+            end: new Date(selectedYear, 0, 1),
+        } as any;
+    }, [selectedYear]);
 
     return (
         <div
