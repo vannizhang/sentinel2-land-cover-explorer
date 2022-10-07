@@ -39,14 +39,7 @@ const MonthPicker = () => {
     }, [month]);
 
     return (
-        <div
-            // className="absolute"
-            // style={{
-            //     right: -40,
-            //     bottom: 11,
-            // }}
-            ref={containerRef}
-        >
+        <div ref={containerRef}>
             <div
                 className="border border-custom-light-blue-50 opacity-80 p-1 text-xs cursor-pointer flex items-center"
                 onClick={() => {

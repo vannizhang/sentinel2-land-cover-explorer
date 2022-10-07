@@ -27,7 +27,7 @@ type Props = {
     mapView?: IMapView;
 };
 
-const ANIMATION_SPEED_IN_MILLISECONDS = 500;
+const ANIMATION_SPEED_IN_MILLISECONDS = 1000;
 
 const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     const dispatch = useDispatch();
@@ -185,9 +185,6 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     };
 
     const stopAnimation = () => {
-        // clearInterval(animationInterval.current);
-
-        // setImageElements(null)
         for (const elem of imageElementsRef.current) {
             URL.revokeObjectURL(elem.image as string);
         }

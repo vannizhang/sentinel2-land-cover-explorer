@@ -65,7 +65,11 @@ const AnimationButton = () => {
                     {PlayButton}
                 </div>
             )}
-            {animationMode === 'loading' && <div>loading</div>}
+            {animationMode === 'loading' && (
+                <div>
+                    <calcite-loader scale="s" active inline></calcite-loader>
+                </div>
+            )}
             {animationMode === 'playing' && (
                 <div
                     onClick={() => {

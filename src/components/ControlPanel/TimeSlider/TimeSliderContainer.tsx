@@ -128,10 +128,23 @@ const TimeSliderContainer = () => {
                     style={{
                         right: -40,
                         bottom: 11,
+                        width: 55,
                     }}
                 >
-                    {mode === 'step' && <AnimationButton />}
-                    {shouldShowMonthPicker && <MonthPicker />}
+                    {mode === 'step' && (
+                        <div className="mb-3">
+                            <AnimationButton />
+                        </div>
+                    )}
+
+                    <div
+                        className="w-full"
+                        style={{
+                            height: 26,
+                        }}
+                    >
+                        {shouldShowMonthPicker && <MonthPicker />}
+                    </div>
                 </div>
             </div>
 
