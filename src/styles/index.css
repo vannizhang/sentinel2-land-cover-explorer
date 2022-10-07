@@ -28,3 +28,7 @@ body {
 .esri-menu {
     @apply bg-custom-background text-custom-light-blue;
 }
+
+.hide-map-control .esri-zoom {
+    display: none;
+}
