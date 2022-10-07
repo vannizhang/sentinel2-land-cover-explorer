@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect } from 'react';
 import { batch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -15,6 +16,7 @@ import {
     selectYear,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
+import { selectAnimationMode } from '../../../store/UI/selectors';
 import {
     saveActiveYearToHashParams,
     saveTimeExtentToHashParams,
@@ -27,6 +29,8 @@ import TimeSliderWidget from './TimeSliderWidget';
 
 const TimeSliderContainer = () => {
     const dispatch = useDispatch();
+
+    const animationMode = useSelector(selectAnimationMode);
 
     const mode = useSelector(selectMapMode);
 
@@ -78,9 +82,9 @@ const TimeSliderContainer = () => {
                 }
             />
 
-            <ModeSelector />
+            <ModeSelector disabled={animationMode !== null} />
 
-            <div className="relative max-w-md mt-2">
+            <div className={classNames('relative max-w-md mt-2')}>
                 <TimeSliderWidget
                     years={years}
                     initialTimeExtent={{
@@ -144,7 +148,11 @@ const TimeSliderContainer = () => {
                                 height: 26,
                             }}
                         >
-                            {shouldShowMonthPicker && <MonthPicker />}
+                            {shouldShowMonthPicker && (
+                                <MonthPicker
+                                    disabled={animationMode !== null}
+                                />
+                            )}
                         </div>
                     </div>
                 )}

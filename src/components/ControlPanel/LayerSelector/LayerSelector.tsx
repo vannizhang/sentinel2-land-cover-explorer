@@ -49,6 +49,7 @@ const LayerSelectorButton: FC<LayerSelectorButtonProps> = ({
 
 type Props = {
     shouldShowSentinel2Layer: boolean;
+    disabled?: boolean;
     landcoverButtonOnClick: () => void;
     downloadLandcoverButtonOnClick: () => void;
     imageryButtonOnClick: () => void;
@@ -56,12 +57,17 @@ type Props = {
 
 const LayerSelector: FC<Props> = ({
     shouldShowSentinel2Layer,
+    disabled,
     landcoverButtonOnClick,
     imageryButtonOnClick,
     downloadLandcoverButtonOnClick,
 }: Props) => {
     return (
-        <div className="mx-4 mt-5">
+        <div
+            className={classNames('mx-4 mt-5', {
+                'disabled-when-animation-mode-is-on': disabled,
+            })}
+        >
             <div className={BUTTON_CONATINER_CLASSNAMES}>
                 <LayerSelectorButton
                     onClickHandler={landcoverButtonOnClick}

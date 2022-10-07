@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
@@ -21,7 +22,11 @@ const MONTH_ABBR = [
     'DEC',
 ];
 
-const MonthPicker = () => {
+type Props = {
+    disabled?: boolean;
+};
+
+const MonthPicker: FC<Props> = ({ disabled }: Props) => {
     const dispatch = useDispatch();
 
     const month = useSelector(selectSentinel2AquisitionMonth);
@@ -39,7 +44,12 @@ const MonthPicker = () => {
     }, [month]);
 
     return (
-        <div ref={containerRef}>
+        <div
+            ref={containerRef}
+            className={classNames({
+                'disabled-when-animation-mode-is-on': disabled,
+            })}
+        >
             <div
                 className="border border-custom-light-blue-50 opacity-80 p-1 text-xs cursor-pointer flex items-center"
                 onClick={() => {

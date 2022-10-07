@@ -16,11 +16,16 @@ type Props = {
      * Fires when users hovers a land cover item in th list
      */
     itemOnHover: (data?: TooltipData) => void;
+    /**
+     * If true, all items are disabled, this can happen when the animation mode is on
+     */
+    disabled?: boolean;
 };
 
 const Sentinel2LayerRasterFunctionsList: FC<Props> = ({
     data,
     selectedRasterFunction,
+    disabled,
     onSelect,
     itemOnHover,
 }: Props) => {
@@ -34,7 +39,11 @@ const Sentinel2LayerRasterFunctionsList: FC<Props> = ({
                 subTitle="Click to Toggle Visibility"
             />
 
-            <div className="grid grid-cols-2 h-28 text-sm mt-4">
+            <div
+                className={classNames('grid grid-cols-2 h-28 text-sm mt-4', {
+                    'disabled-when-animation-mode-is-on': disabled,
+                })}
+            >
                 {data.map((d) => {
                     const { name, label, description, thumbnail } = d;
 

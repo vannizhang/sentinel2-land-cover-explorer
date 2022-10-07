@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { modeChanged } from '../../../store/Map/reducer';
@@ -9,7 +9,11 @@ import { saveMapModeToHashParams } from '../../../utils/URLHashParams';
 const BTN_CLASSNAMES =
     'p-1 mx-2 cursor-pointer uppercase flex items-center border-b';
 
-const ModeSelector = () => {
+type Props = {
+    disabled?: boolean;
+};
+
+const ModeSelector: FC<Props> = ({ disabled }: Props) => {
     const dispatch = useDispatch();
 
     const activeMode = useSelector(selectMapMode);
@@ -22,7 +26,11 @@ const ModeSelector = () => {
     }, [activeMode]);
 
     return (
-        <div className="flex justify-center text-xs mt-4">
+        <div
+            className={classNames('flex justify-center text-xs mt-4', {
+                'disabled-when-animation-mode-is-on': disabled,
+            })}
+        >
             <div
                 className={classNames(BTN_CLASSNAMES, {
                     'opacity-50': !isStepBtnActive,

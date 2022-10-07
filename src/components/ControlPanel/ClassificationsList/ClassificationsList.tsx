@@ -25,6 +25,10 @@ type Props = {
      * Fires when users hovers a land cover item in th list
      */
     itemOnHover: (data?: TooltipData) => void;
+    /**
+     * If true, all items are disabled, this can happen when the animation mode is on
+     */
+    disabled?: boolean;
 };
 
 const ClassificationsList: FC<Props> = ({
@@ -32,6 +36,7 @@ const ClassificationsList: FC<Props> = ({
     selectedLandCover,
     itemOnHover,
     activeLandCoverOnChange,
+    disabled,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
     useGetTooltipPositionOnHover(containerRef);
@@ -43,7 +48,11 @@ const ClassificationsList: FC<Props> = ({
                 subTitle="Click to Toggle Visibility"
             />
 
-            <div className="grid grid-cols-3 h-28 text-sm mt-8">
+            <div
+                className={classNames('grid grid-cols-3 h-28 text-sm mt-8', {
+                    'disabled-when-animation-mode-is-on': disabled,
+                })}
+            >
                 {data
                     .filter((d) => d.ClassName !== 'No Data')
                     .map((d: LandcoverClassificationData) => {

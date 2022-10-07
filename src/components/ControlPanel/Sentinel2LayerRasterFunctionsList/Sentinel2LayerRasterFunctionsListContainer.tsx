@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { selectSentinel2RasterFunction } from '../../../store/Map/selectors';
 import { updateTooltipData } from '../../../store/UI/thunks';
 import { saveSentinel2RasterFunctionToHashParams } from '../../../utils/URLHashParams';
+import { selectAnimationMode } from '../../../store/UI/selectors';
 
 export type Sentinel2RasterFunction =
     | 'Natural Color with DRA'
@@ -77,6 +78,8 @@ export const Sentinel2RasterFunctionsData: RasterFunctionData[] = [
 const ImageryRasterFunctionsListContainer = () => {
     const dispatch = useDispatch();
 
+    const animationMode = useSelector(selectAnimationMode);
+
     const selectedRasterFunction = useSelector(selectSentinel2RasterFunction);
 
     useEffect(() => {
@@ -87,6 +90,7 @@ const ImageryRasterFunctionsListContainer = () => {
         <Sentinel2LayerRasterFunctionsList
             selectedRasterFunction={selectedRasterFunction}
             data={Sentinel2RasterFunctionsData}
+            disabled={animationMode !== null}
             onSelect={(rasterFunction) => {
                 dispatch(sentinel2RasterFunctionChanged(rasterFunction));
             }}

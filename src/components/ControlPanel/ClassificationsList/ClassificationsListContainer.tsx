@@ -5,6 +5,7 @@ import { getLandCoverClassifications } from '../../../services/sentinel-2-10m-la
 import { activeLandCoverTypeChanged } from '../../../store/Map/reducer';
 import { selectActiveLandCoverType } from '../../../store/Map/selectors';
 import { tooltipDataChanged } from '../../../store/UI/reducer';
+import { selectAnimationMode } from '../../../store/UI/selectors';
 import { updateTooltipData } from '../../../store/UI/thunks';
 import { saveActiveLandCoverTypeToHashParams } from '../../../utils/URLHashParams';
 import ClassificationsList from './ClassificationsList';
@@ -13,6 +14,8 @@ const ClassificationsListContainer = () => {
     const dispatch = useDispatch();
 
     const activeLandCoverType = useSelector(selectActiveLandCoverType);
+
+    const animationMode = useSelector(selectAnimationMode);
 
     const data = useMemo(() => {
         return getLandCoverClassifications();
@@ -25,6 +28,7 @@ const ClassificationsListContainer = () => {
     return (
         <ClassificationsList
             selectedLandCover={activeLandCoverType}
+            disabled={animationMode !== null}
             activeLandCoverOnChange={(newVal) => {
                 dispatch(activeLandCoverTypeChanged(newVal));
             }}

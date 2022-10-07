@@ -14,3 +14,7 @@
     background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
     z-index: 0;
 }
+
+.disabled-when-animation-mode-is-on {
+    @apply pointer-events-none opacity-40;
+}
