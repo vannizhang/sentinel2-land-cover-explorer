@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import { yearUpdated } from '../../store/Map/reducer';
 import classNames from 'classnames';
 import { animationModeUpdated } from '../../store/UI/reducer';
+import { saveAnimationModeToHashParams } from '../../utils/URLHashParams';
 
 type Props = {
     mapView?: IMapView;
@@ -75,6 +76,10 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             });
 
             mapView.map.add(mediaLayerRef.current);
+
+            if (animationMode === 'loading') {
+                loadFrameData();
+            }
         } catch (err) {
             console.error(err);
         }
@@ -231,6 +236,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
         } else {
             stopAnimation();
         }
+
+        saveAnimationModeToHashParams(animationMode !== null);
     }, [animationMode]);
 
     useEffect(() => {
@@ -262,7 +269,7 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
                     viewBox="0 0 32 32"
                     height="64"
                     width="64"
-                    className="absolute top-2 right-2 cursor-pointer"
+                    className="absolute top-1 right-1 cursor-pointer"
                     onClick={() => {
                         dispatch(animationModeUpdated(null));
                     }}

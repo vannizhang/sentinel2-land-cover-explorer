@@ -12,6 +12,7 @@ import {
     getTimeExtentFromHashParams,
     getSentinel2RasterFunctionFromHashParams,
     getActiveMonthFromHashParams,
+    getAnimationModeFromHashParams,
 } from '../utils/URLHashParams';
 import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -73,10 +74,15 @@ const getPreloadedMapState = (): MapState => {
 
 const getPreloadedUIState = (): UIState => {
     const showDownloadPanel = getDonwloadModeFromHashParams();
+    const isAnimationModeOn = getAnimationModeFromHashParams();
 
     return {
         ...initialUIState,
         showDownloadPanel,
+        /**
+         * set animation mode to loading so the animation panel can start loading frames data once Median Layer is ready
+         */
+        animationMode: isAnimationModeOn ? 'loading' : null,
     };
 };
 
