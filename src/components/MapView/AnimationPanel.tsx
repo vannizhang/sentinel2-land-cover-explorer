@@ -60,6 +60,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
 
     const indexOfCurrentFrame = useRef<number>(0);
 
+    const abortControllerRef = useRef<AbortController>();
+
     const init = async () => {
         type Modules = [typeof IMediaLayer];
 
@@ -83,6 +85,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             typeof IImageElement,
             typeof IExtentAndRotationGeoreference
         ];
+
+        abortControllerRef.current = new AbortController();
 
         try {
             const [ImageElement, ExtentAndRotationGeoreference] =
@@ -118,6 +122,11 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             });
 
             const responses = await Promise.all(requests);
+
+            if (abortControllerRef.current.signal.aborted) {
+                console.log('requests for animation frames were aborted');
+                return;
+            }
 
             imageElementsRef.current = responses.map((blob) => {
                 return new ImageElement({
@@ -185,13 +194,21 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
     };
 
     const stopAnimation = () => {
-        for (const elem of imageElementsRef.current) {
-            URL.revokeObjectURL(elem.image as string);
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
         }
 
-        imageElementsRef.current = null;
+        if (imageElementsRef.current) {
+            for (const elem of imageElementsRef.current) {
+                URL.revokeObjectURL(elem.image as string);
+            }
 
-        mediaLayerRef.current.source.elements.removeAll();
+            imageElementsRef.current = null;
+        }
+
+        if (mediaLayerRef.current) {
+            mediaLayerRef.current.source.elements.removeAll();
+        }
     };
 
     useEffect(() => {
@@ -231,9 +248,7 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             )}
         >
             {animationMode === 'loading' && (
-                <calcite-loader active scale="l">
-                    Loading Images
-                </calcite-loader>
+                <calcite-loader active scale="l"></calcite-loader>
             )}
         </div>
     );
