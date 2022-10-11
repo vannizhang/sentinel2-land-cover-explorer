@@ -23,7 +23,7 @@ type ExportImageParams = {
      */
     year: number;
     /**
-     * the year that will be used as time filter
+     * the month that will be used as time filter
      */
     month: number;
     /**
@@ -31,6 +31,20 @@ type ExportImageParams = {
      */
     rasterFunctionName: Sentinel2RasterFunction;
     abortController: AbortController;
+};
+
+export const getMosaicRuleByAcquisitionDate = (
+    year: number,
+    month: number,
+    day = 15
+) => {
+    return {
+        ascending: true,
+        mosaicMethod: 'esriMosaicAttribute',
+        sortField: SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES.AcquisitionDate,
+        sortValue: `${year}/${month}/${day}`,
+        where: '(category = 2) OR (CloudCover < 0.1)',
+    };
 };
 
 export const exportImage = async ({
@@ -51,13 +65,7 @@ export const exportImage = async ({
         imageSR: '102100',
         size: `${width},${height}`,
         format: 'jpgpng',
-        mosaicRule: JSON.stringify({
-            ascending: true,
-            mosaicMethod: 'esriMosaicAttribute',
-            sortField: SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES.AcquisitionDate,
-            sortValue: `${year}/${month}/15`,
-            where: '(category = 2) OR (CloudCover < 0.1)',
-        }),
+        mosaicRule: JSON.stringify(getMosaicRuleByAcquisitionDate(year, month)),
         renderingRule: JSON.stringify({ rasterFunction: rasterFunctionName }),
     });
 
