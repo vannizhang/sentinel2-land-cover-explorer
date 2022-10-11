@@ -135,7 +135,7 @@ const TimeSliderContainer = () => {
 
                 {isFilterbyTime4Sentinel2LayerDisabled === false && (
                     <div
-                        className="absolute hidden md:block"
+                        className="absolute hidden lg:block"
                         style={{
                             right: -40,
                             bottom: 11,

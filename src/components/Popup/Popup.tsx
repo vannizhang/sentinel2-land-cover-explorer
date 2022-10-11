@@ -55,7 +55,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
 
         const htmlString4AcquisitionDate = acquisitionDate
             ? `
-            <div class='mx-5 text-center pb-2 mb-2 border-b border-custom-light-blue-50'>
+            <div class='mx-5 mt-2 text-center pb-2 mb-2 border-b border-custom-light-blue-50'>
                 <span>Sentinel-2 L2A image acquired ${format(
                     acquisitionDate,
                     'MMM dd, yyyy'

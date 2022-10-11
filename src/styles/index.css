@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .overflow-y-unset {
+        overflow-y: unset;
+    }
+}
+
 body {
     overflow: hidden;
 }
@@ -27,6 +33,10 @@ body {
 .esri-widget--button, 
 .esri-menu {
     @apply bg-custom-background text-custom-light-blue;
+}
+
+#root .esri-view .esri-view-surface--inset-outline:focus::after {
+    outline: 0;
 }
 
 .hide-map-control .esri-zoom {
