@@ -68,7 +68,7 @@ const TimeSliderContainer = () => {
     }, [year, mode]);
 
     return (
-        <div className="text-center w-full md:w-auto">
+        <div className="text-center w-full lg:w-auto">
             <HeaderText
                 title={`${
                     shouldShowSentinel2Layer

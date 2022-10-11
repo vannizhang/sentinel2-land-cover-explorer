@@ -96,7 +96,9 @@ const ClassificationsList: FC<Props> = ({
                                     }}
                                 ></div>
 
-                                <span className="ml-2">{ClassName}</span>
+                                <span className="ml-2 text-xs lg:text-sm">
+                                    {ClassName}
+                                </span>
                             </div>
                         );
                     })}
