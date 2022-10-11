@@ -68,7 +68,7 @@ const TimeSliderContainer = () => {
     }, [year, mode]);
 
     return (
-        <div className="text-center">
+        <div className="text-center w-full md:w-auto">
             <HeaderText
                 title={`${
                     shouldShowSentinel2Layer
@@ -84,7 +84,7 @@ const TimeSliderContainer = () => {
 
             <ModeSelector disabled={animationMode !== null} />
 
-            <div className={classNames('relative max-w-md mt-2')}>
+            <div className={classNames('relative w-full md:max-w-md mt-2')}>
                 <div
                     className={classNames('w-full', {
                         'pointer-events-none': animationMode !== null,
@@ -135,7 +135,7 @@ const TimeSliderContainer = () => {
 
                 {isFilterbyTime4Sentinel2LayerDisabled === false && (
                     <div
-                        className="absolute"
+                        className="absolute hidden md:block"
                         style={{
                             right: -40,
                             bottom: 11,

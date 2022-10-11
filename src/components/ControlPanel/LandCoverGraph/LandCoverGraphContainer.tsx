@@ -42,7 +42,7 @@ const LandCoverGraphContainer = () => {
     };
 
     return (
-        <div className="h-40 md:w-96 text-center mx-6 mt-4 md:mt-0">
+        <div className="h-40 md:w-96 text-center mx-6 my-4 md:my-0">
             <HeaderText
                 title={`${
                     mode === 'swipe'

@@ -27,9 +27,12 @@ const ModeSelector: FC<Props> = ({ disabled }: Props) => {
 
     return (
         <div
-            className={classNames('flex justify-center text-xs mt-4', {
-                'disabled-when-animation-mode-is-on': disabled,
-            })}
+            className={classNames(
+                'hidden md:flex justify-center text-xs mt-4',
+                {
+                    'disabled-when-animation-mode-is-on': disabled,
+                }
+            )}
         >
             <div
                 className={classNames(BTN_CLASSNAMES, {

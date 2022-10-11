@@ -30,13 +30,13 @@ const ControlPanel = () => {
                     <div className="theme-background absolute top-0 left-0 w-full h-full"></div>
                     <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
 
-                    <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around z-10">
+                    <div className="relative w-full h-full p-2 pt-4 md:flex text-custom-light-blue justify-around z-10 overflow-y-auto md:overflow-y-hidden">
                         <div className="flex">
                             <LayerSelector />
                             <TimeSlider />
                         </div>
 
-                        <div className="md:flex">
+                        <div className="flex flex-col-reverse md:flex-row">
                             {shouldShowSentinel2Layer === false && (
                                 <ClassificationsList />
                             )}

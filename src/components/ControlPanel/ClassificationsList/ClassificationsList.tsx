@@ -42,7 +42,7 @@ const ClassificationsList: FC<Props> = ({
     useGetTooltipPositionOnHover(containerRef);
 
     return (
-        <div className="text-center mx-4 mt-4 md:mt-0" ref={containerRef}>
+        <div className="text-center mx-4 my-4 md:my-0" ref={containerRef}>
             <HeaderText
                 title="Land Cover Categories"
                 subTitle="Click to Toggle Visibility"

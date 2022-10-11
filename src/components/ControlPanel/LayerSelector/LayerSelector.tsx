@@ -64,7 +64,7 @@ const LayerSelector: FC<Props> = ({
 }: Props) => {
     return (
         <div
-            className={classNames('mx-4 mt-5', {
+            className={classNames('hidden md:block mx-4 mt-5', {
                 'disabled-when-animation-mode-is-on': disabled,
             })}
         >
