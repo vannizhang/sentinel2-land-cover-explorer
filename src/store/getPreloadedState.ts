@@ -18,6 +18,9 @@ import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import { getAvailableYears } from '../services/sentinel-2-10m-landcover/timeInfo';
 import { Sentinel2RasterFunction } from '../components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
+import { miscFns } from 'helper-toolkit-ts';
+
+const isMobileView = miscFns.isMobileDevice();
 
 /**
  * Get a map center from list of default map centers randomly
@@ -54,7 +57,8 @@ const getPreloadedMapState = (): MapState => {
 
     return {
         ...initialMapState,
-        mode,
+        // swipe mode can only be enabled in desktop view with wide screen
+        mode: isMobileView ? 'step' : mode,
         year: year ? +year : availableYears[0],
         sentinel2AquisitionMonth: sentinel2AquisitionMonth
             ? +sentinel2AquisitionMonth
@@ -62,7 +66,10 @@ const getPreloadedMapState = (): MapState => {
         zoom: mapCenterInfo?.zoom || DEFAULT_MAP_ZOOM,
         center: mapCenterInfo?.center || getMapCenterFromDefaultLocations(),
         activeLandCoverType: activelandCoverType as LandCoverClassification,
-        shouldShowSentinel2Layer,
+        // sentinel-2 layer can only be displayed in desktop view with wide screen
+        shouldShowSentinel2Layer: isMobileView
+            ? false
+            : shouldShowSentinel2Layer,
         swipeWidget: {
             year4LeadingLayer: startYear,
             year4TrailingLayer: endYear,
@@ -76,13 +83,16 @@ const getPreloadedUIState = (): UIState => {
     const showDownloadPanel = getDonwloadModeFromHashParams();
     const isAnimationModeOn = getAnimationModeFromHashParams();
 
+    const animationMode = isAnimationModeOn ? 'loading' : null;
+
     return {
         ...initialUIState,
         showDownloadPanel,
         /**
-         * set animation mode to loading so the animation panel can start loading frames data once Median Layer is ready
+         * set animation mode to loading so the animation panel can start loading frames data once Median Layer is ready.
+         * animation mode can only be enabled in desktop view with wide screen
          */
-        animationMode: isAnimationModeOn ? 'loading' : null,
+        animationMode: isMobileView ? null : animationMode,
     };
 };
 
