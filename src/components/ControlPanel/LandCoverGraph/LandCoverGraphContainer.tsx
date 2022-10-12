@@ -45,9 +45,7 @@ const LandCoverGraphContainer = () => {
         <div className="h-40 md:w-96 text-center mx-6 my-4 md:my-0">
             <HeaderText
                 title={`${
-                    mode === 'swipe'
-                        ? 'Land Cover Change (Acres)'
-                        : 'Land Cover Totals (Acres)'
+                    mode === 'swipe' ? 'Land Cover Change' : 'Land Cover Totals'
                 }`}
                 subTitle={getSubtitle()}
                 expandButtonOnClick={() => {

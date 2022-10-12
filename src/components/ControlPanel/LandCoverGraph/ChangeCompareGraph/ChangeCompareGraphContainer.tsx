@@ -69,7 +69,11 @@ const ChangeCompareGraphContainer = () => {
 
     const getChartData = () => {
         const data: QuickD3ChartDataItem[] = landCoverChangeData.map((d) => {
-            const { differenceInAcres, landcoverClassificationData } = d;
+            const {
+                differenceInAcres,
+                differenceInPercentage,
+                landcoverClassificationData,
+            } = d;
 
             const { ClassName, Description, Color } =
                 landcoverClassificationData;
@@ -85,8 +89,8 @@ const ChangeCompareGraphContainer = () => {
                 fill: `rgb(${R}, ${G}, ${B})`,
                 labelOnTop:
                     differenceInAcres > 0
-                        ? '+' + formatedDiffInAcres
-                        : formatedDiffInAcres,
+                        ? `+${differenceInPercentage}%`
+                        : `${differenceInPercentage}%`,
             };
         });
 

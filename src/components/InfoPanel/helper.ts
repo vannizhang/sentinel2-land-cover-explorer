@@ -8,12 +8,12 @@ export const saveHistoricalLandCoverDataAsCSV = (
     const lines = ['data:text/csv;charset=utf-8,' + headers.join(',')];
 
     for (const item of data) {
-        const { acresByYear, landCoverClassificationData } = item;
+        const { areaByYear, landCoverClassificationData } = item;
 
-        for (const d of acresByYear) {
-            const { year, value } = d;
+        for (const d of areaByYear) {
+            const { year, area } = d;
 
-            const row = [landCoverClassificationData.ClassName, year, value];
+            const row = [landCoverClassificationData.ClassName, year, area];
 
             lines.push(row.join(','));
         }

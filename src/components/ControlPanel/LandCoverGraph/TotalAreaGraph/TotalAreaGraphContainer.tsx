@@ -69,21 +69,21 @@ const TotalAreaGraphContainer = () => {
 
     const getChartData = () => {
         const data: QuickD3ChartDataItem[] = landCoverTotalsData.map((d) => {
-            const { area, landcoverClassificationData } = d;
+            const { area, areaInPercentage, landcoverClassificationData } = d;
 
             const { ClassName, Description, Color } =
                 landcoverClassificationData;
 
             const [R, G, B] = Color;
 
-            const formatedArea = abbreviateNumber(area);
+            // const formatedArea = abbreviateNumber(area);
 
             return {
                 key: getLandCoverClassificationShortName(ClassName),
                 label: ClassName,
                 value: area,
                 fill: `rgb(${R}, ${G}, ${B})`,
-                labelOnTop: formatedArea,
+                labelOnTop: `${areaInPercentage}%`,
             };
         });
 

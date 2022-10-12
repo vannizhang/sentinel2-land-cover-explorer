@@ -57,14 +57,14 @@ const InfoPanel = () => {
         const landcoverClassNames: string[] = [];
 
         for (const item of historicalLandCoverData) {
-            const { acresByYear, landCoverClassificationData } = item;
+            const { areaByYear, landCoverClassificationData } = item;
 
-            const numberOfYearsWithoutData = acresByYear.filter(
-                (d) => d.value === 0
+            const numberOfYearsWithoutData = areaByYear.filter(
+                (d) => d.area === 0
             ).length;
 
             if (
-                numberOfYearsWithoutData === acresByYear.length ||
+                numberOfYearsWithoutData === areaByYear.length ||
                 landCoverClassificationData.ClassName === 'No Data'
             ) {
                 continue;
@@ -74,11 +74,11 @@ const InfoPanel = () => {
 
             const [R, G, B] = Color;
 
-            for (const { value, year } of acresByYear) {
+            for (const { area, areaInPercentage, year } of areaByYear) {
                 data.push({
                     key: `${ClassName}-${year}`,
-                    value,
-                    label: abbreviateNumber(value),
+                    value: area,
+                    label: `${areaInPercentage}%`, //abbreviateNumber(area),
                     labelOnTop: year.toString(),
                     fill: `rgb(${R}, ${G}, ${B})`,
                 });

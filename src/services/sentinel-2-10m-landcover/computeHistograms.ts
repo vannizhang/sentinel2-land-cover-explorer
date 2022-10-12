@@ -71,13 +71,25 @@ export type LandCoverChangeInAcres = {
      */
     earlierYearAreaInAcres: number;
     /**
+     * Area (in percentage) of a specific land cover in earlier year
+     */
+    earlierYearAreaInPercentage: number;
+    /**
      * Area (in acres) of a specific land cover in later year
      */
     laterYearAreaInAcres: number;
     /**
+     * Area (in percentage) of a specific land cover in later year
+     */
+    laterYearAreaInPercentage: number;
+    /**
      * Difference (in acres) of a specific land cover type between two years
      */
     differenceInAcres: number;
+    /**
+     * Difference (in percentage) of a specific land cover type between two years
+     */
+    differenceInPercentage: number;
     /**
      * Detailed Land Cover Classification Data
      */
@@ -90,21 +102,32 @@ export type LandCoverArea = {
      */
     area: number;
     /**
+     * area (in percentage) of a specific land cover type between two years
+     */
+    areaInPercentage: number;
+    /**
      * Detailed Land Cover Classification Data
      */
     landcoverClassificationData: LandcoverClassificationData;
 };
 
-type AcresByYear = {
+type AreaByYear = {
     year: number;
-    value: number;
+    /**
+     * area (in acres) of a specific land cover type between two years
+     */
+    area: number;
+    /**
+     * area (in percentage) of a specific land cover type between two years
+     */
+    areaInPercentage: number;
 };
 
 export type HistoricalLandCoverData = {
     /**
      * area of a specific land cover classification in acres by year
      */
-    acresByYear: AcresByYear[];
+    areaByYear: AreaByYear[];
     /**
      * data of a specific land cover
      */
@@ -184,6 +207,17 @@ const computeHistograms = async ({
     return null;
 };
 
+const getTotalAreaInAcres = (counts: number[], resolution: number) => {
+    const totalNumOfPixels = counts.reduce((total, count) => total + count, 0);
+    return convertNumOfPixel2Acres(totalNumOfPixels, resolution);
+};
+
+const formatAreaPercentage = (areaInPercentage: number) => {
+    return areaInPercentage > 1
+        ? Math.round(areaInPercentage)
+        : +areaInPercentage.toFixed(1);
+};
+
 export const getLandCoverAreaByYear = async ({
     extent,
     resolution,
@@ -198,6 +232,8 @@ export const getLandCoverAreaByYear = async ({
 
         const counts = res?.histograms[0]?.counts || [];
 
+        const totalArea = getTotalAreaInAcres(counts, resolution);
+
         const output: LandCoverArea[] = [];
 
         for (let i = 0; i < counts.length; i++) {
@@ -207,8 +243,11 @@ export const getLandCoverAreaByYear = async ({
                 continue;
             }
 
+            const areaInPercentage = (areaInAcres / totalArea) * 100;
+
             output.push({
                 area: areaInAcres,
+                areaInPercentage: formatAreaPercentage(areaInPercentage),
                 landcoverClassificationData:
                     getLandCoverClassificationByPixelValue(i),
             });
@@ -249,6 +288,15 @@ export const getLandCoverChangeInAcres = async ({
         const countsFromLaterYear =
             histograms4LaterYear?.histograms[0]?.counts || [];
 
+        const totalAreaEarlierYear = getTotalAreaInAcres(
+            countsFromEarlierYear,
+            resolution
+        );
+        const totalAreaLaterYear = getTotalAreaInAcres(
+            countsFromLaterYear,
+            resolution
+        );
+
         const output: LandCoverChangeInAcres[] = [];
 
         for (let i = 0; i < countsFromEarlierYear.length; i++) {
@@ -265,18 +313,33 @@ export const getLandCoverChangeInAcres = async ({
                 continue;
             }
 
+            const earlierYearAreaInAcres = convertNumOfPixel2Acres(
+                countEarlierYear,
+                resolution
+            );
+
+            const earlierYearAreaInPercentage =
+                (earlierYearAreaInAcres / totalAreaEarlierYear) * 100;
+
+            const laterYearAreaInAcres = convertNumOfPixel2Acres(
+                countLaterYear,
+                resolution
+            );
+
+            const laterYearAreaInPercentage =
+                (laterYearAreaInAcres / totalAreaLaterYear) * 100;
+
             output.push({
                 landcoverClassificationData:
                     getLandCoverClassificationByPixelValue(i),
-                earlierYearAreaInAcres: convertNumOfPixel2Acres(
-                    countEarlierYear,
-                    resolution
-                ),
-                laterYearAreaInAcres: convertNumOfPixel2Acres(
-                    countLaterYear,
-                    resolution
-                ),
+                earlierYearAreaInAcres,
+                earlierYearAreaInPercentage,
+                laterYearAreaInAcres,
+                laterYearAreaInPercentage,
                 differenceInAcres: diffInAcres,
+                differenceInPercentage: formatAreaPercentage(
+                    laterYearAreaInPercentage - earlierYearAreaInPercentage
+                ),
             });
         }
 
@@ -302,15 +365,16 @@ export const getHistoricalLandCoverDataByClassification = async (
     >();
 
     for (const pixelValue of distinctLandCoverClassificationPixelValues) {
-        const acresByYear: AcresByYear[] = availableYears.map((year) => {
+        const areaByYear: AreaByYear[] = availableYears.map((year) => {
             return {
                 year,
-                value: 0,
+                area: 0,
+                areaInPercentage: 0,
             };
         });
 
         historicalLandCoverDataByLandCoverId.set(pixelValue, {
-            acresByYear,
+            areaByYear,
             landCoverClassificationData:
                 getLandCoverClassificationByPixelValue(pixelValue),
         });
@@ -335,15 +399,25 @@ export const getHistoricalLandCoverDataByClassification = async (
 
             const counts = result.histograms[0].counts;
 
+            const totalArea = getTotalAreaInAcres(counts, resolution);
+
             for (let j = 0; j < counts.length; j++) {
                 if (historicalLandCoverDataByLandCoverId.has(j) === false) {
                     continue;
                 }
 
                 const numOfPixels = counts[j];
-                historicalLandCoverDataByLandCoverId.get(j).acresByYear[
+
+                const area = convertNumOfPixel2Acres(numOfPixels, resolution);
+
+                const areaInPercentage = (area / totalArea) * 100;
+
+                historicalLandCoverDataByLandCoverId.get(j).areaByYear[i].area =
+                    area;
+
+                historicalLandCoverDataByLandCoverId.get(j).areaByYear[
                     i
-                ].value = convertNumOfPixel2Acres(numOfPixels, resolution);
+                ].areaInPercentage = formatAreaPercentage(areaInPercentage);
             }
         }
 
