@@ -11,6 +11,7 @@ import {
     selectSentinel2AquisitionMonth,
     selectSentinel2RasterFunction,
 } from '../../store/Map/selectors';
+import { getMosaicRuleByAcquisitionDate } from './exportImage';
 
 type UseLandCoverLayerParams = {
     year: number;
@@ -18,17 +19,20 @@ type UseLandCoverLayerParams = {
     // mapView?: IMapView;
 };
 
-const { AcquisitionDate } = SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES;
+const { AcquisitionDate, CloudCover } = SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES;
 
 export const createMosaicRuleByYear = (year: number, month: number) => {
-    const monthStr = month < 10 ? '0' + month : month.toString();
+    // const monthStr = month < 10 ? '0' + month : month.toString();
+
+    const { where, sortField, sortValue, ascending } =
+        getMosaicRuleByAcquisitionDate(year, month);
 
     return {
         method: `attribute`,
-        where: `(category = 2) OR (CloudCover < 0.1)`,
-        sortField: AcquisitionDate,
-        sortValue: `${year}/${monthStr}/15`,
-        ascending: true,
+        where,
+        sortField,
+        sortValue,
+        ascending,
     };
 };
 

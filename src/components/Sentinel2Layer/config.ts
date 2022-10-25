@@ -8,4 +8,5 @@ export const SENTINEL_2_IMAGE_SERVICE_URL =
 
 export const SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES = {
     AcquisitionDate: 'AcquisitionDate',
+    CloudCover: 'cloudcover',
 };
