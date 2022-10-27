@@ -3,12 +3,10 @@ import React, { FC } from 'react';
 type Props = {
     closeButtonOnClick: () => void;
     // donwloadButtonOnClick: () => void;
+    children?: React.ReactNode;
 };
 
-const Header: FC<Props> = ({
-    closeButtonOnClick,
-}: // donwloadButtonOnClick,
-Props) => {
+const Header: FC<Props> = ({ closeButtonOnClick, children }: Props) => {
     return (
         <div className="relative text-custom-light-blue flex justify-between items-center mb-4 z-10">
             {/* <div className="flex items-center">
@@ -29,6 +27,8 @@ Props) => {
                     <path fill="none" d="M0 0h24v24H0z" />
                 </svg>
             </div> */}
+
+            <div className="flex items-center">{children}</div>
 
             <div
                 className=" cursor-pointer text-custom-light-blue "

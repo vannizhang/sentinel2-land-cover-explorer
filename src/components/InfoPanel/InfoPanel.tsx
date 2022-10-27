@@ -15,6 +15,8 @@ import {
     selectMapResolution,
 } from '../../store/Map/selectors';
 import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
+import CountrySelector from './Header/CountrySelector';
+import SubRegionSelector from './Header/SubRegionSelector';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
@@ -28,6 +30,16 @@ const InfoPanel = () => {
     const resolution = useSelector(selectMapResolution);
 
     const extent = useSelector(selectMapExtent);
+
+    /**
+     * If selected country is defined (and selectedSubRegion is not defined), show land cover stats for selected country
+     */
+    const [selectedCountry, setSelectedCountry] = useState<string>('');
+
+    /**
+     * If selected sub region is defined, show land cover stats for selected sub region
+     */
+    const [selectedSubRegion, setSelectedSubRegin] = useState<string>('');
 
     const [historicalLandCoverData, setHistoricalLandCoverData] =
         useState<HistoricalLandCoverData[]>();
@@ -127,12 +139,27 @@ const InfoPanel = () => {
                     closeButtonOnClick={() => {
                         dispatch(showInfoPanelToggled(false));
                     }}
-                    // donwloadButtonOnClick={() => {
-                    //     saveHistoricalLandCoverDataAsCSV(
-                    //         historicalLandCoverData
-                    //     );
-                    // }}
-                />
+                >
+                    <CountrySelector
+                        selectedCountry={selectedCountry}
+                        onChange={(val) => {
+                            setSelectedCountry(val);
+
+                            if (!val) {
+                                setSelectedSubRegin('');
+                            }
+                        }}
+                    />
+
+                    {selectedCountry && (
+                        <SubRegionSelector
+                            selectedCountry={selectedCountry}
+                            selectedSubRegion={selectedSubRegion}
+                            onChange={setSelectedSubRegin}
+                        />
+                    )}
+                </Header>
+
                 <LandcoverGraph
                     chartData={chartData}
                     uniqueLandCoverClasses={uniqueLandCoverClasses}
