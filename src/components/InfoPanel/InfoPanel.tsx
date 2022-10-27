@@ -17,6 +17,10 @@ import {
 import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 import CountrySelector from './Header/CountrySelector';
 import SubRegionSelector from './Header/SubRegionSelector';
+import {
+    getHistoricalLandCoverDataByCountry,
+    getHistoricalLandCoverDataBySubRegion,
+} from '../../services/landcover-statistics/query';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
@@ -32,12 +36,12 @@ const InfoPanel = () => {
     const extent = useSelector(selectMapExtent);
 
     /**
-     * If selected country is defined (and selectedSubRegion is not defined), show land cover stats for selected country
+     * Name of selected country, if selected country is defined (and selectedSubRegion is not defined), show land cover stats for selected country
      */
     const [selectedCountry, setSelectedCountry] = useState<string>('');
 
     /**
-     * If selected sub region is defined, show land cover stats for selected sub region
+     * ISO Code of selected region. if selected sub region is defined, show land cover stats for selected sub region
      */
     const [selectedSubRegion, setSelectedSubRegin] = useState<string>('');
 
@@ -49,19 +53,6 @@ const InfoPanel = () => {
     const [uniqueLandCoverClasses, setUniqueLandCoverClasses] = useState<
         string[]
     >([]);
-
-    const loadHistoricalLandCoverData = async () => {
-        try {
-            const res = await getHistoricalLandCoverDataByClassification(
-                extent,
-                resolution
-            );
-
-            setHistoricalLandCoverData(res);
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     const getChartData = () => {
         const data: QuickD3ChartDataItem[] = [];
@@ -112,10 +103,34 @@ const InfoPanel = () => {
             return;
         }
 
-        if (resolution && extent && showInfoPanel) {
-            loadHistoricalLandCoverData();
-        }
-    }, [resolution, extent, showInfoPanel]);
+        (async () => {
+            try {
+                let historicalLandCoverData: HistoricalLandCoverData[] = null;
+
+                if (selectedSubRegion) {
+                    historicalLandCoverData =
+                        await getHistoricalLandCoverDataBySubRegion(
+                            selectedSubRegion
+                        );
+                } else if (selectedCountry) {
+                    historicalLandCoverData =
+                        await getHistoricalLandCoverDataByCountry(
+                            selectedCountry
+                        );
+                } else if (resolution && extent) {
+                    historicalLandCoverData =
+                        await getHistoricalLandCoverDataByClassification(
+                            extent,
+                            resolution
+                        );
+                }
+
+                setHistoricalLandCoverData(historicalLandCoverData);
+            } catch (err) {
+                console.log(err);
+            }
+        })();
+    }, [resolution, extent, showInfoPanel, selectedCountry, selectedSubRegion]);
 
     useEffect(() => {
         if (historicalLandCoverData) {

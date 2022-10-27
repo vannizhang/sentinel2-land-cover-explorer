@@ -2,10 +2,25 @@ import {
     IQueryFeaturesResponse,
     queryFeatures,
 } from '@esri/arcgis-rest-feature-service';
+import { HistoricalLandCoverData } from '../sentinel-2-10m-landcover/computeHistograms';
 
 import { LAND_COVER_STATISTICS_SERVICE_URL, FIELD_NAMES } from './config';
 
-const { COUNTRY, ISO_CODE, NAME } = FIELD_NAMES;
+const {
+    COUNTRY,
+    ISO_CODE,
+    NAME,
+    YEAR,
+    WATER,
+    TREE,
+    FLOODED_VEG,
+    CROPS,
+    BUILT,
+    BARE,
+    SNOW,
+    CLOUD,
+    RANGE,
+} = FIELD_NAMES;
 
 export type SubRegion = {
     /**
@@ -75,10 +90,99 @@ export const getSubRegions = async (country: string): Promise<SubRegion[]> => {
     }
 };
 
-// export const getLandCoverStatsByCountry = async()=>{
+export const getHistoricalLandCoverDataByCountry = async (
+    countryName: string
+): Promise<HistoricalLandCoverData[]> => {
+    try {
+        const res = (await queryFeatures({
+            url: LAND_COVER_STATISTICS_SERVICE_URL,
+            where: `${COUNTRY}='${countryName}'`,
+            groupByFieldsForStatistics: `${COUNTRY}, ${YEAR}`,
+            outStatistics: [
+                {
+                    statisticType: 'sum',
+                    onStatisticField: WATER,
+                    outStatisticFieldName: WATER,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: TREE,
+                    outStatisticFieldName: TREE,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: FLOODED_VEG,
+                    outStatisticFieldName: FLOODED_VEG,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: CROPS,
+                    outStatisticFieldName: CROPS,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: BUILT,
+                    outStatisticFieldName: BUILT,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: BARE,
+                    outStatisticFieldName: BARE,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: SNOW,
+                    outStatisticFieldName: SNOW,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: CLOUD,
+                    outStatisticFieldName: CLOUD,
+                },
+                {
+                    statisticType: 'sum',
+                    onStatisticField: RANGE,
+                    outStatisticFieldName: RANGE,
+                },
+            ],
+        })) as IQueryFeaturesResponse;
 
-// }
+        console.log(res);
+    } catch (err) {
+        console.log(err);
+    }
 
-// export const getLandCoverStatsBySubRegion = async()=>{
+    return null;
+};
 
-// }
+export const getHistoricalLandCoverDataBySubRegion = async (
+    subRegionISOCode: string
+): Promise<HistoricalLandCoverData[]> => {
+    try {
+        const res = (await queryFeatures({
+            url: LAND_COVER_STATISTICS_SERVICE_URL,
+            where: `${ISO_CODE}='${subRegionISOCode}'`,
+            outFields: [
+                COUNTRY,
+                NAME,
+                YEAR,
+                WATER,
+                TREE,
+                FLOODED_VEG,
+                CROPS,
+                BUILT,
+                BARE,
+                SNOW,
+                CLOUD,
+                RANGE,
+            ],
+            orderByFields: YEAR,
+        })) as IQueryFeaturesResponse;
+
+        console.log(res);
+    } catch (err) {
+        console.log(err);
+    }
+
+    return null;
+};
