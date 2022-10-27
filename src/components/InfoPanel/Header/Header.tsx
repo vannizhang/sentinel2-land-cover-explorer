@@ -2,16 +2,16 @@ import React, { FC } from 'react';
 
 type Props = {
     closeButtonOnClick: () => void;
-    donwloadButtonOnClick: () => void;
+    // donwloadButtonOnClick: () => void;
 };
 
 const Header: FC<Props> = ({
     closeButtonOnClick,
-    donwloadButtonOnClick,
-}: Props) => {
+}: // donwloadButtonOnClick,
+Props) => {
     return (
         <div className="relative text-custom-light-blue flex justify-between items-center mb-4 z-10">
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
                 <h5 className="uppercase mr-4">Land Cover in Acres</h5>
 
                 <svg
@@ -28,7 +28,7 @@ const Header: FC<Props> = ({
                     />
                     <path fill="none" d="M0 0h24v24H0z" />
                 </svg>
-            </div>
+            </div> */}
 
             <div
                 className=" cursor-pointer text-custom-light-blue "

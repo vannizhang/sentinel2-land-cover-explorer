@@ -17,8 +17,8 @@ import {
 import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 
 // import { numberFns } from 'helper-toolkit-ts';
-import { saveHistoricalLandCoverDataAsCSV } from './helper';
-import { abbreviateNumber } from '../../utils/number';
+// import { saveHistoricalLandCoverDataAsCSV } from './helper';
+// import { abbreviateNumber } from '../../utils/number';
 
 const InfoPanel = () => {
     const dispatch = useDispatch();
@@ -93,6 +93,13 @@ const InfoPanel = () => {
     };
 
     useEffect(() => {
+        // info panel is closed, clean the chart data
+        if (!showInfoPanel) {
+            setChartData(undefined);
+            setUniqueLandCoverClasses(undefined);
+            return;
+        }
+
         if (resolution && extent && showInfoPanel) {
             loadHistoricalLandCoverData();
         }
@@ -120,11 +127,11 @@ const InfoPanel = () => {
                     closeButtonOnClick={() => {
                         dispatch(showInfoPanelToggled(false));
                     }}
-                    donwloadButtonOnClick={() => {
-                        saveHistoricalLandCoverDataAsCSV(
-                            historicalLandCoverData
-                        );
-                    }}
+                    // donwloadButtonOnClick={() => {
+                    //     saveHistoricalLandCoverDataAsCSV(
+                    //         historicalLandCoverData
+                    //     );
+                    // }}
                 />
                 <LandcoverGraph
                     chartData={chartData}
