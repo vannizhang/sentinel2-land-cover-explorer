@@ -18,10 +18,17 @@ import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 import CountrySelector from './Header/CountrySelector';
 import SubRegionSelector from './Header/SubRegionSelector';
 import { getHistoricalLandCoverDataByRegion } from '../../services/landcover-statistics/query';
+import {
+    getRegionFromHashParams,
+    saveRegionToHashParams,
+} from '../../utils/URLHashParams';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
 // import { abbreviateNumber } from '../../utils/number';
+
+const [selectedCountryFromHashParam, setSelectedSubReginFromHashParam] =
+    getRegionFromHashParams().split(',');
 
 const InfoPanel = () => {
     const dispatch = useDispatch();
@@ -35,12 +42,16 @@ const InfoPanel = () => {
     /**
      * Name of selected country, if selected country is defined (and selectedSubRegion is not defined), show land cover stats for selected country
      */
-    const [selectedCountry, setSelectedCountry] = useState<string>('');
+    const [selectedCountry, setSelectedCountry] = useState<string>(
+        selectedCountryFromHashParam || ''
+    );
 
     /**
      * ISO Code of selected region. if selected sub region is defined, show land cover stats for selected sub region
      */
-    const [selectedSubRegion, setSelectedSubRegin] = useState<string>('');
+    const [selectedSubRegion, setSelectedSubRegin] = useState<string>(
+        setSelectedSubReginFromHashParam || ''
+    );
 
     const [historicalLandCoverData, setHistoricalLandCoverData] =
         useState<HistoricalLandCoverData[]>();
@@ -124,6 +135,21 @@ const InfoPanel = () => {
             }
         })();
     }, [resolution, extent, showInfoPanel, selectedCountry, selectedSubRegion]);
+
+    useEffect(() => {
+        const selectedCountryAndSubRegionAsString = [
+            selectedCountry,
+            selectedSubRegion,
+        ]
+            .filter((val) => val !== '')
+            .join(',');
+
+        saveRegionToHashParams(
+            showInfoPanel && selectedCountryAndSubRegionAsString
+                ? selectedCountryAndSubRegionAsString
+                : undefined
+        );
+    }, [showInfoPanel, selectedCountry, selectedSubRegion]);
 
     useEffect(() => {
         if (historicalLandCoverData) {

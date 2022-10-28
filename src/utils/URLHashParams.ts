@@ -12,7 +12,8 @@ type UrlHashParamKey =
     | 'year'
     | 'month'
     | 'renderingRule'
-    | 'animation';
+    | 'animation'
+    | 'region';
 
 const SupportedSentinel2RasterFunctions: Sentinel2RasterFunction[] = [
     'Natural Color with DRA',
@@ -173,4 +174,12 @@ export const saveAnimationModeToHashParams = (isAnimationModeOn?: boolean) => {
 
 export const getAnimationModeFromHashParams = () => {
     return getHashParamValueByKey('animation') === 'true';
+};
+
+export const saveRegionToHashParams = (region?: string) => {
+    updateHashParams('region', region);
+};
+
+export const getRegionFromHashParams = () => {
+    return getHashParamValueByKey('region') || '';
 };

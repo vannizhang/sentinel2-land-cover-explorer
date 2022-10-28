@@ -13,6 +13,7 @@ import {
     getSentinel2RasterFunctionFromHashParams,
     getActiveMonthFromHashParams,
     getAnimationModeFromHashParams,
+    getRegionFromHashParams,
 } from '../utils/URLHashParams';
 import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -82,12 +83,18 @@ const getPreloadedMapState = (): MapState => {
 const getPreloadedUIState = (): UIState => {
     const showDownloadPanel = getDonwloadModeFromHashParams();
     const isAnimationModeOn = getAnimationModeFromHashParams();
+    const region = getRegionFromHashParams();
 
     const animationMode = isAnimationModeOn ? 'loading' : null;
 
     return {
         ...initialUIState,
         showDownloadPanel,
+        /**
+         * Info Panel should be opened if Administrative region (country name and sub region) is found from Hash Params,
+         * so it can show the land cover chart using data from land cover stats table
+         */
+        showInfoPanel: region !== '',
         /**
          * set animation mode to loading so the animation panel can start loading frames data once Median Layer is ready.
          * animation mode can only be enabled in desktop view with wide screen
