@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
+    formatAreaPercentage,
     getLandCoverChangeInAcres,
     LandCoverChangeInAcres,
 } from '../../../../services/sentinel-2-10m-landcover/computeHistograms';
@@ -13,19 +14,19 @@ import {
     selectMapResolution,
     selectYearsForSwipeWidgetLayers,
 } from '../../../../store/Map/selectors';
-import { showInfoPanelToggled } from '../../../../store/UI/reducer';
+// import { showInfoPanelToggled } from '../../../../store/UI/reducer';
 import { updateTooltipData } from '../../../../store/UI/thunks';
 import {
     QuickD3ChartData,
     QuickD3ChartDataItem,
 } from '../../../QuickD3Chart/types';
 import ChangeCompareGraph from './ChangeCompareGraph';
-import { numberFns } from 'helper-toolkit-ts';
+// import { numberFns } from 'helper-toolkit-ts';
 import {
-    DEFAULT_MAP_ZOOM,
+    // DEFAULT_MAP_ZOOM,
     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
 } from '../../../../constants/map';
-import { abbreviateNumber } from '../../../../utils/number';
+// import { abbreviateNumber } from '../../../../utils/number';
 
 const ChangeCompareGraphContainer = () => {
     const dispatch = useDispatch();
@@ -80,12 +81,12 @@ const ChangeCompareGraphContainer = () => {
 
             const [R, G, B] = Color;
 
-            const formatedDiffInAcres = abbreviateNumber(differenceInAcres);
+            // const formatedDiffInAcres = abbreviateNumber(differenceInAcres);
 
             return {
                 key: getLandCoverClassificationShortName(ClassName),
                 label: ClassName,
-                value: differenceInAcres,
+                value: differenceInPercentage,
                 fill: `rgb(${R}, ${G}, ${B})`,
                 labelOnTop:
                     differenceInAcres > 0
@@ -110,21 +111,24 @@ const ChangeCompareGraphContainer = () => {
 
         const {
             // landcoverClassificationData,
-            laterYearAreaInAcres,
-            earlierYearAreaInAcres,
-            differenceInAcres,
+            // laterYearAreaInAcres,
+            laterYearAreaInPercentage,
+            // earlierYearAreaInAcres,
+            earlierYearAreaInPercentage,
+            // differenceInAcres,
+            differenceInPercentage,
         } = data;
 
         // const { ClassName } = landcoverClassificationData;
 
         const tooltipData = {
-            content: `${numberFns.numberWithCommas(
-                earlierYearAreaInAcres
-            )} acres in ${year4LeadingLayer} and ${numberFns.numberWithCommas(
-                laterYearAreaInAcres
-            )} acres in ${year4TrailingLayer}, a change of ${
-                differenceInAcres >= 0 ? '+' : ''
-            }${numberFns.numberWithCommas(differenceInAcres)} acres`,
+            content: `${formatAreaPercentage(
+                earlierYearAreaInPercentage
+            )}% in ${year4LeadingLayer} and ${formatAreaPercentage(
+                laterYearAreaInPercentage
+            )}% in ${year4TrailingLayer}, a change of ${
+                differenceInPercentage >= 0 ? '+' : ''
+            }${formatAreaPercentage(differenceInPercentage)}%`,
         };
 
         dispatch(updateTooltipData(tooltipData));
