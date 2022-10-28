@@ -350,7 +350,7 @@ export const getLandCoverChangeInAcres = async ({
     }
 };
 
-export const getHistoricalLandCoverDataByClassification = async (
+export const getHistoricalLandCoverDataByMapExtent = async (
     extent: MapExtent,
     resolution: number
 ): Promise<HistoricalLandCoverData[]> => {

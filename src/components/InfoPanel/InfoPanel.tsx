@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { showInfoPanelToggled } from '../../store/UI/reducer';
 
 import {
-    getHistoricalLandCoverDataByClassification,
+    getHistoricalLandCoverDataByMapExtent,
     HistoricalLandCoverData,
 } from '../../services/sentinel-2-10m-landcover/computeHistograms';
 import {
@@ -112,7 +112,7 @@ const InfoPanel = () => {
                         });
                 } else if (resolution && extent) {
                     historicalLandCoverData =
-                        await getHistoricalLandCoverDataByClassification(
+                        await getHistoricalLandCoverDataByMapExtent(
                             extent,
                             resolution
                         );
@@ -140,7 +140,7 @@ const InfoPanel = () => {
             <div
                 className="h-1/2 w-full px-10"
                 style={{
-                    maxWidth: 1600,
+                    maxWidth: 1800,
                 }}
             >
                 <Header

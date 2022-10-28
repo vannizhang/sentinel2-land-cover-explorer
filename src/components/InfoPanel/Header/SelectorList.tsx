@@ -128,11 +128,18 @@ const SelectorList: FC<Props> = ({
                         width: 300,
                     }}
                 >
-                    <span className="">
-                        {labelOfSelectedItem || placeholderText}
-                    </span>
+                    <div
+                        className="flex-grow cursor-pointer"
+                        onClick={() => {
+                            setShowList(!showList);
+                        }}
+                    >
+                        <span className="">
+                            {labelOfSelectedItem || placeholderText}
+                        </span>
+                    </div>
 
-                    <div className="flex items-center">
+                    <div className="flex items-center shrink-0">
                         {valueOfSelectedItem && (
                             <div
                                 className="cursor-pointer"
