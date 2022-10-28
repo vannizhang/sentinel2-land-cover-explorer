@@ -29,3 +29,8 @@
 .esri-popup__header {
     @apply bg-custom-background-90;
 }
+
+.active-year-indicator {
+    height: 6px;
+    width: 6px;
+}

@@ -75,6 +75,9 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
 
                 return `
                 <div class='flex my-2 items-center'>
+                    <div class='active-year-indicator rounded-full mr-2 bg-custom-light-blue-80 ${
+                        year !== aquisitionYear ? 'opacity-0' : ''
+                    }'></div>
                     <span>${year}</span>
                     <div class='rounded-full w-4 h-4 border-2 border-white mx-2' style="background-color:${backgroundColor};"></div>
                     <span>${data.ClassName}</span>
