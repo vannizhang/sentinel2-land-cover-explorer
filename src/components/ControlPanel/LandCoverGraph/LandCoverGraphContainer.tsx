@@ -19,7 +19,7 @@ const LandCoverGraphContainer = () => {
 
     const mode = useSelector(selectMapMode);
 
-    const { zoom } = useSelector(selectMapCenterAndZoom);
+    // const { zoom } = useSelector(selectMapCenterAndZoom);
 
     const animationMode = useSelector(selectAnimationMode);
 
@@ -29,9 +29,11 @@ const LandCoverGraphContainer = () => {
 
     const year = useSelector(selectYear);
 
-    const outOfValidZoomLevel = zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM;
+    // const outOfValidZoomLevel = zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM;
 
-    const shouldShowChart = outOfValidZoomLevel === false && !animationMode;
+    // const shouldShowChart = outOfValidZoomLevel === false && !animationMode;
+
+    const shouldShowChart = !animationMode;
 
     const getSubtitle = () => {
         if (mode === 'swipe') {

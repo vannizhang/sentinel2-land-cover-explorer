@@ -143,9 +143,9 @@ const ChangeCompareGraphContainer = () => {
     }, [landCoverChangeData]);
 
     useEffect(() => {
-        if (zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM) {
-            return;
-        }
+        // if (zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM) {
+        //     return;
+        // }
 
         fetchData();
     }, [resolution, extent, year4LeadingLayer, year4TrailingLayer, zoom]);
