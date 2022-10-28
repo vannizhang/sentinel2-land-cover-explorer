@@ -17,10 +17,7 @@ import {
 import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 import CountrySelector from './Header/CountrySelector';
 import SubRegionSelector from './Header/SubRegionSelector';
-import {
-    getHistoricalLandCoverDataByCountry,
-    getHistoricalLandCoverDataBySubRegion,
-} from '../../services/landcover-statistics/query';
+import { getHistoricalLandCoverDataByRegion } from '../../services/landcover-statistics/query';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
@@ -107,16 +104,12 @@ const InfoPanel = () => {
             try {
                 let historicalLandCoverData: HistoricalLandCoverData[] = null;
 
-                if (selectedSubRegion) {
+                if (selectedSubRegion || selectedCountry) {
                     historicalLandCoverData =
-                        await getHistoricalLandCoverDataBySubRegion(
-                            selectedSubRegion
-                        );
-                } else if (selectedCountry) {
-                    historicalLandCoverData =
-                        await getHistoricalLandCoverDataByCountry(
-                            selectedCountry
-                        );
+                        await getHistoricalLandCoverDataByRegion({
+                            countryName: selectedCountry,
+                            subRegionISOCode: selectedSubRegion,
+                        });
                 } else if (resolution && extent) {
                     historicalLandCoverData =
                         await getHistoricalLandCoverDataByClassification(

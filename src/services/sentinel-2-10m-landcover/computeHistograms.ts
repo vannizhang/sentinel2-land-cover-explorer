@@ -111,7 +111,7 @@ export type LandCoverArea = {
     landcoverClassificationData: LandcoverClassificationData;
 };
 
-type AreaByYear = {
+export type AreaByYear = {
     year: number;
     /**
      * area (in acres) of a specific land cover type between two years
@@ -212,7 +212,7 @@ const getTotalAreaInAcres = (counts: number[], resolution: number) => {
     return convertNumOfPixel2Acres(totalNumOfPixels, resolution);
 };
 
-const formatAreaPercentage = (areaInPercentage: number) => {
+export const formatAreaPercentage = (areaInPercentage: number) => {
     return areaInPercentage > 1
         ? Math.round(areaInPercentage)
         : +areaInPercentage.toFixed(1);

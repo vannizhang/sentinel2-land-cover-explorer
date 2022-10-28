@@ -3,8 +3,15 @@ import {
     IQueryFeaturesResponse,
     queryFeatures,
 } from '@esri/arcgis-rest-feature-service';
-import { HistoricalLandCoverData } from '../sentinel-2-10m-landcover/computeHistograms';
-import { LandCoverClassification } from '../sentinel-2-10m-landcover/rasterAttributeTable';
+import {
+    AreaByYear,
+    formatAreaPercentage,
+    HistoricalLandCoverData,
+} from '../sentinel-2-10m-landcover/computeHistograms';
+import {
+    getLandCoverClassifications,
+    LandCoverClassification,
+} from '../sentinel-2-10m-landcover/rasterAttributeTable';
 
 import { LAND_COVER_STATISTICS_SERVICE_URL, FIELD_NAMES } from './config';
 
@@ -26,9 +33,9 @@ const {
 
 type PixelCountByLandCover = Record<LandCoverClassification, number>;
 
-type PixelCountByLandCoverAndYear = {
-    year: number;
-    pixelCounts: PixelCountByLandCover;
+type GetHistoricalLandCoverDataByRegionParams = {
+    countryName?: string;
+    subRegionISOCode?: string;
 };
 
 export type SubRegion = {
@@ -99,35 +106,24 @@ export const getSubRegions = async (country: string): Promise<SubRegion[]> => {
     }
 };
 
-export const getHistoricalLandCoverDataByCountry = async (
-    countryName: string
-): Promise<HistoricalLandCoverData[]> => {
-    try {
-        const res = await getLandCoverStatsByCountry(countryName);
-        console.log(res);
-    } catch (err) {
-        console.log(err);
+export const getHistoricalLandCoverDataByRegion = async ({
+    countryName,
+    subRegionISOCode,
+}: GetHistoricalLandCoverDataByRegionParams) => {
+    if (!countryName && !subRegionISOCode) {
+        return null;
     }
 
-    return null;
+    const res = subRegionISOCode
+        ? await queryLandCoverStatsBySunRegionISOCode(subRegionISOCode)
+        : await queryLandCoverStatsByCountry(countryName);
+
+    return formatLandCoverStatsFeatures(res.features);
 };
 
-export const getHistoricalLandCoverDataBySubRegion = async (
-    subRegionISOCode: string
-): Promise<HistoricalLandCoverData[]> => {
-    try {
-        const res = await getLandCoverStatsBySunRegionISOCode(subRegionISOCode);
-        console.log(res);
-    } catch (err) {
-        console.log(err);
-    }
-
-    return null;
-};
-
-const getLandCoverStatsByCountry = async (
+const queryLandCoverStatsByCountry = async (
     countryName: string
-): Promise<PixelCountByLandCoverAndYear[]> => {
+): Promise<IQueryFeaturesResponse> => {
     const res = (await queryFeatures({
         url: LAND_COVER_STATISTICS_SERVICE_URL,
         where: `${COUNTRY}='${countryName}'`,
@@ -181,7 +177,7 @@ const getLandCoverStatsByCountry = async (
         ],
     })) as IQueryFeaturesResponse;
 
-    return formatLandCoverStatsFeatures(res.features);
+    return res;
 };
 
 /**
@@ -189,9 +185,9 @@ const getLandCoverStatsByCountry = async (
  * @param subRegionISOCode ISO Code of sub region
  * @returns
  */
-const getLandCoverStatsBySunRegionISOCode = async (
+const queryLandCoverStatsBySunRegionISOCode = async (
     subRegionISOCode: string
-): Promise<PixelCountByLandCoverAndYear[]> => {
+): Promise<IQueryFeaturesResponse> => {
     const res = (await queryFeatures({
         url: LAND_COVER_STATISTICS_SERVICE_URL,
         where: `${ISO_CODE}='${subRegionISOCode}'`,
@@ -212,42 +208,151 @@ const getLandCoverStatsBySunRegionISOCode = async (
         orderByFields: YEAR,
     })) as IQueryFeaturesResponse;
 
-    return formatLandCoverStatsFeatures(res.features);
+    return res;
 };
 
 /**
  * Format features returned from Land Cover Stats table into Historical Land Cover Data
- * @param features features from Land Cover Stats table
- * @returns
+ * @param features array of features from the query results of Land Cover Stats table
+ * @returns array of Historical Land Cover data that can be used to populate the Land Cover Graph in Info Panel
+ *
+ * @example
+ * Usage
+ * ```
+ * formatLandCoverStatsFeatures(
+ *     [
+ *          {
+ *              "attributes":{
+ *                  "WaterPixelCount":241,
+ *                  "TreesPixelCount":37650,
+ *                  "FloodedVegetationPixelCount":0,
+ *                  "CropsPixelCount":8,
+ *                  "BuitAreaPixelCount":2291,
+ *                  "BareGroundPixelCount":503,
+ *                  "SnowIcePixelCount":0,
+ *                  "CloudsPixelCount":0,
+ *                  "RangelandPixelCount":45502,
+ *                  "COUNTRY":"Andorra",
+ *                  "LCYear":2017
+ *              }
+ *          },
+ *          //...
+ *     ]
+ * )
+ * ```
+ *
+ * Returns
+ * ```
+ * [
+ *      {
+ *          "areaByYear":[
+ *              {"year":2017,"area":130820,"areaInPercentage":1.767},
+ *              {"year":2018,"area":126360,"areaInPercentage":1.549},
+ *              {"year":2019,"area":154930,"areaInPercentage":1.542},
+ *              {"year":2020,"area":187929,"areaInPercentage":1.394},
+ *              {"year":2021,"area":134675,"areaInPercentage":1.315}
+ *          ],
+ *          "landCoverClassificationData":{
+ *              "Value":1,
+ *              "Description":"Areas where water was predominantly present throughout the year; may not cover areas with sporadic or ephemeral water; contains little to no sparse vegetation, no rock outcrop nor built up features like docks.",
+ *              "ClassName":"Water",
+ *              "Color":[26,91,171]
+ *          }
+ *      },
+ *      {
+ *          "areaByYear":[
+ *              {"year":2017,"area":352310,"areaInPercentage":12.178},
+ *              {"year":2018,"area":334714,"areaInPercentage":12.748},
+ *              {"year":2019,"area":416607,"areaInPercentage":13.074},
+ *              {"year":2020,"area":435815,"areaInPercentage":12.696},
+ *              {"year":2021,"area":334914,"areaInPercentage":12.292}
+ *          ],
+ *          "landCoverClassificationData":{
+ *              "Value":2,
+ *              "Description":"Any significant clustering of tall (~15-m or higher) dense vegetation, typically with a closed or dense canopy.",
+ *              "ClassName":"Trees",
+ *              "Color":[53,130,33]
+ *          }
+ *      },
+ *      //...
+ * ]
+ * ```
  */
 const formatLandCoverStatsFeatures = (
     features: IFeature[]
-): PixelCountByLandCoverAndYear[] => {
+): HistoricalLandCoverData[] => {
     if (!features || !features.length) {
         return [];
     }
 
-    const pixelCountsData: PixelCountByLandCoverAndYear[] = features.map(
-        (feature) => {
-            const { attributes } = feature;
+    const uniqueYears = features.map((feature) => +feature.attributes[YEAR]);
 
+    const LandCoverClassifications = getLandCoverClassifications();
+
+    const historicalLandCoverDataByClassName = new Map<
+        LandCoverClassification,
+        HistoricalLandCoverData
+    >();
+
+    for (const landCoverClassification of LandCoverClassifications) {
+        const { ClassName } = landCoverClassification;
+
+        const areaByYear: AreaByYear[] = uniqueYears.map((year) => {
             return {
-                year: attributes[YEAR],
-                pixelCounts: {
-                    'Bare Ground': attributes[BARE] as number,
-                    'Built Area': attributes[BUILT] as number,
-                    Clouds: attributes[CLOUD] as number,
-                    Crops: attributes[CROPS] as number,
-                    'Flooded Vegetation': attributes[FLOODED_VEG] as number,
-                    'No Data': 0,
-                    Rangeland: attributes[RANGE] as number,
-                    'Snow/Ice': attributes[SNOW] as number,
-                    Trees: attributes[TREE] as number,
-                    Water: attributes[WATER] as number,
-                },
+                year,
+                area: 0,
+                areaInPercentage: 0,
             };
-        }
-    );
+        });
 
-    return pixelCountsData;
+        historicalLandCoverDataByClassName.set(ClassName, {
+            areaByYear,
+            landCoverClassificationData: landCoverClassification,
+        });
+    }
+
+    for (const feature of features) {
+        const { attributes } = feature;
+
+        const year = attributes[YEAR];
+
+        const yearIdx = uniqueYears.indexOf(year);
+
+        const pixelCounts: PixelCountByLandCover = {
+            'Bare Ground': attributes[BARE] as number,
+            'Built Area': attributes[BUILT] as number,
+            Clouds: attributes[CLOUD] as number,
+            Crops: attributes[CROPS] as number,
+            'Flooded Vegetation': attributes[FLOODED_VEG] as number,
+            'No Data': 0,
+            Rangeland: attributes[RANGE] as number,
+            'Snow/Ice': attributes[SNOW] as number,
+            Trees: attributes[TREE] as number,
+            Water: attributes[WATER] as number,
+        };
+
+        const totalPixelCounts = Object.values(pixelCounts).reduce(
+            (total, count) => total + count,
+            0
+        );
+
+        for (const [landcoverClassName, count] of Object.entries(pixelCounts)) {
+            const historicalData = historicalLandCoverDataByClassName.get(
+                landcoverClassName as LandCoverClassification
+            );
+
+            if (!historicalData || landcoverClassName === 'No Data') {
+                continue;
+            }
+
+            historicalData.areaByYear[yearIdx].area = count;
+
+            historicalData.areaByYear[yearIdx].areaInPercentage =
+                formatAreaPercentage((count / totalPixelCounts) * 100);
+        }
+    }
+
+    const output = [...historicalLandCoverDataByClassName.values()];
+
+    return output;
 };
