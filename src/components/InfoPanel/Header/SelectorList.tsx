@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { FC, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
@@ -91,23 +92,37 @@ const SelectorList: FC<Props> = ({
     // close selection list
     useOnClickOutside(containterRef, setShowList.bind(null, false));
 
+    const selectedItemOnChange = (value: string) => {
+        onChange(value);
+        setShowList(false);
+    };
+
     const getSelectionList = () => {
         if (!showList) {
             return null;
         }
 
+        const ListItemClassNames = `bg-custom-background-95 py-1 px-2 cursor-pointer text-sm`;
+
         return (
             <div className="absolute top-9 max-h-96 overflow-y-auto w-full">
+                <div
+                    className={classNames(
+                        ListItemClassNames,
+                        'border-b border-custom-light-blue-50'
+                    )}
+                    onClick={selectedItemOnChange.bind(null, '')}
+                >
+                    <span>{placeholderText}</span>
+                </div>
+
                 {data.map((d) => {
                     const { value, label } = d;
                     return (
                         <div
-                            className="bg-custom-background-95 py-1 px-2 cursor-pointer text-sm"
+                            className={ListItemClassNames}
                             key={value}
-                            onClick={() => {
-                                onChange(value);
-                                setShowList(false);
-                            }}
+                            onClick={selectedItemOnChange.bind(null, value)}
                         >
                             <span>{label || value}</span>
                         </div>
@@ -143,9 +158,7 @@ const SelectorList: FC<Props> = ({
                         {valueOfSelectedItem && (
                             <div
                                 className="cursor-pointer"
-                                onClick={() => {
-                                    onChange('');
-                                }}
+                                onClick={selectedItemOnChange.bind(null, '')}
                             >
                                 {CloseIcon}
                             </div>
