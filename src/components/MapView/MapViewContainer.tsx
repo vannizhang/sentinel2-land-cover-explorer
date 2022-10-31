@@ -71,7 +71,7 @@ const MapViewContainer = () => {
 
     /**
      * Show Swipe Widget when in swipe mode
-     * if viewing sentinel 2 layer, swipe widget can only be used if sentinel-2 layer can be fitered by time,
+     * if viewing sentinel 2 layer, swipe widget can only be used if sentinel-2 layer is within visisble zoom levels,
      * which requires map zoom to be 11 or bigger
      */
     const isSwipeWidgetVisible =

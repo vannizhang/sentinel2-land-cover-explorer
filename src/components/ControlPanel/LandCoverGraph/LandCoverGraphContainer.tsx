@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM } from '../../../constants/map';
 import {
+    selectIsSentinel2LayerOutOfVisibleRange,
     selectMapCenterAndZoom,
     selectMapMode,
+    selectShouldShowSentinel2Layer,
     selectYear,
     selectYearsForSwipeWidgetLayers,
 } from '../../../store/Map/selectors';
@@ -19,7 +21,13 @@ const LandCoverGraphContainer = () => {
 
     const mode = useSelector(selectMapMode);
 
-    // const { zoom } = useSelector(selectMapCenterAndZoom);
+    const isSentinel2LayerOutOfVisibleRange = useSelector(
+        selectIsSentinel2LayerOutOfVisibleRange
+    );
+
+    const shouldShowSentinel2Layer = useSelector(
+        selectShouldShowSentinel2Layer
+    );
 
     const animationMode = useSelector(selectAnimationMode);
 
@@ -29,11 +37,21 @@ const LandCoverGraphContainer = () => {
 
     const year = useSelector(selectYear);
 
-    // const outOfValidZoomLevel = zoom < MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM;
+    const shouldShowChart = useMemo(() => {
+        if (animationMode) {
+            return false;
+        }
 
-    // const shouldShowChart = outOfValidZoomLevel === false && !animationMode;
+        if (shouldShowSentinel2Layer) {
+            return isSentinel2LayerOutOfVisibleRange === false;
+        }
 
-    const shouldShowChart = !animationMode;
+        return true;
+    }, [
+        animationMode,
+        shouldShowSentinel2Layer,
+        isSentinel2LayerOutOfVisibleRange,
+    ]);
 
     const getSubtitle = () => {
         if (mode === 'swipe') {
