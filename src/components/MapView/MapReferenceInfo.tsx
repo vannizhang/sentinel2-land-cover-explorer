@@ -21,12 +21,30 @@ type Props = {
     /**
      * Indicate if swipe widget is currently visible
      */
-    visible: boolean;
+    isSwipeWidgetVisible: boolean;
 };
 
-const SwipeWidgetReferenceInfo: FC<Props> = ({
+const MessageClassNames =
+    'p-2 bg-custom-background-85 text-custom-light-blue uppercase text-sm';
+
+const Sentinel2LoadingIndicator = () => {
+    return (
+        <div>
+            <calcite-loader active scale="m"></calcite-loader>
+            <div className={MessageClassNames}>Loading Sentinel-2 Imagery</div>
+        </div>
+    );
+};
+
+/**
+ * Indicators that remind user different information related to the map:
+ * - If sentinel-2 layer is loading
+ * - If sentinel-2 layer is out of visible zoom levels
+ * - selected year on both sides of the swipe widget
+ */
+const MapInfoIndicators: FC<Props> = ({
     isUpdating,
-    visible,
+    isSwipeWidgetVisible,
 }: Props) => {
     const position = useSelector(selectSwipePosition);
 
@@ -61,18 +79,21 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
             <div
                 className="absolute top-0 bottom-0 left-0 flex items-center justify-center"
                 style={{
-                    width: visible === false ? '100%' : `${position}%`,
+                    width:
+                        isSwipeWidgetVisible === false
+                            ? '100%'
+                            : `${position}%`,
                 }}
             >
                 {isUpdating &&
                     shouldShowSentinel2Layer &&
                     isSentinel2LayerOutOfVisibleRange === false && (
-                        <calcite-loader active scale="s"></calcite-loader>
+                        <Sentinel2LoadingIndicator />
                     )}
 
                 {shouldShowSentinel2Layer &&
                     isSentinel2LayerOutOfVisibleRange && (
-                        <div className="p-2 bg-custom-background-85 text-custom-light-blue uppercase">
+                        <div className={MessageClassNames}>
                             Zoom in to enable Sentinel-2 Imagery
                         </div>
                     )}
@@ -92,9 +113,9 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
 
             <div
                 className={classNames(
-                    'absolute top-0 bottom-0 right-0 flex items-center',
+                    'absolute top-0 bottom-0 right-0 flex items-center justify-center',
                     {
-                        hidden: visible === false,
+                        hidden: isSwipeWidgetVisible === false,
                     }
                 )}
                 style={{
@@ -114,11 +135,11 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
                 )}
 
                 {isUpdating && shouldShowSentinel2Layer && (
-                    <calcite-loader active scale="s"></calcite-loader>
+                    <Sentinel2LoadingIndicator />
                 )}
             </div>
         </div>
     );
 };
 
-export default SwipeWidgetReferenceInfo;
+export default MapInfoIndicators;

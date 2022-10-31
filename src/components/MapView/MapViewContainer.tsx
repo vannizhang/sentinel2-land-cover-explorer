@@ -25,7 +25,7 @@ import MapView from './MapView';
 import MapViewEventHandlers from './MapViewEventHandler';
 import IPoint from 'esri/geometry/Point';
 import Popup from '../Popup/Popup';
-import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
+// import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
 // import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
 import {
     selectAnimationMode,
@@ -42,6 +42,7 @@ import CustomMapArrtribution from '../CustomMapArrtribution/CustomMapArrtributio
 import Sentinel2Layer from '../Sentinel2Layer/Sentinel2Layer';
 import LandcoverLayer from '../LandcoverLayer/LandCoverLayer';
 import AnimationPanel from '../AnimationPanel/AnimationPanel';
+import MapInfoIndicators from './MapReferenceInfo';
 
 const MapViewContainer = () => {
     const dispatch = useDispatch();
@@ -148,9 +149,9 @@ const MapViewContainer = () => {
 
             <ReferenceLayersToggleControl />
 
-            <SwipeWidgetReferenceInfo
+            <MapInfoIndicators
                 isUpdating={isUpdating}
-                visible={isSwipeWidgetVisible}
+                isSwipeWidgetVisible={isSwipeWidgetVisible}
             />
 
             {/* <ToggleAttribution /> */}
