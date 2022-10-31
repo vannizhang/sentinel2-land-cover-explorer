@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import {
     selectMapMode,
     selectShouldShowSentinel2Layer,
-    selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectIsSentinel2LayerOutOfVisibleRange,
     selectYear,
 } from '../../store/Map/selectors';
 import { selectAnimationMode } from '../../store/UI/selectors';
@@ -26,8 +26,8 @@ const Sentinel2Layer: FC<Props> = ({ mapView }: Props) => {
         selectShouldShowSentinel2Layer
     );
 
-    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
-        selectIsFilterbyTime4Sentinel2LayerDisabled
+    const isSentinel2LayerOutOfVisibleRange = useSelector(
+        selectIsSentinel2LayerOutOfVisibleRange
     );
 
     const getVisibility = () => {
@@ -39,7 +39,7 @@ const Sentinel2Layer: FC<Props> = ({ mapView }: Props) => {
             return false;
         }
 
-        return mode === 'step' || isFilterbyTime4Sentinel2LayerDisabled;
+        return mode === 'step' || isSentinel2LayerOutOfVisibleRange;
     };
 
     const layer = useSentinel2Layer({

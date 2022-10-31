@@ -10,7 +10,7 @@ import {
 import { identify } from '../Sentinel2Layer/identify';
 import { useSelector } from 'react-redux';
 import {
-    selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectIsSentinel2LayerOutOfVisibleRange,
     selectSentinel2AquisitionMonth,
     selectSentinel2RasterFunction,
     selectShouldShowSentinel2Layer,
@@ -25,8 +25,8 @@ type Props = {
 type MapViewOnClickHandler = (mapPoint: IPoint) => void;
 
 const Popup: FC<Props> = ({ mapView }: Props) => {
-    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
-        selectIsFilterbyTime4Sentinel2LayerDisabled
+    const isSentinel2LayerOutOfVisibleRange = useSelector(
+        selectIsSentinel2LayerOutOfVisibleRange
     );
 
     const shouldShowSentinel2Layer = useSelector(
@@ -138,10 +138,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
         // acquisition date (in unix timestamp) of sentinel-2 imagery this is displayed on map
         let acquisitionDate: number = null;
 
-        if (
-            shouldShowSentinel2Layer &&
-            !isFilterbyTime4Sentinel2LayerDisabled
-        ) {
+        if (shouldShowSentinel2Layer && !isSentinel2LayerOutOfVisibleRange) {
             const identifyTaskRes = await identify({
                 geometry: mapPoint,
                 resolution: mapView.resolution,
@@ -193,7 +190,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
         aquisitionYear,
         aquisitionMonth,
         shouldShowSentinel2Layer,
-        isFilterbyTime4Sentinel2LayerDisabled,
+        isSentinel2LayerOutOfVisibleRange,
     ]);
 
     return null;

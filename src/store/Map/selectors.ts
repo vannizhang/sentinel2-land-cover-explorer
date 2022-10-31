@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { zoom } from 'd3';
-import { MIN_MAP_ZOOM_FOR_COMPARE_SENTINEL_2_LAYER } from '../../constants/map';
+import { MIN_MAP_ZOOM_FOR_SENTINEL_2_LAYER } from '../../constants/map';
 import { RootState } from '../configureStore';
 
 /**
@@ -75,13 +75,12 @@ export const selectSentinel2RasterFunction = createSelector(
     (sentinel2RasterFunction) => sentinel2RasterFunction
 );
 
-export const selectIsFilterbyTime4Sentinel2LayerDisabled = createSelector(
+export const selectIsSentinel2LayerOutOfVisibleRange = createSelector(
     (state: RootState) => state.Map.shouldShowSentinel2Layer,
     (state: RootState) => state.Map.zoom,
     (shouldShowSentinel2Layer, zoom) => {
         return (
-            shouldShowSentinel2Layer &&
-            zoom < MIN_MAP_ZOOM_FOR_COMPARE_SENTINEL_2_LAYER
+            shouldShowSentinel2Layer && zoom < MIN_MAP_ZOOM_FOR_SENTINEL_2_LAYER
         );
     }
 );

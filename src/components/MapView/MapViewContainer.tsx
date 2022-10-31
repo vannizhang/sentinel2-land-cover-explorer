@@ -14,7 +14,7 @@ import {
 } from '../../store/Map/reducer';
 import {
     selectMapCenterAndZoom,
-    selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectIsSentinel2LayerOutOfVisibleRange,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
     selectMapMode,
@@ -52,8 +52,8 @@ const MapViewContainer = () => {
 
     const hideControlPanel = useSelector(selectShouldHideControlPanel);
 
-    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
-        selectIsFilterbyTime4Sentinel2LayerDisabled
+    const isSentinel2LayerOutOfVisibleRange = useSelector(
+        selectIsSentinel2LayerOutOfVisibleRange
     );
 
     const { year4LeadingLayer, year4TrailingLayer } = useSelector(
@@ -74,7 +74,7 @@ const MapViewContainer = () => {
      * which requires map zoom to be 11 or bigger
      */
     const isSwipeWidgetVisible =
-        mode === 'swipe' && isFilterbyTime4Sentinel2LayerDisabled === false;
+        mode === 'swipe' && isSentinel2LayerOutOfVisibleRange === false;
 
     useEffect(() => {
         saveMapCenterToHashParams(center, zoom);

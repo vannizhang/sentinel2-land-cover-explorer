@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
-    selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectIsSentinel2LayerOutOfVisibleRange,
     selectMapMode,
     selectShouldShowSentinel2Layer,
     selectSwipePosition,
@@ -32,9 +32,9 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
 
     const animationMode = useSelector(selectAnimationMode);
 
-    // const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
-    //     selectIsFilterbyTime4Sentinel2LayerDisabled
-    // );
+    const isSentinel2LayerOutOfVisibleRange = useSelector(
+        selectIsSentinel2LayerOutOfVisibleRange
+    );
 
     const showSwipeWidgetYearIndicator = useSelector(
         selectShowSwipeWidgetYearIndicator
@@ -59,14 +59,23 @@ const SwipeWidgetReferenceInfo: FC<Props> = ({
             )}
         >
             <div
-                className="absolute top-0 bottom-0 left-0 flex items-center"
+                className="absolute top-0 bottom-0 left-0 flex items-center justify-center"
                 style={{
                     width: visible === false ? '100%' : `${position}%`,
                 }}
             >
-                {isUpdating && shouldShowSentinel2Layer && (
-                    <calcite-loader active scale="s"></calcite-loader>
-                )}
+                {isUpdating &&
+                    shouldShowSentinel2Layer &&
+                    isSentinel2LayerOutOfVisibleRange === false && (
+                        <calcite-loader active scale="s"></calcite-loader>
+                    )}
+
+                {shouldShowSentinel2Layer &&
+                    isSentinel2LayerOutOfVisibleRange && (
+                        <div className="p-2 bg-custom-background-85 text-custom-light-blue uppercase">
+                            Zoom in to enable Sentinel-2 Imagery
+                        </div>
+                    )}
 
                 {showSwipeWidgetYearIndicator && (
                     <div

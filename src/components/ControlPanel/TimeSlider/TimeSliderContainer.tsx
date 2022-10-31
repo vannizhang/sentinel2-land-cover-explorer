@@ -10,7 +10,7 @@ import {
     yearUpdated,
 } from '../../../store/Map/reducer';
 import {
-    selectIsFilterbyTime4Sentinel2LayerDisabled,
+    selectIsSentinel2LayerOutOfVisibleRange,
     selectMapMode,
     selectShouldShowSentinel2Layer,
     selectYear,
@@ -36,8 +36,8 @@ const TimeSliderContainer = () => {
 
     const years = getAvailableYears();
 
-    const isFilterbyTime4Sentinel2LayerDisabled = useSelector(
-        selectIsFilterbyTime4Sentinel2LayerDisabled
+    const isSentinel2LayerOutOfVisibleRange = useSelector(
+        selectIsSentinel2LayerOutOfVisibleRange
     );
 
     const shouldShowSentinel2Layer = useSelector(
@@ -50,14 +50,13 @@ const TimeSliderContainer = () => {
     const year = useSelector(selectYear);
 
     const shouldShowMonthPicker =
-        shouldShowSentinel2Layer &&
-        isFilterbyTime4Sentinel2LayerDisabled === false;
+        shouldShowSentinel2Layer && isSentinel2LayerOutOfVisibleRange === false;
 
     const timeRangeSliderVisibility =
-        mode === 'swipe' && isFilterbyTime4Sentinel2LayerDisabled === false;
+        mode === 'swipe' && isSentinel2LayerOutOfVisibleRange === false;
 
     const timeStepSliderVisibility =
-        mode === 'step' && isFilterbyTime4Sentinel2LayerDisabled === false;
+        mode === 'step' && isSentinel2LayerOutOfVisibleRange === false;
 
     useEffect(() => {
         saveTimeExtentToHashParams(year4LeadingLayer, year4TrailingLayer);
@@ -133,7 +132,7 @@ const TimeSliderContainer = () => {
                     />
                 </div>
 
-                {isFilterbyTime4Sentinel2LayerDisabled === false && (
+                {isSentinel2LayerOutOfVisibleRange === false && (
                     <div
                         className="absolute hidden lg:block"
                         style={{
@@ -164,7 +163,7 @@ const TimeSliderContainer = () => {
                 )}
             </div>
 
-            {isFilterbyTime4Sentinel2LayerDisabled && (
+            {isSentinel2LayerOutOfVisibleRange && (
                 <div className="mt-9 text-center text-sm opacity-50">
                     <p>
                         {mode === 'swipe'

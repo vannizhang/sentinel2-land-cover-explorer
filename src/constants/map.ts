@@ -127,4 +127,7 @@ export const DEFAULT_MAP_ZOOM = 11;
 
 export const MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM = 10;
 
-export const MIN_MAP_ZOOM_FOR_COMPARE_SENTINEL_2_LAYER = 11;
+/**
+ * Sentinel 2 layer can only be displayed on the map when the map zoom level is greater or equal to 11
+ */
+export const MIN_MAP_ZOOM_FOR_SENTINEL_2_LAYER = 11;
