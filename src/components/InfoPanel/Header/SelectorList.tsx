@@ -116,7 +116,7 @@ const SelectorList: FC<Props> = ({
                 <input
                     className="w-full bg-transparent border border-custom-light-blue-50 px-1"
                     value={searchTerm}
-                    placeholder={'Search Countries'}
+                    placeholder={'Filter…'}
                     onChange={(evt) => {
                         setSearchTerm(evt.target.value);
                         // console.log(evt.target.value)
@@ -156,7 +156,7 @@ const SelectorList: FC<Props> = ({
                 : data;
 
         return (
-            <div className="absolute top-9 max-h-96 overflow-y-auto w-full fancy-scroller ">
+            <div className="absolute top-9 max-h-96 overflow-y-auto w-full fancy-scroller border border-custom-light-blue-50 border-t-0">
                 {getSearchInput()}
 
                 <div

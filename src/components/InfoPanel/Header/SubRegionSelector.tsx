@@ -51,6 +51,7 @@ const SubRegionSelector: FC<Props> = ({
             data={listData}
             valueOfSelectedItem={selectedSubRegion}
             placeholderText={'All'}
+            searchable={true}
             onChange={onChange}
         />
     );

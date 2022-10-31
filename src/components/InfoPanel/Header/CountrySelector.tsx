@@ -37,7 +37,7 @@ const CountrySelector: FC<Props> = ({ selectedCountry, onChange }) => {
             title="Region"
             data={listData}
             valueOfSelectedItem={selectedCountry}
-            placeholderText={'Current Display Extent'}
+            placeholderText={'Current Map Extent'}
             searchable={true}
             onChange={onChange}
         />
