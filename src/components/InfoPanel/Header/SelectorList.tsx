@@ -1,3 +1,4 @@
+import './SelectorList.css';
 import classNames from 'classnames';
 import React, { FC, useMemo, useRef, useState } from 'react';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
@@ -155,7 +156,7 @@ const SelectorList: FC<Props> = ({
                 : data;
 
         return (
-            <div className="absolute top-9 max-h-96 overflow-y-auto w-full">
+            <div className="absolute top-9 max-h-96 overflow-y-auto w-full fancy-scroller ">
                 {getSearchInput()}
 
                 <div
