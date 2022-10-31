@@ -4,7 +4,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside';
 
 export type SelectorListData = {
     value: string;
-    label?: string;
+    label: string;
 };
 
 type Props = {
@@ -24,6 +24,10 @@ type Props = {
      * place holder text to be displayed when no item is selected
      */
     placeholderText: string;
+    /**
+     * If true, the selection list is searchable via the text input at the top of the list
+     */
+    searchable?: boolean;
     /**
      * Fires when user selects a new item from the list
      */
@@ -74,11 +78,14 @@ const SelectorList: FC<Props> = ({
     data,
     valueOfSelectedItem,
     placeholderText,
+    searchable = false,
     onChange,
 }: Props) => {
     const containterRef = useRef<HTMLDivElement>();
 
     const [showList, setShowList] = useState<boolean>(false);
+
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const labelOfSelectedItem = useMemo(() => {
         if (!valueOfSelectedItem || !data.length) {
@@ -95,6 +102,38 @@ const SelectorList: FC<Props> = ({
     const selectedItemOnChange = (value: string) => {
         onChange(value);
         setShowList(false);
+        setSearchTerm('');
+    };
+
+    const getSearchInput = () => {
+        if (!searchable) {
+            return null;
+        }
+
+        return (
+            <div className="relative bg-custom-background-95 p-2 text-sm">
+                <input
+                    className="w-full bg-transparent border border-custom-light-blue-50 px-1"
+                    value={searchTerm}
+                    placeholder={'Search Countries'}
+                    onChange={(evt) => {
+                        setSearchTerm(evt.target.value);
+                        // console.log(evt.target.value)
+                    }}
+                />
+
+                {searchTerm && (
+                    <div
+                        className="absolute right-2 top-2 cursor-pointer"
+                        onClick={() => {
+                            setSearchTerm('');
+                        }}
+                    >
+                        {CloseIcon}
+                    </div>
+                )}
+            </div>
+        );
     };
 
     const getSelectionList = () => {
@@ -104,8 +143,21 @@ const SelectorList: FC<Props> = ({
 
         const ListItemClassNames = `bg-custom-background-95 py-1 px-2 cursor-pointer text-sm`;
 
+        const listData =
+            searchTerm && searchable
+                ? data.filter((d) => {
+                      const { label, value } = d;
+                      const textToCompareWithSearchTerm = label || value;
+                      return textToCompareWithSearchTerm
+                          .toLowerCase()
+                          .startsWith(searchTerm.toLowerCase());
+                  })
+                : data;
+
         return (
             <div className="absolute top-9 max-h-96 overflow-y-auto w-full">
+                {getSearchInput()}
+
                 <div
                     className={classNames(
                         ListItemClassNames,
@@ -116,7 +168,7 @@ const SelectorList: FC<Props> = ({
                     <span>{placeholderText}</span>
                 </div>
 
-                {data.map((d) => {
+                {listData.map((d) => {
                     const { value, label } = d;
                     return (
                         <div

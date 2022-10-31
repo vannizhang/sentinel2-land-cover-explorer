@@ -24,6 +24,7 @@ const CountrySelector: FC<Props> = ({ selectedCountry, onChange }) => {
             const listData: SelectorListData[] = countries.map((value) => {
                 return {
                     value,
+                    label: value,
                 };
             });
 
@@ -37,6 +38,7 @@ const CountrySelector: FC<Props> = ({ selectedCountry, onChange }) => {
             data={listData}
             valueOfSelectedItem={selectedCountry}
             placeholderText={'Current Display Extent'}
+            searchable={true}
             onChange={onChange}
         />
     );
