@@ -11,10 +11,13 @@ import { identify } from '../Sentinel2Layer/identify';
 import { useSelector } from 'react-redux';
 import {
     selectIsSentinel2LayerOutOfVisibleRange,
+    selectMapMode,
     selectSentinel2AquisitionMonth,
     selectSentinel2RasterFunction,
     selectShouldShowSentinel2Layer,
+    selectSwipePosition,
     selectYear,
+    selectYearsForSwipeWidgetLayers,
 } from '../../store/Map/selectors';
 import { format } from 'date-fns';
 
@@ -22,7 +25,23 @@ type Props = {
     mapView?: IMapView;
 };
 
-type MapViewOnClickHandler = (mapPoint: IPoint) => void;
+type MapViewOnClickHandler = (mapPoint: IPoint, mousePointX: number) => void;
+
+/**
+ * Check and see if user clicked on the left side of the swipe widget
+ * @param swipePosition position of the swipe handler, value should be bewteen 0 - 100
+ * @param mapViewWidth width of the map view container
+ * @param mouseX x position of the mouse click event
+ * @returns boolean indicates if clicked on left side
+ */
+const didClickOnLeftSideOfSwipeWidget = (
+    swipePosition: number,
+    mapViewWidth: number,
+    mouseX: number
+) => {
+    const wdithOfLeftHalf = mapViewWidth * (swipePosition / 100);
+    return mouseX <= wdithOfLeftHalf;
+};
 
 const Popup: FC<Props> = ({ mapView }: Props) => {
     const isSentinel2LayerOutOfVisibleRange = useSelector(
@@ -37,6 +56,14 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
 
     const aquisitionMonth = useSelector(selectSentinel2AquisitionMonth);
 
+    const swipePosition = useSelector(selectSwipePosition);
+
+    const mode = useSelector(selectMapMode);
+
+    const { year4LeadingLayer, year4TrailingLayer } = useSelector(
+        selectYearsForSwipeWidgetLayers
+    );
+
     const aquisitionYear = useSelector(selectYear);
 
     const mapViewOnClickHandlerRef = useRef<MapViewOnClickHandler>();
@@ -49,6 +76,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
 
     const getMainContent = (
         landCoverData: LandcoverClassificationsByYear[],
+        aquisitionYear: number,
         acquisitionDate?: number
     ) => {
         const popupDiv = document.createElement('div');
@@ -120,7 +148,10 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
     //     });
     // };
 
-    mapViewOnClickHandlerRef.current = async (mapPoint: IPoint) => {
+    mapViewOnClickHandlerRef.current = async (
+        mapPoint: IPoint,
+        mousePointX: number
+    ) => {
         const lat = Math.round(mapPoint.latitude * 1000) / 1000;
         const lon = Math.round(mapPoint.longitude * 1000) / 1000;
         const title = `Lat ${lat}, Lon ${lon}`;
@@ -135,15 +166,30 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
             mapPoint
         );
 
-        // acquisition date (in unix timestamp) of sentinel-2 imagery this is displayed on map
+        // acquisition date (in unix timestamp) of sentinel-2 imagery that is displayed on map
         let acquisitionDate: number = null;
+
+        // acquisition year of the land cover/sentinel 2 imagery that is displayed on map
+        let year = aquisitionYear;
+
+        // when in swipe mode, we need to first check if user clicked on left or right side of the swipe widget,
+        // then decide which acquisition year to use
+        if (mode === 'swipe') {
+            year = didClickOnLeftSideOfSwipeWidget(
+                swipePosition,
+                mapView.width,
+                mousePointX
+            )
+                ? year4LeadingLayer
+                : year4TrailingLayer;
+        }
 
         if (shouldShowSentinel2Layer && !isSentinel2LayerOutOfVisibleRange) {
             const identifyTaskRes = await identify({
                 geometry: mapPoint,
                 resolution: mapView.resolution,
                 rasterFunction,
-                year: aquisitionYear,
+                year,
                 month: aquisitionMonth,
             });
 
@@ -161,7 +207,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
             // Set the popup's title to the coordinates of the location
             title,
             location: mapPoint, // Set the location of the popup to the clicked location
-            content: getMainContent(landCoverData, acquisitionDate),
+            content: getMainContent(landCoverData, year, acquisitionDate),
         });
     };
 
@@ -172,7 +218,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
         mapView.popup.dockEnabled = false;
 
         mapView.on('click', async (evt) => {
-            mapViewOnClickHandlerRef.current(evt.mapPoint);
+            mapViewOnClickHandlerRef.current(evt.mapPoint, evt.x);
         });
     };
 
