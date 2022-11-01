@@ -237,6 +237,9 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
         aquisitionMonth,
         shouldShowSentinel2Layer,
         isSentinel2LayerOutOfVisibleRange,
+        swipePosition,
+        year4LeadingLayer,
+        year4TrailingLayer,
     ]);
 
     return null;
