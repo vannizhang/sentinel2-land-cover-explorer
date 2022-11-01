@@ -26,6 +26,7 @@ import {
     // DEFAULT_MAP_ZOOM,
     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
 } from '../../../../constants/map';
+import { TooltipData } from '../../../../store/UI/reducer';
 // import { abbreviateNumber } from '../../../../utils/number';
 
 const ChangeCompareGraphContainer = () => {
@@ -110,7 +111,7 @@ const ChangeCompareGraphContainer = () => {
         const data = landCoverChangeDataRef.current[idx];
 
         const {
-            // landcoverClassificationData,
+            landcoverClassificationData,
             // laterYearAreaInAcres,
             laterYearAreaInPercentage,
             // earlierYearAreaInAcres,
@@ -119,9 +120,10 @@ const ChangeCompareGraphContainer = () => {
             differenceInPercentage,
         } = data;
 
-        // const { ClassName } = landcoverClassificationData;
+        const { ClassName } = landcoverClassificationData;
 
         const tooltipData = {
+            title: ClassName,
             content: `${formatAreaPercentage(
                 earlierYearAreaInPercentage
             )}% in ${year4LeadingLayer} and ${formatAreaPercentage(
@@ -129,7 +131,7 @@ const ChangeCompareGraphContainer = () => {
             )}% in ${year4TrailingLayer}, a change of ${
                 differenceInPercentage >= 0 ? '+' : ''
             }${formatAreaPercentage(differenceInPercentage)}%`,
-        };
+        } as TooltipData;
 
         dispatch(updateTooltipData(tooltipData));
     };

@@ -31,7 +31,7 @@ const Sentinel2LoadingIndicator = () => {
     return (
         <div>
             <calcite-loader active scale="m"></calcite-loader>
-            <div className={MessageClassNames}>Loading Sentinel-2 Imagery</div>
+            {/* <div className={MessageClassNames}>Loading Sentinel-2 Imagery</div> */}
         </div>
     );
 };

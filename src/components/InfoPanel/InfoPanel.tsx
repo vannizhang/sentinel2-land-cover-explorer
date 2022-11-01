@@ -149,6 +149,11 @@ const InfoPanel = () => {
                 ? selectedCountryAndSubRegionAsString
                 : undefined
         );
+
+        if (!showInfoPanel) {
+            setSelectedCountry('');
+            setSelectedSubRegin('');
+        }
     }, [showInfoPanel, selectedCountry, selectedSubRegion]);
 
     useEffect(() => {
