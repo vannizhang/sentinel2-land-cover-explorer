@@ -8,7 +8,7 @@ const CloseButton = () => {
         <div
             className="absolute top-0 right-0 w-40 h-40 text-white"
             style={{
-                background: `linear-gradient(215deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%)`,
+                background: `linear-gradient(215deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 40%)`,
             }}
         >
             <svg
