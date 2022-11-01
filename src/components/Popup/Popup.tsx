@@ -240,6 +240,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
         swipePosition,
         year4LeadingLayer,
         year4TrailingLayer,
+        mode,
     ]);
 
     return null;

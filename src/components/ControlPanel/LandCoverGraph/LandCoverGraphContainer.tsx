@@ -15,6 +15,7 @@ import ChangeCompareGraph from './ChangeCompareGraph/ChangeCompareGraphContainer
 import HeaderText from '../HeaderText/HeaderText';
 import TotalAreaGraph from './TotalAreaGraph/TotalAreaGraphContainer';
 import { selectAnimationMode } from '../../../store/UI/selectors';
+import classNames from 'classnames';
 
 const LandCoverGraphContainer = () => {
     const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const LandCoverGraphContainer = () => {
     );
 
     const animationMode = useSelector(selectAnimationMode);
+
+    const isAnimationControlVisible =
+        animationMode !== undefined && animationMode !== null;
 
     const { year4LeadingLayer, year4TrailingLayer } = useSelector(
         selectYearsForSwipeWidgetLayers
@@ -62,7 +66,12 @@ const LandCoverGraphContainer = () => {
     };
 
     return (
-        <div className="h-40 md:w-96 text-center mx-6 my-4 md:my-0">
+        <div
+            className={classNames('h-40 text-center mx-6 my-4 md:my-0', {
+                'md:w-64': isAnimationControlVisible,
+                'md:w-96': isAnimationControlVisible === false,
+            })}
+        >
             <HeaderText
                 title={`${
                     mode === 'swipe' ? 'Land Cover Change' : 'Land Cover Totals'
