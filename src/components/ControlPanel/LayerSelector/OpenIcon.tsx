@@ -16,7 +16,7 @@ const OpenIcon: FC<OpenIconProps> = ({ onClick }: OpenIconProps) => {
         >
             <path
                 fill="currentColor"
-                d="M1 1h8v1H2v12h12V7h1v8H1zm7.325 7.382L14 2.707V5h1V1h-4v1h2.293L7.618 7.675z"
+                d="M8.5 6.5a1 1 0 1 1 1-1 1.002 1.002 0 0 1-1 1zM8 13h1V8H8zm2-1H7v1h3zm5.8-3.5a7.3 7.3 0 1 1-7.3-7.3 7.3 7.3 0 0 1 7.3 7.3zm-1 0a6.3 6.3 0 1 0-6.3 6.3 6.307 6.307 0 0 0 6.3-6.3z"
             />
             <path fill="none" d="M0 0h16v16H0z" />
         </svg>

@@ -20,7 +20,7 @@ export const SENTINEL_2_ITEM_URL =
  * ArcGIS Online Item of the Sentinel 2 10m Land Cover layer
  */
 export const SENTINEL_2_10M_LAND_COVER_ITEM_URL =
-    'https://www.arcgis.com/home/item.html?id=d3da5dd386d140cf93fc9ecbf8da5e31';
+    'https://www.arcgis.com/home/item.html?id=cfcb7609de5f478eb7666240902d4d3d';
 
 export const HUMAN_GEO_DARK_LABEL_LAYER_TITLE = 'Human Geography Dark Label';
 export const HUMAN_GEO_LIGHT_WATER_LAYER_TITLE =

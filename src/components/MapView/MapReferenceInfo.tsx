@@ -103,7 +103,7 @@ const MapInfoIndicators: FC<Props> = ({
                         className="absolute bottom-0 theme-background text-custom-light-blue text-sm py-1 px-2"
                         style={{
                             right: 7,
-                            bottom: 10,
+                            bottom: 20,
                         }}
                     >
                         {year4LeadingLayer}
@@ -127,7 +127,7 @@ const MapInfoIndicators: FC<Props> = ({
                         className="absolute bottom-0 theme-background text-custom-light-blue text-sm py-1 px-2"
                         style={{
                             left: 2,
-                            bottom: 10,
+                            bottom: 20,
                         }}
                     >
                         {year4TrailingLayer}

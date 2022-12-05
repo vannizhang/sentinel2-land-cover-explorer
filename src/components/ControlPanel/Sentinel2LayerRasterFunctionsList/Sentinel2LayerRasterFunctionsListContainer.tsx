@@ -49,7 +49,7 @@ export const Sentinel2RasterFunctionsData: RasterFunctionData[] = [
         name: 'Agriculture with DRA',
         label: 'Agriculture',
         description:
-            'Bands shortwave IR-1, near-IR, blue (11, 8, 2) with dynamic range adjustment applied. Vigorous veg. is bright green, stressed veg. dull green and bare areas as brown.',
+            'Bands shortwave IR-1, near-IR, blue (11, 8, 2) with dynamic range adjustment applied. Vigorous veg. is bright green, stressed vegetation. dull green and bare areas as brown.',
         thumbnail: ThumbnailAgriculture,
     },
     {

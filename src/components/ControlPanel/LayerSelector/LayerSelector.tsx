@@ -77,14 +77,16 @@ const LayerSelector: FC<Props> = ({
                 </LayerSelectorButton>
 
                 <div className="ml-2">
-                    <OpenIcon
-                        onClick={() => {
-                            window.open(
-                                SENTINEL_2_10M_LAND_COVER_ITEM_URL,
-                                '_blank'
-                            );
-                        }}
-                    />
+                    <div title="About Land Cover">
+                        <OpenIcon
+                            onClick={() => {
+                                window.open(
+                                    SENTINEL_2_10M_LAND_COVER_ITEM_URL,
+                                    '_blank'
+                                );
+                            }}
+                        />
+                    </div>
 
                     <div
                         className="mt-2"
@@ -106,11 +108,13 @@ const LayerSelector: FC<Props> = ({
                 </LayerSelectorButton>
 
                 <div className="ml-2">
-                    <OpenIcon
-                        onClick={() => {
-                            window.open(SENTINEL_2_ITEM_URL, '_blank');
-                        }}
-                    />
+                    <div title="About Imagery">
+                        <OpenIcon
+                            onClick={() => {
+                                window.open(SENTINEL_2_ITEM_URL, '_blank');
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

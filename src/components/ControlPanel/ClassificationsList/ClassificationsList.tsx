@@ -44,7 +44,7 @@ const ClassificationsList: FC<Props> = ({
     return (
         <div className="text-center mx-4 my-4 md:my-0" ref={containerRef}>
             <HeaderText
-                title="Land Cover Categories"
+                title="LULC Classes"
                 subTitle="Click to Toggle Visibility"
             />
 
