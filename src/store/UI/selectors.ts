@@ -35,3 +35,8 @@ export const selectAnimationMode = createSelector(
     (state: RootState) => state.UI.animationMode,
     (animationMode) => animationMode
 );
+
+export const selectShowAboutThisApp = createSelector(
+    (state: RootState) => state.UI.showAboutThisApp,
+    (showAboutThisApp) => showAboutThisApp
+);

@@ -3,8 +3,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { selectAnimationMode } from '../../store/UI/selectors';
+import { useDispatch } from 'react-redux';
+import { showAboutThisAppToggled } from '../../store/UI/reducer';
 
 const AppTitle = () => {
+    const dispatch = useDispatch();
+
     const animationMode = useSelector(selectAnimationMode);
 
     const [hideTitle, setHideTitle] = useState(false);
@@ -29,6 +33,9 @@ const AppTitle = () => {
                 className="theme-background p-1"
                 onMouseEnter={setHideTitle.bind(null, false)}
                 onMouseLeave={setHideTitle.bind(null, true)}
+                onClick={() => {
+                    dispatch(showAboutThisAppToggled());
+                }}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

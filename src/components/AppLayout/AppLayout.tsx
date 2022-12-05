@@ -1,4 +1,5 @@
 import React from 'react';
+import About from '../About/About';
 import AppTitle from '../AppTitle/AppTitle';
 import ControlPanel from '../ControlPanel/ControlPanel';
 import DownloadPanel from '../DownloadPanel/DownloadPanel';
@@ -14,6 +15,7 @@ const AppLayout = () => {
             <InfoPanel />
             <DownloadPanel />
             <AppTitle />
+            <About />
         </ErrorBoundary>
     );
 };

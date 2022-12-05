@@ -43,6 +43,10 @@ export type UIState = {
      * if true, animation mode is on and should animating land cover or sentinel-2 layers
      */
     animationMode?: AnimationMode;
+    /**
+     * If true, show About This App Modal
+     */
+    showAboutThisApp?: boolean;
 };
 
 export const initialUIState: UIState = {
@@ -53,6 +57,7 @@ export const initialUIState: UIState = {
     showSwipeWidgetYearIndicator: false,
     hideControlPanel: false,
     animationMode: null,
+    showAboutThisApp: false,
 };
 
 const slice = createSlice({
@@ -83,6 +88,9 @@ const slice = createSlice({
         animationModeUpdated: (state, action: PayloadAction<AnimationMode>) => {
             state.animationMode = action.payload;
         },
+        showAboutThisAppToggled: (state) => {
+            state.showAboutThisApp = !state.showAboutThisApp;
+        },
     },
 });
 
@@ -96,6 +104,7 @@ export const {
     hideControlPanelToggled,
     showDownloadPanelToggled,
     animationModeUpdated,
+    showAboutThisAppToggled,
 } = slice.actions;
 
 export default reducer;
