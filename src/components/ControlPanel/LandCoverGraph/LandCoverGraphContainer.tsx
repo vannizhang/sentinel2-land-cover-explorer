@@ -76,6 +76,7 @@ const LandCoverGraphContainer = () => {
                 title={`${
                     mode === 'swipe' ? 'Land Cover Change' : 'Land Cover Totals'
                 }`}
+                expandButtonTooltip={'Expanded Summary Chart'}
                 subTitle={getSubtitle()}
                 expandButtonOnClick={() => {
                     dispatch(showInfoPanelToggled(true));

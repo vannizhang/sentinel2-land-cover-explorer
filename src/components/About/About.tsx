@@ -14,7 +14,7 @@ const About = () => {
     }
 
     return (
-        <div className="absolute top-0 left-0 bottom-0 right-0 px-4 py-10 bg-custom-background-95 z-20 text-custom-light-blue-80 overflow-y-auto">
+        <div className="absolute top-0 left-0 bottom-0 right-0 px-4 py-10 bg-custom-background-95 z-20 text-custom-light-blue overflow-y-auto">
             <div className="absolute top-4 right-4">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
