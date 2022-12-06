@@ -4,7 +4,7 @@ Land use land cover (LULC) maps are an increasingly important tool for decision-
 
 This app provides dynamic visual and statistical change by comparing annual slices of the Sentinel-2 10m Land Use/Land Cover data as you explore the map.
 
-[view it live](https://livingatlas.arcgis.com/land-cover-explorer)
+[view it live](https://livingatlas.arcgis.com/landcoverexplorer)
 
 ![screenshot](./public/screenshot.png)
 

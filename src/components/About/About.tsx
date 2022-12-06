@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { showAboutThisAppToggled } from '../../store/UI/reducer';
 import { selectShowAboutThisApp } from '../../store/UI/selectors';
+import EsriLogo from './esri-logo.png';
 
 const About = () => {
     const dispatch = useDispatch();
@@ -41,9 +42,13 @@ const About = () => {
                         maxWidth: 1680,
                     }}
                 >
-                    <h2 className="mb-8 text-custom-light-blue text-3xl">
-                        Sentinel-2 Land Cover Explorer
-                    </h2>
+                    <div className="flex items-center mb-8">
+                        <div className=" text-custom-light-blue text-3xl pr-4 mr-4 border-r border-custom-light-blue-50">
+                            <span>Sentinel-2 Land Cover Explorer</span>
+                        </div>
+
+                        <img className="" src={EsriLogo} />
+                    </div>
 
                     <div className="mb-8 font-light">
                         <h3 className="text-2xl text-custom-light-blue mb-4">
@@ -194,7 +199,7 @@ const About = () => {
                         <div className="mb-3">
                             <p>
                                 <span className="font-bold">
-                                    Sentinel-2 Land Cover Observer App
+                                    Sentinel-2 Land Cover Explorer App
                                 </span>{' '}
                                 - Esri
                             </p>
