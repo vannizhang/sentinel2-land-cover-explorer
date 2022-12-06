@@ -1,17 +1,18 @@
-# React-Redux Boilerplate
+# Sentinel-2 Land Cover Explorer
 
-The Boilerplate to start React+Redux project with TypeScript in an easier and faster way. 
+Land use land cover (LULC) maps are an increasingly important tool for decision-makers in many industry sectors and developing nations around the world. The information provided by these maps helps inform policy and land management decisions by better understanding and quantifying the impacts of earth processes and human activity.
+
+This app provides dynamic visual and statistical change by comparing annual slices of the Sentinel-2 10m Land Use/Land Cover data as you explore the map.
 
 ## Features
 
-- React
-- Redux
-- TypeScript
-- Webpack
-- Jest
-- Tailwind
-- EsLint
-- Prettier
+- Visual change analysis with either ‘Step Mode’ or ‘Swipe Mode’
+- Dynamic statistical change analysis by year, map extent, and class
+- Filter by selected land cover class
+- Regional class statistics summarized by administrative boundaries
+- Imagery mode for visualization and comparison of the source imagery
+- Select and dynamically change imagery renderings
+- Data download for offline use
 
 ## Getting Started
 
