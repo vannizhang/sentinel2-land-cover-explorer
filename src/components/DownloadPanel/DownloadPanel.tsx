@@ -52,7 +52,7 @@ const DownloadPanel = () => {
                     <MapView
                         webmapId={DWONLOAD_MODE_WEB_MAP_ID}
                         center={[center.lon, center.lat]}
-                        zoom={5}
+                        zoom={3}
                     >
                         <LulcFootprintsLayer availableYears={availableYears} />
                     </MapView>
