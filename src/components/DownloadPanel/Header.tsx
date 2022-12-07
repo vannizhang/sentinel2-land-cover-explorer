@@ -8,7 +8,9 @@ const Header: FC<Props> = ({ closeButtonOnClick }: Props) => {
     return (
         <div className="relative text-custom-light-blue flex justify-between items-center mb-4 z-10">
             <div>
-                <h5 className="uppercase mr-4">Download</h5>
+                <h5 className="uppercase mr-4">
+                    Sentinel-2 10m Land Use/Land Cover Download
+                </h5>
                 <p>
                     Click on map to select a tile and year to download a GeoTIFF
                 </p>
