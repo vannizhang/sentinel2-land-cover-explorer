@@ -4,20 +4,27 @@ type Props = {
     closeButtonOnClick: () => void;
 };
 
+const getZipFileUrlByYear = (year: number) => {
+    return `https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic/lc${year}/lulc${year}.zip`;
+};
+
 const Header: FC<Props> = ({ closeButtonOnClick }: Props) => {
     return (
         <div className="relative text-custom-light-blue flex justify-between items-center mb-4 z-10">
             <div>
-                <h5 className="uppercase mr-4">
+                <h5 className="uppercase mr-4 mb-2 text-xl">
                     Sentinel-2 10m Land Use/Land Cover Download
                 </h5>
-                <p>
-                    Click on map to select a tile and year to download a GeoTIFF
+
+                <p className="text-sm">
+                    Click on map to select a tile and year to download a
+                    GeoTIFF.
+                    {/* All scenes for each year are also available to download as a zip file: <a  className='underline' href=''>2017</a>, <a className='underline' href="">2018</a>, <a className='underline' href="">2019</a>, <a className='underline' href="">2020</a>, <a className='underline' href="">2021</a> (Each annual zip download is approximately 60 GB). */}
                 </p>
             </div>
 
             <div
-                className=" cursor-pointer text-custom-light-blue "
+                className="absolute top-0 right-0 cursor-pointer text-custom-light-blue "
                 onClick={closeButtonOnClick}
             >
                 <svg

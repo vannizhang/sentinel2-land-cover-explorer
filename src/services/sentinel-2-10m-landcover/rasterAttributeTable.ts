@@ -39,11 +39,11 @@ export const RasterFunctionsByClassificationName: Record<
     Water: 'Water Areas Only',
     Trees: 'Trees Only',
     'Flooded Vegetation': 'Flooded Vegeation Areas Only',
-    Crops: 'Converted Lands Only',
+    Crops: 'Crops Only',
     'Built Area': 'Built Areas Only',
     'Bare Ground': 'Bare Ground Areas Only',
     'Snow/Ice': 'Snow or Ice Only',
-    Clouds: '',
+    Clouds: 'Clouds Only',
     Rangeland: 'Rangelands Areas Only',
     'No Data': '',
 };

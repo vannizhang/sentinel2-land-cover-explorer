@@ -89,7 +89,7 @@ const TimeSliderWidget: FC<Props> = ({
                         values: yearsAsDateObj.map((year) => year.getTime()),
                         labelsVisible: true,
                         labelFormatFunction: (value: any) => {
-                            return new Date(value).getUTCFullYear();
+                            return new Date(value).getFullYear();
                         },
                     } as any,
                 ],
