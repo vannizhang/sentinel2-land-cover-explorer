@@ -1,14 +1,40 @@
 import React, { FC } from 'react';
+import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
 
 type Props = {
     closeButtonOnClick: () => void;
 };
 
-const getZipFileUrlByYear = (year: number) => {
-    return `https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic/lc${year}/lulc${year}.zip`;
-};
-
 const Header: FC<Props> = ({ closeButtonOnClick }: Props) => {
+    const years = getAvailableYears();
+
+    const getBulkDownloadLinks = () => {
+        const links = years.map((year) => {
+            const url = `https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic/lc${year}/lulc${year}.zip`;
+            return (
+                <>
+                    <a
+                        className="underline"
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {year}
+                    </a>
+                    {', '}
+                </>
+            );
+        });
+
+        return (
+            <span>
+                Alternatively, click on the following links to bulk download all
+                tiles for each year as a zip file: {links}(Each annual zip
+                download is approximately 60 GB).
+            </span>
+        );
+    };
+
     return (
         <div className="relative text-custom-light-blue flex justify-between items-center mb-4 z-10">
             <div>
@@ -16,11 +42,13 @@ const Header: FC<Props> = ({ closeButtonOnClick }: Props) => {
                     Sentinel-2 10m Land Use/Land Cover Download
                 </h5>
 
-                <p className="text-sm">
-                    Click on map to select a tile and year to download a
-                    GeoTIFF.
-                    {/* All scenes for each year are also available to download as a zip file: <a  className='underline' href=''>2017</a>, <a className='underline' href="">2018</a>, <a className='underline' href="">2019</a>, <a className='underline' href="">2020</a>, <a className='underline' href="">2021</a> (Each annual zip download is approximately 60 GB). */}
-                </p>
+                <div className="text-sm">
+                    <span>
+                        Click on the map to select a tile and year to download
+                        individual GeoTIFF files.
+                    </span>{' '}
+                    {getBulkDownloadLinks()}
+                </div>
             </div>
 
             <div

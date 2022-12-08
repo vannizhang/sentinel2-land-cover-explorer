@@ -57,6 +57,22 @@ const DownloadPanel = () => {
                         <LulcFootprintsLayer availableYears={availableYears} />
                     </MapView>
                 </div>
+
+                <div className="mt-4">
+                    <p className="text-sm text-custom-light-blue">
+                        This dataset is available under a Creative Commons by
+                        Attribution (CC BY 4.0) license. See{' '}
+                        <a
+                            href="https://www.arcgis.com/home/item.html?id=cfcb7609de5f478eb7666240902d4d3d"
+                            target={'_blank'}
+                            className="underline"
+                            rel="noreferrer"
+                        >
+                            Terms of Use and Credits
+                        </a>{' '}
+                        to site the work.
+                    </p>
+                </div>
             </div>
         </div>
     );
