@@ -67,10 +67,13 @@ const LandCoverGraphContainer = () => {
 
     return (
         <div
-            className={classNames('h-40 text-center mx-6 my-4 md:my-0', {
-                'md:w-64': isAnimationControlVisible,
-                'md:w-96': isAnimationControlVisible === false,
-            })}
+            className={classNames(
+                'h-40 text-center mx-6 my-4 md:my-0 flex-grow',
+                {
+                    'md:w-64': isAnimationControlVisible,
+                    'md:w-96': isAnimationControlVisible === false,
+                }
+            )}
         >
             <HeaderText
                 title={`${

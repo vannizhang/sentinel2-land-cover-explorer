@@ -85,7 +85,7 @@ const TimeSliderContainer = () => {
 
             <div
                 className={classNames(
-                    'relative w-full md:w-11/12 xl:max-w-md mt-2'
+                    'relative w-full md:w-11/12 xl:w-full xl:max-w-md mt-2'
                 )}
             >
                 <div
