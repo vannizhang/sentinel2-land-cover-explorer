@@ -44,7 +44,7 @@ const HeaderText: FC<Props> = ({
             )}
 
             {expandButtonOnClick && (
-                <div title={expandButtonTooltip}>
+                <div title={expandButtonTooltip} className="hidden md:block">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="ml-2 cursor-pointer opacity-50"
