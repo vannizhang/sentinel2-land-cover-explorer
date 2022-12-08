@@ -7,6 +7,7 @@ import { selectMapCenterAndZoom } from '../../store/Map/selectors';
 import { showDownloadPanelToggled } from '../../store/UI/reducer';
 import { selectShowDownloadPanel } from '../../store/UI/selectors';
 import { saveDonwloadModeToHashParams } from '../../utils/URLHashParams';
+import CloseBtn from '../CloseBtn/CloseBtn';
 import MapView from '../MapView/MapView';
 import Header from './Header';
 import LulcFootprintsLayer from './LulcFootprintsLayer';
@@ -37,8 +38,10 @@ const DownloadPanel = () => {
                     maxWidth: '90%',
                 }}
             >
-                <Header
-                    closeButtonOnClick={() => {
+                <Header />
+
+                <CloseBtn
+                    onClick={() => {
                         dispatch(showDownloadPanelToggled(false));
                     }}
                 />

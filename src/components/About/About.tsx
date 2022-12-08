@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { showAboutThisAppToggled } from '../../store/UI/reducer';
 import { selectShowAboutThisApp } from '../../store/UI/selectors';
+import CloseBtn from '../CloseBtn/CloseBtn';
 import EsriLogo from './esri-logo.png';
 
 const About = () => {
@@ -16,24 +17,11 @@ const About = () => {
 
     return (
         <div className="absolute top-0 left-0 bottom-0 right-0 px-4 py-10 bg-custom-background-95 z-20 text-custom-light-blue overflow-y-auto">
-            <div className="absolute top-4 right-4">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 32 32"
-                    height="64"
-                    width="64"
-                    className="absolute top-1 right-1 cursor-pointer"
-                    onClick={() => {
-                        dispatch(showAboutThisAppToggled());
-                    }}
-                >
-                    <path
-                        fill="currentColor"
-                        d="M23.985 8.722L16.707 16l7.278 7.278-.707.707L16 16.707l-7.278 7.278-.707-.707L15.293 16 8.015 8.722l.707-.707L16 15.293l7.278-7.278z"
-                    />
-                    <path fill="none" d="M0 0h32v32H0z" />
-                </svg>
-            </div>
+            <CloseBtn
+                onClick={() => {
+                    dispatch(showAboutThisAppToggled());
+                }}
+            />
 
             <div className="flex justify-center mt-4 max-w-full">
                 <div

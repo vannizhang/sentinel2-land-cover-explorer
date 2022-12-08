@@ -22,6 +22,7 @@ import {
     getRegionFromHashParams,
     saveRegionToHashParams,
 } from '../../utils/URLHashParams';
+import CloseBtn from '../CloseBtn/CloseBtn';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
@@ -174,11 +175,13 @@ const InfoPanel = () => {
                     maxWidth: 1800,
                 }}
             >
-                <Header
-                    closeButtonOnClick={() => {
+                <CloseBtn
+                    onClick={() => {
                         dispatch(showInfoPanelToggled(false));
                     }}
-                >
+                />
+
+                <Header>
                     <CountrySelector
                         selectedCountry={selectedCountry}
                         onChange={(val) => {
