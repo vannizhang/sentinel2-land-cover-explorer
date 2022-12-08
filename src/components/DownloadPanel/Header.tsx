@@ -9,8 +9,11 @@ const Header: FC<Props> = ({ closeButtonOnClick }: Props) => {
     const years = getAvailableYears();
 
     const getBulkDownloadLinks = () => {
-        const links = years.map((year) => {
+        const links = years.map((year, index) => {
             const url = `https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic/lc${year}/lulc${year}.zip`;
+
+            const separator = index === years.length - 1 ? ' ' : ', ';
+
             return (
                 <>
                     <a
@@ -21,7 +24,7 @@ const Header: FC<Props> = ({ closeButtonOnClick }: Props) => {
                     >
                         {year}
                     </a>
-                    {', '}
+                    {separator}
                 </>
             );
         });
