@@ -21,16 +21,15 @@ const AppTitle = () => {
 
     return (
         <div
-            className={classNames('absolute z-10 text-custom-light-blue flex', {
-                hidden: animationMode !== null,
-            })}
-            style={{
-                top: 15,
-                left: 15,
-            }}
+            className={classNames(
+                'absolute z-10 text-custom-light-blue flex top-0 left-0 right-0 md:top-app-header-position md:left-app-header-position md:right-auto',
+                {
+                    hidden: animationMode !== null,
+                }
+            )}
         >
             <div
-                className="theme-background p-1 h-app-header-height w-app-header-height flex items-center justify-center border-r border-custom-light-blue-50"
+                className="theme-background p-1 h-app-header-size w-app-header-size flex items-center justify-center border-r border-custom-light-blue-50"
                 // onMouseEnter={setHideTitle.bind(null, false)}
                 // onMouseLeave={setHideTitle.bind(null, true)}
                 onClick={() => {
@@ -54,7 +53,7 @@ const AppTitle = () => {
 
             <div
                 className={classNames(
-                    'theme-background p-1 px-2 text-lg font-light flex items-center h-app-header-height'
+                    'theme-background p-1 px-2 text-lg font-light flex items-center h-app-header-size flex-grow md:flex-grow-0'
                 )}
             >
                 <span>Esri | Sentinel-2 Land Cover Explorer</span>

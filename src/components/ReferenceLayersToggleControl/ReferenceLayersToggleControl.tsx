@@ -77,7 +77,7 @@ const LayersToggleControl = () => {
     return (
         <div
             className={classNames(
-                'absolute bg-custom-background flex py-2 px-2 text-custom-light-blue text-xs',
+                'absolute bg-custom-background flex py-2 px-2 text-custom-light-blue text-xs top-layer-toggle-top-position-mobile md:top-layer-toggle-top-position',
                 {
                     hidden: animationMode !== null,
                 }
@@ -85,7 +85,7 @@ const LayersToggleControl = () => {
             style={{
                 width: SEARCH_WIDGET_WIDTH, // this is the width of JSAPI search Widget
                 right: 15, // this is the margin to right value of JSAPI search Widget
-                top: 15, // this is the margin to top value of JSAPI search Widget
+                // top: 15, // this is the margin to top value of JSAPI search Widget
             }}
         >
             <ToggleButton

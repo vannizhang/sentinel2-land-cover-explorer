@@ -32,7 +32,12 @@ module.exports = {
       // },
       spacing: {
         'control-panel-height': '210px',
-        'app-header-height': '40px'
+        'app-header-size': '40px',
+        'app-header-position': '15px',
+        'layer-toggle-top-position': '15px',
+        'layer-toggle-top-position-mobile': '55px',
+        'search-widget-top-position': '50px',
+        'search-widget-top-position-mobile': '90px'
       }
     },
   },
