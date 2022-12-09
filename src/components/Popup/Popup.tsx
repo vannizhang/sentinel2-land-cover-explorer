@@ -83,75 +83,70 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
 
         const htmlString4AcquisitionDate = acquisitionDate
             ? `
-            <div class='mx-5 mt-2 text-center pb-2 mb-2 border-b border-custom-light-blue-50'>
-                <span>Sentinel-2 L2A image acquired ${format(
-                    acquisitionDate,
-                    'MMM dd, yyyy'
-                )}</span>
-            </div>
-        `
+                <div class='mx-2 mt-4 pb-2'>
+                    <span>Sentinel-2 L2A image acquired ${format(
+                        acquisitionDate,
+                        'MMM dd, yyyy'
+                    )}</span>
+                </div>
+            `
             : '';
 
-        const htmlString4LandCoverData: string[] = landCoverData
-            .sort((a, b) => b.year - a.year)
-            .map((item) => {
-                const { year, data } = item;
+        const htmlString4LandCoverData: string = landCoverData
+            ? landCoverData
+                  .sort((a, b) => b.year - a.year)
+                  .map((item) => {
+                      const { year, data } = item;
 
-                const [R, G, B] = data.Color;
+                      const [R, G, B] = data.Color;
 
-                const backgroundColor = `rgb(${R}, ${G}, ${B})`;
+                      const backgroundColor = `rgb(${R}, ${G}, ${B})`;
 
-                return `
-                <div class='flex my-2 items-center'>
-                    <div class='active-year-indicator rounded-full mr-2 bg-custom-light-blue-80 ${
-                        year !== aquisitionYear ? 'opacity-0' : ''
-                    }'></div>
-                    <span>${year}</span>
-                    <div class='rounded-full w-4 h-4 border-2 border-white mx-2' style="background-color:${backgroundColor};"></div>
-                    <span>${data.ClassName}</span>
+                      return `
+                        <div class='flex my-2 items-center'>
+                            <div class='active-year-indicator rounded-full mr-2 bg-custom-light-blue-80 ${
+                                year !== aquisitionYear ? 'opacity-0' : ''
+                            }'></div>
+                            <span>${year}</span>
+                            <div class='rounded-full w-4 h-4 border-2 border-white mx-2' style="background-color:${backgroundColor};"></div>
+                            <span>${data.ClassName}</span>
+                        </div>
+                    `;
+                  })
+                  .join('')
+            : '';
+
+        const htmlString4LandCoverList = htmlString4LandCoverData
+            ? `
+                <div class='flex justify-center mt-2'>
+                    <div>
+                        ${htmlString4LandCoverData}
+                    </div>
                 </div>
-            `;
-            });
+            `
+            : '';
 
         popupDiv.innerHTML = `
             <div class='text-custom-light-blue'>
                 ${htmlString4AcquisitionDate}
-                <div class='flex justify-center'>
-                    <div>
-                        ${htmlString4LandCoverData.join('')}
-                    </div>
-                </div>
+                ${htmlString4LandCoverList}
             </div>
         `;
 
         return popupDiv;
     };
 
-    // const openPopup4LandCoverData = async (mapPoint: IPoint) => {
-    //     const lat = Math.round(mapPoint.latitude * 1000) / 1000;
-    //     const lon = Math.round(mapPoint.longitude * 1000) / 1000;
-    //     const title = `Lat ${lat}, Lon ${lon}`;
-
-    //     mapView.popup.open({
-    //         title,
-    //         location: mapPoint,
-    //         content: getLoadingIndicator(),
-    //     });
-
-    //     const res = await identifyLandcoverClassificationsByLocation(mapPoint);
-
-    //     mapView.popup.open({
-    //         // Set the popup's title to the coordinates of the location
-    //         title,
-    //         location: mapPoint, // Set the location of the popup to the clicked location
-    //         content: getMainContent(res),
-    //     });
-    // };
-
     mapViewOnClickHandlerRef.current = async (
         mapPoint: IPoint,
         mousePointX: number
     ) => {
+        if (
+            shouldShowSentinel2Layer &&
+            isSentinel2LayerOutOfVisibleRange === true
+        ) {
+            return;
+        }
+
         const lat = Math.round(mapPoint.latitude * 1000) / 1000;
         const lon = Math.round(mapPoint.longitude * 1000) / 1000;
         const title = `Lat ${lat}, Lon ${lon}`;
@@ -162,9 +157,10 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
             content: getLoadingIndicator(),
         });
 
-        const landCoverData = await identifyLandcoverClassificationsByLocation(
-            mapPoint
-        );
+        const landCoverData =
+            shouldShowSentinel2Layer === false
+                ? await identifyLandcoverClassificationsByLocation(mapPoint)
+                : null;
 
         // acquisition date (in unix timestamp) of sentinel-2 imagery that is displayed on map
         let acquisitionDate: number = null;
