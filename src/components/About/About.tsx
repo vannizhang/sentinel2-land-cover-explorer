@@ -108,11 +108,12 @@ const About = () => {
                                 administrative boundaries
                             </li>
                             <li>
-                                Imagery mode for visualization and comparison of
-                                the source imagery
+                                Imagery mode for visual investigation and
+                                validation of land cover
                             </li>
                             <li>
-                                Select and dynamically change imagery renderings
+                                Select imagery renderings (e.g. SWIR to
+                                visualize forest burn scars)
                             </li>
                             <li>Data download for offline use</li>
                         </ul>
