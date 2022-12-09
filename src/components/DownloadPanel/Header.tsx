@@ -32,8 +32,8 @@ const Header: FC<Props> = () => {
         return (
             <span>
                 Alternatively, click on the following links to bulk download all
-                tiles for each year as a zip file: {links}(Each annual zip
-                download is approximately 60 GB).
+                tiles for each year as a zip file: <br /> {links}(Each annual
+                zip download is approximately 60 GB).
             </span>
         );
     };
@@ -45,7 +45,7 @@ const Header: FC<Props> = () => {
                     Sentinel-2 10m Land Use/Land Cover Download
                 </h5>
 
-                <div className="text-sm text-right">
+                <div className="text-sm text-left">
                     <span>
                         Click on the map to select a tile and year to download
                         individual GeoTIFF files.
