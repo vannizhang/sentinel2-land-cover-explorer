@@ -169,18 +169,18 @@ const InfoPanel = () => {
 
     return (
         <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center bg-custom-background-95 z-20">
+            <CloseBtn
+                onClick={() => {
+                    dispatch(showInfoPanelToggled(false));
+                }}
+            />
+
             <div
-                className="h-1/2 w-full px-10"
+                className="w-full mx-10 pb-6 overflow-x-auto overflow-y-hidden"
                 style={{
                     maxWidth: 1800,
                 }}
             >
-                <CloseBtn
-                    onClick={() => {
-                        dispatch(showInfoPanelToggled(false));
-                    }}
-                />
-
                 <Header>
                     <CountrySelector
                         selectedCountry={selectedCountry}

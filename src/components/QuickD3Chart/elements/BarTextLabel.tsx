@@ -37,7 +37,7 @@ const BarTextLabel: React.FC<Props> = ({
     const draw = () => {
         const { dimension } = svgContainerData;
 
-        const { height } = dimension;
+        // const { height } = dimension;
 
         const existingText = select(barsLabelTextGroup.current).selectAll(
             'text'
@@ -76,7 +76,7 @@ const BarTextLabel: React.FC<Props> = ({
 
                 return yPos + yPosOffset;
             })
-            .attr('font-size', '12px')
+            .attr('font-size', '11px')
             .attr('fill', THEME_COLOR_LIGHT_BLUE)
             .attr('text-anchor', 'middle');
     };
