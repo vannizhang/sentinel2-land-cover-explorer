@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This application displays the land use/land cover (LULC) timeseries layer derived from ESA Sentinel-2 imagery at 10m resolution. ",
   "main": "index.js",
-  "title": "Sentinel-2 Land Cover Explorer",
+  "title": "Esri | Sentinel-2 Land Cover Explorer",
   "scripts": {
     "test": "jest --passWithNoTests",
     "start": "webpack serve --mode development --open",
@@ -22,15 +22,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vannizhang/react-redux-boilerplate.git"
+    "url": "git+https://github.com/vannizhang/land-cover-explorer.git"
   },
   "keywords": [],
   "author": "Jinnan Zhang",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vannizhang/react-redux-boilerplate/issues"
+    "url": "https://github.com/vannizhang/land-cover-explorer/issues"
   },
-  "homepage": "https://github.com/vannizhang/react-redux-boilerplate",
+  "homepage": "https://github.com/vannizhang/land-cover-explorer",
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/plugin-proposal-class-properties": "^7.10.4",

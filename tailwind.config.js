@@ -31,7 +31,8 @@ module.exports = {
       //   'control-panel': '210px'
       // },
       spacing: {
-        'control-panel-height': '210px'
+        'control-panel-height': '210px',
+        'app-header-height': '40px'
       }
     },
   },

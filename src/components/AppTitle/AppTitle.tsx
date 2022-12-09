@@ -11,13 +11,13 @@ const AppTitle = () => {
 
     const animationMode = useSelector(selectAnimationMode);
 
-    const [hideTitle, setHideTitle] = useState(false);
+    // const [hideTitle, setHideTitle] = useState(false);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setHideTitle(true);
-        }, 10000);
-    }, []);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setHideTitle(true);
+    //     }, 10000);
+    // }, []);
 
     return (
         <div
@@ -30,9 +30,9 @@ const AppTitle = () => {
             }}
         >
             <div
-                className="theme-background p-1"
-                onMouseEnter={setHideTitle.bind(null, false)}
-                onMouseLeave={setHideTitle.bind(null, true)}
+                className="theme-background p-1 h-app-header-height w-app-header-height flex items-center justify-center border-r border-custom-light-blue-50"
+                // onMouseEnter={setHideTitle.bind(null, false)}
+                // onMouseLeave={setHideTitle.bind(null, true)}
                 onClick={() => {
                     dispatch(showAboutThisAppToggled());
                 }}
@@ -54,10 +54,7 @@ const AppTitle = () => {
 
             <div
                 className={classNames(
-                    'app-title theme-background p-1 px-2 text-sm flex items-center',
-                    {
-                        hidden: hideTitle,
-                    }
+                    'theme-background p-1 px-2 text-lg font-light flex items-center h-app-header-height'
                 )}
             >
                 <span>Esri | Sentinel-2 Land Cover Explorer</span>

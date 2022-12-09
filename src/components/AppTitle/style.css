@@ -1,13 +1,3 @@
 .esri-ui-top-left { 
-    top: 35px;
-}
-
-.app-title {
-    opacity: .8;
-}
-
-.app-title.hidden {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s 2s, opacity 2s linear;
+    top: 45px;
 }
