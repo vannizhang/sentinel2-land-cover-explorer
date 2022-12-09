@@ -36,7 +36,7 @@ const ControlPanel = () => {
                             <TimeSlider />
                         </div>
 
-                        <div className="flex flex-col-reverse md:flex-row">
+                        <div className="flex flex-col-reverse md:flex-row pb-6 md:pb-0">
                             {shouldShowSentinel2Layer === false && (
                                 <ClassificationsList />
                             )}
