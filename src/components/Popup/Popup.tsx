@@ -83,7 +83,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
 
         const htmlString4AcquisitionDate = acquisitionDate
             ? `
-                <div class='mx-2 mt-4 pb-2'>
+                <div class='mx-2 mt-4 pb-2 text-center'>
                     <span>Sentinel-2 L2A image acquired ${format(
                         acquisitionDate,
                         'MMM dd, yyyy'
@@ -140,6 +140,7 @@ const Popup: FC<Props> = ({ mapView }: Props) => {
         mapPoint: IPoint,
         mousePointX: number
     ) => {
+        // no need to show pop-up for sentinel-2 imagery layer until imagery is visible
         if (
             shouldShowSentinel2Layer &&
             isSentinel2LayerOutOfVisibleRange === true

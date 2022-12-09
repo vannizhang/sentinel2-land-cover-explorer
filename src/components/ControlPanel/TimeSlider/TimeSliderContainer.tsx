@@ -26,6 +26,7 @@ import AnimationButton from './AnimationButton';
 import ModeSelector from './ModeSelector';
 import MonthPicker from './MonthPicker';
 import TimeSliderWidget from './TimeSliderWidget';
+import TimeSelector4SwipeMode from './TimeSelector4SwipeMode';
 
 const TimeSliderContainer = () => {
     const dispatch = useDispatch();
@@ -94,30 +95,6 @@ const TimeSliderContainer = () => {
                     })}
                 >
                     <TimeSliderWidget
-                        years={years}
-                        initialTimeExtent={{
-                            start: new Date(year4LeadingLayer, 0, 1),
-                            end: new Date(year4TrailingLayer, 0, 1),
-                        }}
-                        visible={timeRangeSliderVisibility}
-                        timeExtentOnChange={(startYear, endYear) => {
-                            // console.log(startYear, endYear)
-
-                            if (startYear === endYear) {
-                                console.log(
-                                    'start year and end year cannot be same'
-                                );
-                                return;
-                            }
-
-                            batch(() => {
-                                dispatch(year4LeadingLayerUpdated(startYear));
-                                dispatch(year4TrailingLayerUpdated(endYear));
-                            });
-                        }}
-                    />
-
-                    <TimeSliderWidget
                         mode="instant"
                         years={years}
                         initialTimeExtent={{
@@ -136,35 +113,41 @@ const TimeSliderContainer = () => {
                     />
                 </div>
 
-                {isSentinel2LayerOutOfVisibleRange === false && (
-                    <div
-                        className="absolute hidden lg:block"
-                        style={{
-                            right: -40,
-                            bottom: 11,
-                            width: 55,
-                        }}
-                    >
-                        {mode === 'step' && (
+                {isSentinel2LayerOutOfVisibleRange === false &&
+                    mode === 'swipe' && (
+                        <TimeSelector4SwipeMode
+                            shouldShowMonthPicker={shouldShowMonthPicker}
+                        />
+                    )}
+
+                {isSentinel2LayerOutOfVisibleRange === false &&
+                    mode === 'step' && (
+                        <div
+                            className="absolute hidden lg:block"
+                            style={{
+                                right: -40,
+                                bottom: 11,
+                                width: 55,
+                            }}
+                        >
                             <div className="mb-3">
                                 <AnimationButton />
                             </div>
-                        )}
 
-                        <div
-                            className="w-full"
-                            style={{
-                                height: 26,
-                            }}
-                        >
-                            {shouldShowMonthPicker && (
-                                <MonthPicker
-                                    disabled={animationMode !== null}
-                                />
-                            )}
+                            <div
+                                className="w-full"
+                                style={{
+                                    height: 26,
+                                }}
+                            >
+                                {shouldShowMonthPicker && (
+                                    <MonthPicker
+                                        disabled={animationMode !== null}
+                                    />
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
             </div>
 
             {isSentinel2LayerOutOfVisibleRange && (
