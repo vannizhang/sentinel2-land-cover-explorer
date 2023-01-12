@@ -14,7 +14,10 @@ const CustomMapArrtribution = () => {
             onMouseOut={toggleEsriAttribution}
         >
             <div className="pointer-events-none">
-                <span>Sentinel-2 10m Land Use/Land Cover, Powered by Esri</span>
+                <span>
+                    Powered by Esri | Sentinel-2 10m Land Use/Land Cover data by
+                    Impact Observatory, Microsoft, and Esri
+                </span>
             </div>
         </div>
     );
