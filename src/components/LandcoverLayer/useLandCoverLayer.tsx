@@ -50,7 +50,8 @@ const useLandCoverLayer = ({
                 functionName:
                     getRasterFunctionByLandCoverClassName(activeLandCoverType),
             },
-            effect: 'drop-shadow(2px, 2px, 3px, #000)',
+            effect: 'brightness(110%) drop-shadow(2px, 2px, 3px, #000)',
+            blendMode: 'multiply',
             visible,
         });
 
