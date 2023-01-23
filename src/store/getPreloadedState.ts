@@ -60,7 +60,8 @@ const getPreloadedMapState = (): MapState => {
         ...initialMapState,
         // swipe mode can only be enabled in desktop view with wide screen
         mode: isMobileView ? 'step' : mode,
-        year: year ? +year : availableYears[0],
+        // use year from hash params or the most recent year by default
+        year: year ? +year : availableYears[availableYears.length - 1],
         sentinel2AquisitionMonth: sentinel2AquisitionMonth
             ? +sentinel2AquisitionMonth
             : 9,
