@@ -12,6 +12,10 @@ import { saveAnimationModeToHashParams } from '../../utils/URLHashParams';
 import CloseButton from './CloseButton';
 import useMediaLayerImageElement from './useMediaLayerImageElement';
 import useMediaLayerAnimation from './useMediaLayerAnimation';
+import {
+    LandCoverLayerBlendMode,
+    LandCoverLayerEffect,
+} from '../LandcoverLayer/useLandCoverLayer';
 
 type Props = {
     mapView?: IMapView;
@@ -38,6 +42,8 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
 
             mediaLayerRef.current = new MediaLayer({
                 visible: true,
+                effect: LandCoverLayerEffect,
+                blendMode: LandCoverLayerBlendMode,
             });
 
             mapView.map.add(mediaLayerRef.current);

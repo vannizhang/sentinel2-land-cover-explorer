@@ -20,6 +20,11 @@ type UseLandCoverLayerParams = {
     // mapView?: IMapView;
 };
 
+export const LandCoverLayerEffect =
+    'brightness(110%) drop-shadow(2px, 2px, 3px, #000)';
+
+export const LandCoverLayerBlendMode = 'multiply';
+
 const useLandCoverLayer = ({
     year,
     visible = true,
@@ -50,8 +55,8 @@ const useLandCoverLayer = ({
                 functionName:
                     getRasterFunctionByLandCoverClassName(activeLandCoverType),
             },
-            effect: 'brightness(110%) drop-shadow(2px, 2px, 3px, #000)',
-            blendMode: 'multiply',
+            effect: LandCoverLayerEffect,
+            blendMode: LandCoverLayerBlendMode,
             visible,
         });
 
