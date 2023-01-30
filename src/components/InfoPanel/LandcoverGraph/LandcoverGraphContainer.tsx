@@ -39,7 +39,7 @@ const LandcoverGraphContainer: FC<Props> = ({
         <div
             className="relative w-full h-full overflow-x-auto"
             style={{
-                minWidth: 1300,
+                minWidth: 1500,
                 height: '50vh',
             }}
         >

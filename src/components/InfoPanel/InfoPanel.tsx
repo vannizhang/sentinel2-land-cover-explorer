@@ -178,7 +178,7 @@ const InfoPanel = () => {
             <div
                 className="w-full mx-10 pb-6 overflow-x-auto overflow-y-hidden"
                 style={{
-                    maxWidth: 1800,
+                    maxWidth: '90vw',
                 }}
             >
                 <Header>
