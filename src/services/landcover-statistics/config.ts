@@ -6,7 +6,7 @@ import { TIER } from '../../constants';
  * - Each admin area has once entry per year (or 5 occurrences)
  */
 export const LAND_COVER_STATISTICS_SERVICE_URL_DEV =
-    'https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/WFOA_S2LULC_HistoStats_Dev/FeatureServer/0';
+    'https://servicesdev.arcgis.com/VLx4vrvwONglS8iz/ArcGIS/rest/services/WFOA_S2LULC_HistoStats_Dev/FeatureServer/0';
 
 export const LAND_COVER_STATISTICS_SERVICE_URL_PROD =
     'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/WFOA_S2LULC_HistoStats_Prod/FeatureServer/0';
