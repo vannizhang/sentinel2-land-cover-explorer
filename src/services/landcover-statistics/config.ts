@@ -1,3 +1,5 @@
+import { TIER } from '../../constants';
+
 /**
  * Here is the link to the hosted table containing the precalculated land cover summary stats.
  * - Each record in the table is an individual admin area (e.g. state, province, etc).
@@ -6,8 +8,13 @@
 export const LAND_COVER_STATISTICS_SERVICE_URL_DEV =
     'https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/WFOA_S2LULC_HistoStats_Dev/FeatureServer/0';
 
+export const LAND_COVER_STATISTICS_SERVICE_URL_PROD =
+    'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/WFOA_S2LULC_HistoStats_Prod/FeatureServer/0';
+
 export const LAND_COVER_STATISTICS_SERVICE_URL =
-    LAND_COVER_STATISTICS_SERVICE_URL_DEV;
+    TIER === 'development'
+        ? LAND_COVER_STATISTICS_SERVICE_URL_DEV
+        : LAND_COVER_STATISTICS_SERVICE_URL_PROD;
 
 export const FIELD_NAMES = {
     /**
