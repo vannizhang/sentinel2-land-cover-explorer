@@ -3,8 +3,15 @@
  *
  * https://nation.maps.arcgis.com/home/item.html?id=6ad8fa259c7d4195893bf412d5f1afa7
  */
-// export const WEB_MAP_ID = 'c6aef488fc294796ab24e6846c26e710';
-export const WEB_MAP_ID = '6ad8fa259c7d4195893bf412d5f1afa7';
+
+import { TIER } from '.';
+
+export const WEB_MAP_ID_PROD = '6ad8fa259c7d4195893bf412d5f1afa7'; // 'f8770e0adc5c41038026494b871ceb99';
+
+export const WEB_MAP_ID_DEV = 'f8770e0adc5c41038026494b871ceb99'; // '6ad8fa259c7d4195893bf412d5f1afa7';
+
+export const WEB_MAP_ID =
+    TIER === 'development' ? WEB_MAP_ID_DEV : WEB_MAP_ID_PROD;
 
 /**
  * Web Map (also owned by John Nelson) that will be used in the Download Panel
@@ -26,6 +33,7 @@ export const SENTINEL_2_10M_LAND_COVER_ITEM_URL =
 export const HUMAN_GEO_DARK_LABEL_LAYER_TITLE = 'Human Geography Dark Label';
 export const HUMAN_GEO_LIGHT_WATER_LAYER_TITLE =
     'Human Geography Dark Detail Light Water';
+export const HUMAN_GEO_DARK_DRY_LAYER_TITLE = 'Human Geography Dark Detail Dry';
 
 export const TERRAIN_LAYER_TITLE = 'World Hillshade';
 
