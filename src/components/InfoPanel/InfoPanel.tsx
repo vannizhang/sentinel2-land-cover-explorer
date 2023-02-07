@@ -186,10 +186,7 @@ const InfoPanel = () => {
                         selectedCountry={selectedCountry}
                         onChange={(val) => {
                             setSelectedCountry(val);
-
-                            if (!val) {
-                                setSelectedSubRegin('');
-                            }
+                            setSelectedSubRegin('');
                         }}
                     />
 
