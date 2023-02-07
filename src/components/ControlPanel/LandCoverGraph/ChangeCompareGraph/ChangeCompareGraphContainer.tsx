@@ -130,7 +130,9 @@ const ChangeCompareGraphContainer = () => {
                 laterYearAreaInPercentage
             )}% in ${year4TrailingLayer}, a change of ${
                 differenceInPercentage >= 0 ? '+' : ''
-            }${formatAreaPercentage(differenceInPercentage)}%`,
+            }${formatAreaPercentage(
+                differenceInPercentage
+            )}%  of the total area.`,
         } as TooltipData;
 
         dispatch(updateTooltipData(tooltipData));
