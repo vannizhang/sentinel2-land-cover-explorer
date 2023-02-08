@@ -66,6 +66,7 @@ const useSentinel2Layer = ({
                 functionName: selectedRasterFunction,
             },
             visible,
+            // blendMode: 'multiply'
         });
 
         setSentinel2Layer(layerRef.current);

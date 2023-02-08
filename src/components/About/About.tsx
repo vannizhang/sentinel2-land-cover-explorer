@@ -23,7 +23,12 @@ const About = () => {
                 }}
             />
 
-            <div className="flex justify-center mt-4 max-w-full">
+            <div
+                className="flex justify-center mt-4 mx-auto"
+                style={{
+                    maxWidth: '90vw',
+                }}
+            >
                 <div
                     className="py-10"
                     style={{
