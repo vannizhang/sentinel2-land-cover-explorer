@@ -10,8 +10,10 @@ export const WEB_MAP_ID_PROD = 'f8770e0adc5c41038026494b871ceb99'; // 'f8770e0ad
 
 export const WEB_MAP_ID_DEV = '6ad8fa259c7d4195893bf412d5f1afa7'; // '6ad8fa259c7d4195893bf412d5f1afa7';
 
-export const WEB_MAP_ID =
-    TIER === 'development' ? WEB_MAP_ID_DEV : WEB_MAP_ID_PROD;
+// export const WEB_MAP_ID =
+//     TIER === 'development' ? WEB_MAP_ID_DEV : WEB_MAP_ID_PROD;
+
+export const WEB_MAP_ID = WEB_MAP_ID_PROD;
 
 /**
  * Web Map (also owned by John Nelson) that will be used in the Download Panel
