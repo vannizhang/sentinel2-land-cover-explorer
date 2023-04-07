@@ -73,7 +73,7 @@ const DownloadPanel = () => {
                         >
                             Terms of Use and Credits
                         </a>{' '}
-                        to site the work.
+                        to cite the work.
                     </p>
                 </div>
             </div>
