@@ -10,11 +10,17 @@ import AppContextProvider from './contexts/AppContextProvider';
 import AppLayout from './components/AppLayout/AppLayout';
 import { loadServiceInfo } from './services/sentinel-2-10m-landcover/loadServiceInfo';
 import ErrorPage from './pages/ErrorPage';
+import { initEsriOAuth } from './utils/esriOAuth';
+import { APP_ID } from './constants';
 
 (async () => {
     const root = createRoot(document.getElementById('root'));
 
     try {
+        await initEsriOAuth({
+            appId: APP_ID,
+        });
+
         // Load service information (Raster Attributes, Time Extent and etc) of Sentinel-2-10m-Landcover layer
         await loadServiceInfo();
 
