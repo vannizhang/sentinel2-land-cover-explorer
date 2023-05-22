@@ -47,6 +47,10 @@ export type UIState = {
      * If true, show About This App Modal
      */
     showAboutThisApp?: boolean;
+    /**
+     * if true, show Save Webmap Panel
+     */
+    showSaveWebMap?: boolean;
 };
 
 export const initialUIState: UIState = {
@@ -58,6 +62,7 @@ export const initialUIState: UIState = {
     hideControlPanel: false,
     animationMode: null,
     showAboutThisApp: false,
+    showSaveWebMap: false,
 };
 
 const slice = createSlice({
@@ -91,6 +96,9 @@ const slice = createSlice({
         showAboutThisAppToggled: (state) => {
             state.showAboutThisApp = !state.showAboutThisApp;
         },
+        showSaveWebMapToggled: (state) => {
+            state.showSaveWebMap = !state.showSaveWebMap;
+        },
     },
 });
 
@@ -105,6 +113,7 @@ export const {
     showDownloadPanelToggled,
     animationModeUpdated,
     showAboutThisAppToggled,
+    showSaveWebMapToggled,
 } = slice.actions;
 
 export default reducer;

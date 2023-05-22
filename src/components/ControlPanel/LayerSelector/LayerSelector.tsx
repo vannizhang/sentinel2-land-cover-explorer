@@ -7,6 +7,7 @@ import {
 import { THEME_COLOR_LIGHT_BLUE } from '../../../constants/style';
 import DownloadIcon from './DownloadIcon';
 import OpenIcon from './OpenIcon';
+import SaveWebMapIcon from './SaveWebMapIcon';
 
 type LayerSelectorButtonProps = {
     /**
@@ -17,7 +18,7 @@ type LayerSelectorButtonProps = {
     children?: React.ReactNode;
 };
 
-const BUTTON_CONATINER_CLASSNAMES = 'my-6 flex';
+const BUTTON_CONATINER_CLASSNAMES = 'my-4 flex items-start';
 
 const LayerSelectorButton: FC<LayerSelectorButtonProps> = ({
     active,
@@ -53,6 +54,7 @@ type Props = {
     landcoverButtonOnClick: () => void;
     downloadLandcoverButtonOnClick: () => void;
     imageryButtonOnClick: () => void;
+    saveWebMapButtonOnClick: () => void;
 };
 
 const LayerSelector: FC<Props> = ({
@@ -61,10 +63,11 @@ const LayerSelector: FC<Props> = ({
     landcoverButtonOnClick,
     imageryButtonOnClick,
     downloadLandcoverButtonOnClick,
+    saveWebMapButtonOnClick,
 }: Props) => {
     return (
         <div
-            className={classNames('hidden md:block mx-4 mt-5', {
+            className={classNames('hidden md:block mx-4 mt-0', {
                 'disabled-when-animation-mode-is-on': disabled,
             })}
         >
@@ -95,6 +98,13 @@ const LayerSelector: FC<Props> = ({
                         <DownloadIcon
                             onClick={downloadLandcoverButtonOnClick}
                         />
+                    </div>
+
+                    <div
+                        className="mt-2"
+                        title="Launch download options for Land Cover"
+                    >
+                        <SaveWebMapIcon onClick={saveWebMapButtonOnClick} />
                     </div>
                 </div>
             </div>

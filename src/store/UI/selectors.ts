@@ -40,3 +40,8 @@ export const selectShowAboutThisApp = createSelector(
     (state: RootState) => state.UI.showAboutThisApp,
     (showAboutThisApp) => showAboutThisApp
 );
+
+export const selectShowSaveWebMap = createSelector(
+    (state: RootState) => state.UI.showSaveWebMap,
+    (showSaveWebMap) => showSaveWebMap
+);
