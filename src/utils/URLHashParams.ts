@@ -13,7 +13,8 @@ type UrlHashParamKey =
     | 'month'
     | 'renderingRule'
     | 'animation'
-    | 'region';
+    | 'region'
+    | 'saveWebMap';
 
 const SupportedSentinel2RasterFunctions: Sentinel2RasterFunction[] = [
     'Natural Color with DRA',
@@ -24,7 +25,7 @@ const SupportedSentinel2RasterFunctions: Sentinel2RasterFunction[] = [
     'NDMI Colorized',
 ];
 
-const hashParams = new URLSearchParams(window.location.hash.slice(1));
+let hashParams: URLSearchParams = null; //new URLSearchParams(window.location.hash.slice(1));
 
 /**
  * update Hash Params in the URL using data from hashParams
@@ -40,6 +41,10 @@ export const updateHashParams = (key: UrlHashParamKey, value: string) => {
 };
 
 export const getHashParamValueByKey = (key: UrlHashParamKey): string => {
+    if (hashParams === null) {
+        hashParams = new URLSearchParams(window.location.hash.slice(1));
+    }
+
     if (!hashParams.has(key)) {
         return null;
     }
@@ -182,4 +187,14 @@ export const saveRegionToHashParams = (region?: string) => {
 
 export const getRegionFromHashParams = () => {
     return getHashParamValueByKey('region') || '';
+};
+
+export const saveShowSaveWebMapPanelToHashParams = (
+    showSaveWebMapPanel?: boolean
+) => {
+    updateHashParams('saveWebMap', showSaveWebMapPanel ? 'true' : undefined);
+};
+
+export const getShowSaveWebMapPanelFromHashParams = () => {
+    return getHashParamValueByKey('saveWebMap') === 'true';
 };

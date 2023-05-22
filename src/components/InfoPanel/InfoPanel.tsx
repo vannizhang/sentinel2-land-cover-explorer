@@ -28,9 +28,6 @@ import CloseBtn from '../CloseBtn/CloseBtn';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
 // import { abbreviateNumber } from '../../utils/number';
 
-const [selectedCountryFromHashParam, setSelectedSubReginFromHashParam] =
-    getRegionFromHashParams().split(',');
-
 const InfoPanel = () => {
     const dispatch = useDispatch();
 
@@ -39,6 +36,9 @@ const InfoPanel = () => {
     const resolution = useSelector(selectMapResolution);
 
     const extent = useSelector(selectMapExtent);
+
+    const [selectedCountryFromHashParam, setSelectedSubReginFromHashParam] =
+        getRegionFromHashParams().split(',');
 
     /**
      * Name of selected country, if selected country is defined (and selectedSubRegion is not defined), show land cover stats for selected country

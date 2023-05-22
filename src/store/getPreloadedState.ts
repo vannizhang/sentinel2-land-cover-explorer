@@ -14,6 +14,7 @@ import {
     getActiveMonthFromHashParams,
     getAnimationModeFromHashParams,
     getRegionFromHashParams,
+    getShowSaveWebMapPanelFromHashParams,
 } from '../utils/URLHashParams';
 import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
 import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
@@ -85,6 +86,7 @@ const getPreloadedUIState = (): UIState => {
     const showDownloadPanel = getDonwloadModeFromHashParams();
     const isAnimationModeOn = getAnimationModeFromHashParams();
     const region = getRegionFromHashParams();
+    const showSaveWebMapPanel = getShowSaveWebMapPanelFromHashParams();
 
     const animationMode = isAnimationModeOn ? 'loading' : null;
 
@@ -101,6 +103,7 @@ const getPreloadedUIState = (): UIState => {
          * animation mode can only be enabled in desktop view with wide screen
          */
         animationMode: isMobileView ? null : animationMode,
+        showSaveWebMap: showSaveWebMapPanel,
     };
 };
 

@@ -5,6 +5,7 @@ import { SaveWebMap } from './SaveWebMap';
 import { useDispatch } from 'react-redux';
 import { showSaveWebMapToggled } from '../../store/UI/reducer';
 import { isAnonymouns, signIn } from '../../utils/esriOAuth';
+import { saveShowSaveWebMapPanelToHashParams } from '../../utils/URLHashParams';
 
 export const SaveWebMapContainer = () => {
     const dispatch = useDispatch();
@@ -12,6 +13,8 @@ export const SaveWebMapContainer = () => {
     const showSaveWebMap = useSelector(selectShowSaveWebMap);
 
     useEffect(() => {
+        saveShowSaveWebMapPanelToHashParams(showSaveWebMap);
+
         if (showSaveWebMap && isAnonymouns()) {
             signIn();
         }
