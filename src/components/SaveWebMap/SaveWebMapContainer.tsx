@@ -16,12 +16,7 @@ export const SaveWebMapContainer = () => {
 
     return (
         <SaveWebMap
-            data={{
-                title: '',
-                tags: [],
-                description: '',
-            }}
-            saveButtonOnClick={() => {
+            saveButtonOnClick={(data) => {
                 // save
             }}
             closeButtonOnClick={() => {
