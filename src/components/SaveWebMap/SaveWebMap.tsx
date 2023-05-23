@@ -3,7 +3,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import classNames from 'classnames';
 
-type WebMapData = {
+export type WebMapMetadata = {
     /**
      * title of the webmap
      */
@@ -22,12 +22,12 @@ type Props = {
     /**
      * default values for the web map item
      */
-    data?: WebMapData;
+    data?: WebMapMetadata;
     /**
      * if true, it is in process of saving the webmap
      */
     isSavingChanges?: boolean;
-    saveButtonOnClick: (data: WebMapData) => void;
+    saveButtonOnClick: (data: WebMapMetadata) => void;
     closeButtonOnClick: () => void;
 };
 
@@ -78,7 +78,7 @@ const TextInput: FC<TextInputProps> = ({
 
 export const SaveWebMap: FC<Props> = ({
     data,
-    isSavingChanges,
+    isSavingChanges = false,
     saveButtonOnClick,
     closeButtonOnClick,
 }: Props) => {
