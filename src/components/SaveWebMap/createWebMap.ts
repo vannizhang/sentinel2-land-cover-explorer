@@ -27,7 +27,7 @@ type CreateWebMapOptions = {
     year: number;
 };
 
-type CreateWebMapResponse = {
+export type CreateWebMapResponse = {
     /**
      * The folder in which the item was created
      */

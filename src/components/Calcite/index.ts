@@ -6,6 +6,7 @@ declare global {
             'calcite-loader': any;
             'calcite-input-text': any;
             'calcite-input-area': any;
+            'calcite-button': any;
         }
     }
 }

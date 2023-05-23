@@ -2,6 +2,8 @@ import './style.css';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import classNames from 'classnames';
+import { CreateWebMapResponse } from './createWebMap';
+import { getPortalBaseUrl } from '../../utils/esriOAuth';
 
 export type WebMapMetadata = {
     /**
@@ -19,10 +21,7 @@ export type WebMapMetadata = {
 };
 
 type Props = {
-    /**
-     * default values for the web map item
-     */
-    data?: WebMapMetadata;
+    response?: CreateWebMapResponse;
     /**
      * if true, it is in process of saving the webmap
      */
@@ -40,7 +39,7 @@ type TextInputProps = {
 };
 
 const ButtonClassNames =
-    'p-1 px-2 mx-2 border border-custom-light-blue-80 text-lg text-custom-light-blue cursor-pointer uppercase';
+    'p-1 px-2 mx-2 border border-custom-light-blue-80 text-lg text-custom-light-blue cursor-pointer uppercase text-center';
 
 const TextInput: FC<TextInputProps> = ({
     title,
@@ -77,29 +76,46 @@ const TextInput: FC<TextInputProps> = ({
 };
 
 export const SaveWebMap: FC<Props> = ({
-    data,
+    response,
     isSavingChanges = false,
     saveButtonOnClick,
     closeButtonOnClick,
 }: Props) => {
     const [title, setTitle] = useState<string>(
-        data?.title || 'Sentinel-2 Land Cover Exlorer export map'
+        'Sentinel-2 Land Cover Exlorer export map'
     );
     const [tags, setTags] = useState<string>(
-        data?.tags || 'Sentinel-2, Land Use, Land Cover, LULC, Living Atlas'
+        'Sentinel-2, Land Use, Land Cover, LULC, Living Atlas'
     );
     const [summary, setSummary] = useState<string>(
-        data?.summary ||
-            'Sentinel-2 10m land use/land cover time series of the world.'
+        'Sentinel-2 10m land use/land cover time series of the world.'
     );
 
-    return (
-        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center bg-custom-background-95 z-20">
-            {isSavingChanges === false && (
-                <CloseBtn onClick={closeButtonOnClick} />
-            )}
+    const getContent = () => {
+        if (response) {
+            return (
+                <div className="max-w-sm mx-auto">
+                    <p className=" text-custom-light-blue-90 mb-4">
+                        Your Web Map is Ready!
+                    </p>
 
-            <div className="w-1/3 max-w-5xl px-10">
+                    <div
+                        className={ButtonClassNames}
+                        onClick={() => {
+                            const url = `${getPortalBaseUrl()}/home/item.html?id=${
+                                response.id
+                            }`;
+                            window.open(url, '_blank');
+                        }}
+                    >
+                        Open Web Map
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <>
                 <div
                     className={classNames({
                         'is-disabled ': isSavingChanges,
@@ -124,7 +140,7 @@ export const SaveWebMap: FC<Props> = ({
                 <div className="flex justify-end">
                     <div
                         className={classNames(ButtonClassNames, {
-                            'is-disabled ': isSavingChanges,
+                            'hidden ': isSavingChanges,
                         })}
                         onClick={closeButtonOnClick}
                     >
@@ -144,11 +160,21 @@ export const SaveWebMap: FC<Props> = ({
                         }}
                     >
                         {isSavingChanges
-                            ? 'Creating Web Map'
+                            ? 'Creating Web Map...'
                             : 'Create Web Map'}
                     </div>
                 </div>
-            </div>
+            </>
+        );
+    };
+
+    return (
+        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center bg-custom-background-95 z-20">
+            {isSavingChanges === false && (
+                <CloseBtn onClick={closeButtonOnClick} />
+            )}
+
+            <div className="w-1/3 max-w-2xl px-10">{getContent()}</div>
         </div>
     );
 };
