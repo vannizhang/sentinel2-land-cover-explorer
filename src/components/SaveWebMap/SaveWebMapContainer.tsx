@@ -7,17 +7,25 @@ import { showSaveWebMapToggled } from '../../store/UI/reducer';
 import { isAnonymouns, signIn } from '../../utils/esriOAuth';
 import { saveShowSaveWebMapPanelToHashParams } from '../../utils/URLHashParams';
 import { createWebMap } from './createWebMap';
+import { selectMapExtent, selectYear } from '../../store/Map/selectors';
 
 export const SaveWebMapContainer = () => {
     const dispatch = useDispatch();
 
     const showSaveWebMap = useSelector(selectShowSaveWebMap);
 
+    const mapExtent = useSelector(selectMapExtent);
+
+    const year = useSelector(selectYear);
+
     const saveButtonOnClickHandler = async (data: WebMapMetadata) => {
         try {
             await createWebMap({
                 title: data?.title,
                 tags: data?.tags,
+                summary: data?.summary,
+                extent: mapExtent,
+                year: year,
             });
         } catch (err) {
             console.log(err);

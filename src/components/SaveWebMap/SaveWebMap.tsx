@@ -13,9 +13,9 @@ export type WebMapMetadata = {
      */
     tags?: string;
     /**
-     * description text
+     * summary text
      */
-    description?: string;
+    summary?: string;
 };
 
 type Props = {
@@ -88,8 +88,9 @@ export const SaveWebMap: FC<Props> = ({
     const [tags, setTags] = useState<string>(
         data?.tags || 'Sentinel-2, Land Use, Land Cover, LULC, Living Atlas'
     );
-    const [description, setDescription] = useState<string>(
-        data?.description || ''
+    const [summary, setSummary] = useState<string>(
+        data?.summary ||
+            'Sentinel-2 10m land use/land cover time series of the world.'
     );
 
     return (
@@ -112,10 +113,10 @@ export const SaveWebMap: FC<Props> = ({
                     />
                     <TextInput title={'Tags'} value={tags} onChange={setTags} />
                     <TextInput
-                        title={'Description'}
-                        value={description}
+                        title={'Summary'}
+                        value={summary}
                         onChange={(val) => {
-                            setDescription(val);
+                            setSummary(val);
                         }}
                     />
                 </div>
@@ -138,7 +139,7 @@ export const SaveWebMap: FC<Props> = ({
                             saveButtonOnClick({
                                 title,
                                 tags,
-                                description,
+                                summary,
                             });
                         }}
                     >

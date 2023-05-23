@@ -18,7 +18,9 @@ type LayerSelectorButtonProps = {
     children?: React.ReactNode;
 };
 
-const BUTTON_CONATINER_CLASSNAMES = 'my-4 flex items-start';
+const BUTTON_CONATINER_CLASSNAMES = 'my-3';
+
+const ICONS_CONATINER_CLASSNAMES = 'mt-2 flex items-center justify-end';
 
 const LayerSelectorButton: FC<LayerSelectorButtonProps> = ({
     active,
@@ -79,7 +81,23 @@ const LayerSelector: FC<Props> = ({
                     Land Cover
                 </LayerSelectorButton>
 
-                <div className="ml-2">
+                <div className={ICONS_CONATINER_CLASSNAMES}>
+                    <div
+                        title="Launch download options for Land Cover"
+                        className="mr-2"
+                    >
+                        <DownloadIcon
+                            onClick={downloadLandcoverButtonOnClick}
+                        />
+                    </div>
+
+                    <div
+                        title="Export land cover to a new ArcGIS Online web map"
+                        className="mr-2"
+                    >
+                        <SaveWebMapIcon onClick={saveWebMapButtonOnClick} />
+                    </div>
+
                     <div title="About Land Cover">
                         <OpenIcon
                             onClick={() => {
@@ -89,22 +107,6 @@ const LayerSelector: FC<Props> = ({
                                 );
                             }}
                         />
-                    </div>
-
-                    <div
-                        className="mt-2"
-                        title="Launch download options for Land Cover"
-                    >
-                        <DownloadIcon
-                            onClick={downloadLandcoverButtonOnClick}
-                        />
-                    </div>
-
-                    <div
-                        className="mt-2"
-                        title="Export land cover to a new ArcGIS Online web map"
-                    >
-                        <SaveWebMapIcon onClick={saveWebMapButtonOnClick} />
                     </div>
                 </div>
             </div>
@@ -117,7 +119,7 @@ const LayerSelector: FC<Props> = ({
                     Imagery
                 </LayerSelectorButton>
 
-                <div className="ml-2">
+                <div className={ICONS_CONATINER_CLASSNAMES}>
                     <div title="About Imagery">
                         <OpenIcon
                             onClick={() => {

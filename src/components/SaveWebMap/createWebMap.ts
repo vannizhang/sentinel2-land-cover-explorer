@@ -8,11 +8,23 @@ import { getToken } from '../../utils/esriOAuth';
 import { getSignedInUser } from '../../utils/esriOAuth';
 import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
 import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
+import { MapExtent } from '../../store/Map/reducer';
+import { LandCoverLayerBlendMode } from '../LandcoverLayer/useLandCoverLayer';
+import { loadModules } from 'esri-loader';
+import IwebMercatorUtils from 'esri/geometry/support/webMercatorUtils';
 
 type CreateWebMapOptions = {
     title: string;
     tags: string;
-    description?: string;
+    summary?: string;
+    /**
+     * current map extent
+     */
+    extent: MapExtent;
+    /**
+     * user selected year
+     */
+    year: number;
 };
 
 type CreateWebMapResponse = {
@@ -74,7 +86,7 @@ const getDataOfLandcoverAppWebmap = async (): Promise<WebMapData> => {
  * Get the JSON content for the web map item to be submitted.
  * @returns
  */
-const getWebMapContent = async () => {
+const getWebMapContent = async (selectedYear: number) => {
     const data = await getDataOfLandcoverAppWebmap();
 
     const operationalLayersFromLandcoverAppWebmap =
@@ -88,10 +100,11 @@ const getWebMapContent = async () => {
             layerType: 'ArcGISImageServiceLayer',
             title: `Sentinel-2 10m Land Use/Land Cover Time Series ${year}`,
             url: SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL,
-            visibility: year === 2022,
+            visibility: year === selectedYear,
             layerDefinition: {
                 definitionExpression: `StartDate BETWEEN timestamp '${year}-01-01 00:00:00' AND timestamp '${year}-12-31 11:59:59'`,
             },
+            blendMode: LandCoverLayerBlendMode,
         };
     });
 
@@ -116,6 +129,28 @@ const getWebMapContent = async () => {
 };
 
 /**
+ * The input extent is in Web Mercator and we need to convert it to Longitude and Latitude in order to be used as Extent for the web map
+ * @param extent
+ * @returns
+ */
+const getWebMapExtentInLonLat = async (extent: MapExtent) => {
+    type Modules = [typeof IwebMercatorUtils];
+
+    try {
+        const [webMercatorUtils] = await (loadModules([
+            'esri/geometry/support/webMercatorUtils',
+        ]) as Promise<Modules>);
+
+        return [
+            webMercatorUtils.xyToLngLat(extent.xmin, extent.ymin),
+            webMercatorUtils.xyToLngLat(extent.xmax, extent.ymax),
+        ];
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+/**
  * Create a Web Map item using `addItem` operation of ArcGIS Rest API.
  * @param param0
  * @returns
@@ -125,19 +160,20 @@ const getWebMapContent = async () => {
 export const createWebMap = async ({
     title,
     tags,
-    description,
+    summary,
+    year,
+    extent,
 }: CreateWebMapOptions): Promise<CreateWebMapResponse> => {
-    const textContent = await getWebMapContent();
+    const textContent = await getWebMapContent(year);
+
+    const extentInLonLat = await getWebMapExtentInLonLat(extent);
 
     const formData = new FormData();
 
     formData.append('title', title);
-    formData.append('description', description || '');
+    formData.append('snippet', summary || '');
     formData.append('tags', tags);
-    formData.append(
-        'extent',
-        '[-989072.1380697651, 5327470.239509263, -769239.244721514, 5473159.215420865]'
-    );
+    formData.append('extent', JSON.stringify(extentInLonLat));
     // formData.append('snippet', '')
     formData.append('text', textContent);
     formData.append('type', 'Web Map');
