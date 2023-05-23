@@ -94,8 +94,8 @@ export const SaveWebMap: FC<Props> = ({
     const getContent = () => {
         if (response) {
             return (
-                <div className="max-w-sm mx-auto">
-                    <p className=" text-custom-light-blue-90 mb-4">
+                <div className="max-w-sm mx-auto flex items-center justify-center">
+                    <p className=" text-custom-light-blue-90 mr-2">
                         Your Web Map is Ready!
                     </p>
 
@@ -108,7 +108,7 @@ export const SaveWebMap: FC<Props> = ({
                             window.open(url, '_blank');
                         }}
                     >
-                        Open Web Map
+                        Open
                     </div>
                 </div>
             );

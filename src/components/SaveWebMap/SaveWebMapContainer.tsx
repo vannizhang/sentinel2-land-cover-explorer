@@ -38,6 +38,11 @@ export const SaveWebMapContainer = () => {
         <SaveWebMap
             isSavingChanges={isSavingChanges}
             response={response}
+            // response={{
+            //     id: '123',
+            //     success: true,
+            //     folder: ''
+            // }}
             saveButtonOnClick={setWebMapMetadata}
             closeButtonOnClick={() => {
                 // close
