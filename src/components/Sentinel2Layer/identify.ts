@@ -2,10 +2,8 @@ import { Sentinel2RasterFunction } from '../ControlPanel/Sentinel2LayerRasterFun
 
 import IPoint from 'esri/geometry/Point';
 import { getMosaicRuleByAcquisitionDate } from './exportImage';
-import {
-    SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,
-    SENTINEL_2_IMAGE_SERVICE_URL,
-} from './config';
+import { SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES } from './config';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 
 type IdentifyParams = {
     geometry: IPoint;
@@ -57,7 +55,7 @@ export const identify = async ({
         processAsMultidimensional: 'false',
     });
 
-    const requestURL = `${SENTINEL_2_IMAGE_SERVICE_URL}/identify?${params.toString()}`;
+    const requestURL = `${SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL}/identify?${params.toString()}`;
 
     try {
         const res = await fetch(requestURL);

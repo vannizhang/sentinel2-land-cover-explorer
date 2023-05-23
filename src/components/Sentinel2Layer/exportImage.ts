@@ -1,10 +1,8 @@
 import { addMonths, format } from 'date-fns';
 import IExtent from 'esri/geometry/Extent';
 import { Sentinel2RasterFunction } from '../ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
-import {
-    SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,
-    SENTINEL_2_IMAGE_SERVICE_URL,
-} from './config';
+import { SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES } from './config';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 
 const { AcquisitionDate, CloudCover } = SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES;
 
@@ -89,7 +87,7 @@ export const exportImage = async ({
         renderingRule: JSON.stringify({ rasterFunction: rasterFunctionName }),
     });
 
-    const requestURL = `${SENTINEL_2_IMAGE_SERVICE_URL}/exportImage?${params.toString()}`;
+    const requestURL = `${SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL}/exportImage?${params.toString()}`;
 
     const res = await fetch(requestURL, { signal: abortController.signal });
 

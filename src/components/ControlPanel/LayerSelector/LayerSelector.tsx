@@ -102,7 +102,7 @@ const LayerSelector: FC<Props> = ({
 
                     <div
                         className="mt-2"
-                        title="Launch download options for Land Cover"
+                        title="Export land cover to a new ArcGIS Online web map"
                     >
                         <SaveWebMapIcon onClick={saveWebMapButtonOnClick} />
                     </div>

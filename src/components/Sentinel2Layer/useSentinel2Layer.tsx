@@ -4,7 +4,7 @@ import { loadModules } from 'esri-loader';
 // import IMapView from 'esri/views/MapView';
 import {
     SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,
-    SENTINEL_2_IMAGE_SERVICE_URL,
+    // SENTINEL_2_IMAGE_SERVICE_URL,
 } from './config';
 import { useSelector } from 'react-redux';
 import {
@@ -12,6 +12,7 @@ import {
     selectSentinel2RasterFunction,
 } from '../../store/Map/selectors';
 import { getMosaicRuleByAcquisitionDate } from './exportImage';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 
 type UseLandCoverLayerParams = {
     year: number;
@@ -60,7 +61,7 @@ const useSentinel2Layer = ({
 
         layerRef.current = new ImageryLayer({
             // URL to the imagery service
-            url: SENTINEL_2_IMAGE_SERVICE_URL,
+            url: SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL,
             mosaicRule: createMosaicRuleByYear(year, aquisitionMonth) as any,
             renderingRule: {
                 functionName: selectedRasterFunction,

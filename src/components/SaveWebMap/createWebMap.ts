@@ -1,8 +1,13 @@
 import { ISpatialReference } from '@esri/arcgis-rest-request';
 import { PORTAL_ROOT } from '../../constants';
-import { WEB_MAP_ID } from '../../constants/map';
+import {
+    SENTINEL_2_10M_LAND_COVER_ITEM_ID,
+    WEB_MAP_ID,
+} from '../../constants/map';
 import { getToken } from '../../utils/esriOAuth';
 import { getSignedInUser } from '../../utils/esriOAuth';
+import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 
 type CreateWebMapOptions = {
     title: string;
@@ -26,13 +31,14 @@ type CreateWebMapResponse = {
 };
 
 type LayerInfo = {
-    id: string;
+    id?: string;
     itemId: string;
     layerType: string;
-    opacity: number;
+    opacity?: number;
     title: string;
     url: string;
     visibility: boolean;
+    layerDefinition?: any;
 };
 
 type WebMapData = {
@@ -71,8 +77,31 @@ const getDataOfLandcoverAppWebmap = async (): Promise<WebMapData> => {
 const getWebMapContent = async () => {
     const data = await getDataOfLandcoverAppWebmap();
 
-    const requestText = {
-        operationalLayers: data?.operationalLayers || [],
+    const operationalLayersFromLandcoverAppWebmap =
+        data?.operationalLayers || [];
+
+    const years = getAvailableYears();
+
+    const landcoverLayers: LayerInfo[] = years.map((year) => {
+        return {
+            itemId: SENTINEL_2_10M_LAND_COVER_ITEM_ID,
+            layerType: 'ArcGISImageServiceLayer',
+            title: `Sentinel-2 10m Land Use/Land Cover Time Series ${year}`,
+            url: SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL,
+            visibility: year === 2022,
+            layerDefinition: {
+                definitionExpression: `StartDate BETWEEN timestamp '${year}-01-01 00:00:00' AND timestamp '${year}-12-31 11:59:59'`,
+            },
+        };
+    });
+
+    const operationalLayers: LayerInfo[] = [
+        ...operationalLayersFromLandcoverAppWebmap,
+        ...landcoverLayers,
+    ];
+
+    const content = {
+        operationalLayers: operationalLayers,
         baseMap: {
             baseMapLayers: data?.baseMap?.baseMapLayers || [],
             title: data?.baseMap?.title,
@@ -83,7 +112,7 @@ const getWebMapContent = async () => {
         authoringAppVersion: '1.0.0',
     };
 
-    return JSON.stringify(requestText);
+    return JSON.stringify(content);
 };
 
 /**
