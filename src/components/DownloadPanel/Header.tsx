@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
+import { LULC_TIMESERIES_STORAGE } from '../../constants';
 
 type Props = {
     // closeButtonOnClick: () => void;
@@ -10,7 +11,7 @@ const Header: FC<Props> = () => {
 
     const getBulkDownloadLinks = () => {
         const links = years.map((year, index) => {
-            const url = `https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic/lc${year}/lulc${year}.zip`;
+            const url = `${LULC_TIMESERIES_STORAGE}/lc${year}/lulc${year}.zip`;
 
             const separator = index === years.length - 1 ? ' ' : ', ';
 
