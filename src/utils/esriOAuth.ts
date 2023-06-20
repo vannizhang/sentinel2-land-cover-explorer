@@ -234,3 +234,8 @@ export const getMyFavoritesGroupId = () => {
 export const getUserPortal = () => {
     return userPortal;
 };
+
+export const signInUsingDifferentAccount = () => {
+    esriId.destroyCredentials();
+    signIn();
+};

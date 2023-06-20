@@ -4,7 +4,12 @@ import { selectShowSaveWebMap } from '../../store/UI/selectors';
 import { SaveWebMap, WebMapMetadata } from './SaveWebMap';
 import { useDispatch } from 'react-redux';
 import { showSaveWebMapToggled } from '../../store/UI/reducer';
-import { isAnonymouns, signIn } from '../../utils/esriOAuth';
+import {
+    getSignedInUser,
+    isAnonymouns,
+    signIn,
+    signInUsingDifferentAccount,
+} from '../../utils/esriOAuth';
 import { saveShowSaveWebMapPanelToHashParams } from '../../utils/URLHashParams';
 import { useCreateWebmap } from './useCreateWebmap';
 
@@ -16,6 +21,8 @@ export const SaveWebMapContainer = () => {
     const [webmapMetadata, setWebMapMetadata] = useState<WebMapMetadata>();
 
     const { isSavingChanges, response } = useCreateWebmap(webmapMetadata);
+
+    const portalUser = getSignedInUser();
 
     useEffect(() => {
         saveShowSaveWebMapPanelToHashParams(showSaveWebMap);
@@ -37,6 +44,7 @@ export const SaveWebMapContainer = () => {
     return (
         <SaveWebMap
             isSavingChanges={isSavingChanges}
+            hasNoPrivilege2CreateContent={portalUser?.role === 'org_user'}
             response={response}
             // response={{
             //     id: '123',
@@ -48,6 +56,7 @@ export const SaveWebMapContainer = () => {
                 // close
                 dispatch(showSaveWebMapToggled());
             }}
+            signInButtonOnClick={signInUsingDifferentAccount}
         />
     );
 };

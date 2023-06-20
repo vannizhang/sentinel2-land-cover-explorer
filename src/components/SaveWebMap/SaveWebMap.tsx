@@ -23,11 +23,21 @@ export type WebMapMetadata = {
 type Props = {
     response?: CreateWebMapResponse;
     /**
+     * if ture, the signed-in user has no privilage to create content.
+     * This happenes when the signed in user has a role in the organization equals to 'org_user'
+     */
+    hasNoPrivilege2CreateContent: boolean;
+    /**
      * if true, it is in process of saving the webmap
      */
     isSavingChanges?: boolean;
     saveButtonOnClick: (data: WebMapMetadata) => void;
     closeButtonOnClick: () => void;
+    /**
+     * fires when user clicks on 'sign-in' button to sign in using a different accounr
+     * @returns
+     */
+    signInButtonOnClick: () => void;
 };
 
 type TextInputProps = {
@@ -77,9 +87,11 @@ const TextInput: FC<TextInputProps> = ({
 
 export const SaveWebMap: FC<Props> = ({
     response,
+    hasNoPrivilege2CreateContent,
     isSavingChanges = false,
     saveButtonOnClick,
     closeButtonOnClick,
+    signInButtonOnClick,
 }: Props) => {
     const [title, setTitle] = useState<string>(
         'Sentinel-2 Land Cover Exlorer export map'
@@ -92,6 +104,25 @@ export const SaveWebMap: FC<Props> = ({
     );
 
     const getContent = () => {
+        if (hasNoPrivilege2CreateContent) {
+            return (
+                <div className="max-w-md mx-auto text-custom-light-blue-90">
+                    <p>
+                        You signed in using a account that does not have
+                        privilege to create content in your ArcGIS Online
+                        organization. Please{' '}
+                        <span
+                            className=" underline cursor-pointer"
+                            onClick={signInButtonOnClick}
+                        >
+                            sign in
+                        </span>{' '}
+                        using a different account.
+                    </p>
+                </div>
+            );
+        }
+
         if (response) {
             return (
                 <div className="max-w-sm mx-auto flex items-center justify-center">
