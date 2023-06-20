@@ -12,4 +12,4 @@ export const APP_ID = 'QdeB9AWYjgtqMWQt';
 
 export const PORTAL_ROOT = 'https://www.arcgis.com';
 
-export const LULC_TIMESERIES_STORAGE = `https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic`;
+export const LULC_TIMESERIES_STORE = `https://lulctimeseries.blob.core.windows.net/lulctimeseriesv003`; //`https://lulctimeseries.blob.core.windows.net/lulctimeseriespublic`;

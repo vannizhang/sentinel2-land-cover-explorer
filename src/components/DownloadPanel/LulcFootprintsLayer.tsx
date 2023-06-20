@@ -6,7 +6,7 @@ import IPoint from 'esri/geometry/Point';
 import IGraphic from 'esri/Graphic';
 import IReactiveUtils from 'esri/core/reactiveUtils';
 import { loadModules } from 'esri-loader';
-import { LULC_TIMESERIES_STORAGE } from '../../constants';
+import { LULC_TIMESERIES_STORE } from '../../constants';
 
 type Props = {
     availableYears?: number[];
@@ -20,7 +20,7 @@ type Props = {
  */
 const getImageURL = (year: number, imageName: string) => {
     const nextYear = year + 1;
-    return `${LULC_TIMESERIES_STORAGE}/lc${year}/${imageName}_${year}0101-${nextYear}0101.tif`;
+    return `${LULC_TIMESERIES_STORE}/lc${year}/${imageName}_${year}0101-${nextYear}0101.tif`;
 };
 
 const LulcFootprintsLayer: FC<Props> = ({ availableYears, mapView }: Props) => {
