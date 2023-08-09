@@ -153,24 +153,23 @@ const getRasterAttributeTable = async () => {
  * Fetch Raster Attribute Table of Sentinel2_10m_LandCover and save the pixel data in a Map
  */
 export const loadRasterAttributeTable = async () => {
-    try {
-        const { features } = await getRasterAttributeTable();
+    const { features } = await getRasterAttributeTable();
 
-        for (const feature of features) {
-            const { attributes } = feature;
+    if (!features || !features.length) {
+        throw new Error('failed to getRasterAttributeTable');
+    }
 
-            const { Value, Description, ClassName, Red, Green, Blue } =
-                attributes;
+    for (const feature of features) {
+        const { attributes } = feature;
 
-            landcoverClassificationDataMap.set(Value, {
-                Value,
-                Description,
-                ClassName: ClassName as LandCoverClassification,
-                Color: [Red, Green, Blue],
-            });
-        }
-    } catch (err) {
-        console.log('failed to getRasterAttributeTable');
+        const { Value, Description, ClassName, Red, Green, Blue } = attributes;
+
+        landcoverClassificationDataMap.set(Value, {
+            Value,
+            Description,
+            ClassName: ClassName as LandCoverClassification,
+            Color: [Red, Green, Blue],
+        });
     }
 };
 
