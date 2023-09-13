@@ -11,7 +11,7 @@ type RasterAttributeTableFeature = {
         Green: number;
         Red: number;
         ClassName: string;
-        Count: number;
+        // Count: number;
         Description: string;
         Examples: string;
         PopupText: string;
