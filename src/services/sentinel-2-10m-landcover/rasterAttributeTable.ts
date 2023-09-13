@@ -11,7 +11,7 @@ type RasterAttributeTableFeature = {
         Green: number;
         Red: number;
         ClassName: string;
-        // Count: number;
+        // Count: number; // "Count" field is no longer included in the Raster Attribute table sicn September 2023.
         Description: string;
         Examples: string;
         PopupText: string;
