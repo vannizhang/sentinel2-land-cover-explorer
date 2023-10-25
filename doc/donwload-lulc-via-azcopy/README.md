@@ -28,9 +28,9 @@ Before you begin, ensure you have the following prerequisites in place:
 
     ![Change Directory](./screenshot1.png)
 
-4. **Copy LULC 2022 Data:**
+4. **Copy Annual LULC Data:**
 
-    Use the following command to copy the LULC 2022 data from the Azure Storage account to your local directory. Replace `C:\temp\lulc2022.zip` with the path where you want to store the downloaded data.
+    Use the following command to copy the Annual LULC data (e.g. lulc2022.zip) from the Azure Storage account to your local directory.
 
     ```bash
     azcopy.exe copy https://lulctimeseries.blob.core.windows.net/lulctimeseriesv003/lc2022/lulc2022.zip C:\temp\lulc2022.zip
