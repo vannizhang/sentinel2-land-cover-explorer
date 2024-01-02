@@ -5,19 +5,29 @@ import { useSelector } from 'react-redux';
 import { selectAnimationMode } from '../../store/UI/selectors';
 import { useDispatch } from 'react-redux';
 import { showAboutThisAppToggled } from '../../store/UI/reducer';
+import useOnClickOutside from '../../hooks/useOnClickOutside';
+
+const IMAGERY_EXPLORER_APPS = [
+    {
+        title: 'Landsat Explorer',
+        url: '/landsatexplorer',
+    },
+];
 
 const AppTitle = () => {
     const dispatch = useDispatch();
 
     const animationMode = useSelector(selectAnimationMode);
 
-    // const [hideTitle, setHideTitle] = useState(false);
+    const [showImageryExplorerAppsList, setShowImageryExplorerAppsList] =
+        useState<boolean>(false);
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setHideTitle(true);
-    //     }, 10000);
-    // }, []);
+    const containerRef = useRef<HTMLDivElement>();
+
+    useOnClickOutside(
+        containerRef,
+        setShowImageryExplorerAppsList.bind(null, false)
+    );
 
     return (
         <div
@@ -27,6 +37,7 @@ const AppTitle = () => {
                     hidden: animationMode !== null,
                 }
             )}
+            ref={containerRef}
         >
             <div
                 className="theme-background p-1 h-app-header-size w-app-header-size flex items-center justify-center border-r border-custom-light-blue-50"
@@ -53,11 +64,59 @@ const AppTitle = () => {
 
             <div
                 className={classNames(
+                    'relative theme-background p-1 px-2 text-lg font-light items-center h-app-header-size flex-grow md:flex-grow-0'
+                )}
+            >
+                <div className="flex h-full items-center">
+                    <span>Esri | Sentinel-2 Land Cover Explorer</span>
+
+                    <div
+                        className="cursor-pointer ml-2 flex items-center"
+                        onClick={setShowImageryExplorerAppsList.bind(
+                            null,
+                            !showImageryExplorerAppsList
+                        )}
+                    >
+                        {showImageryExplorerAppsList ? (
+                            <calcite-icon icon="chevron-up" />
+                        ) : (
+                            <calcite-icon icon="chevron-down" />
+                        )}
+                    </div>
+                </div>
+
+                {showImageryExplorerAppsList && (
+                    <div
+                        className={classNames(
+                            'absolute left-0 top-app-header-size theme-background w-full border-t border-custom-light-blue-50'
+                        )}
+                    >
+                        {IMAGERY_EXPLORER_APPS.map((d) => {
+                            return (
+                                <a
+                                    href={d.url}
+                                    target="_blank"
+                                    key={d.title}
+                                    rel="noreferrer"
+                                >
+                                    <div className="w-full p-2 text-sm cursor-pointer flex items-center">
+                                        <span className="mr-2">{d.title}</span>
+                                        <calcite-icon icon="launch" scale="s" />
+                                    </div>
+                                </a>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+
+            {/* <div
+                className={classNames(
                     'theme-background p-1 px-2 text-lg font-light flex items-center h-app-header-size flex-grow md:flex-grow-0'
                 )}
             >
                 <span>Esri | Sentinel-2 Land Cover Explorer</span>
-            </div>
+            </div> */}
         </div>
     );
 };
