@@ -91,6 +91,10 @@ const AppTitle = () => {
                             'absolute left-0 top-app-header-size theme-background w-full border-t border-custom-light-blue-50'
                         )}
                     >
+                        <div className="px-2 pt-2 text-xs text-custom-light-blue-50">
+                            <span>Image Explorer Apps</span>
+                        </div>
+
                         {IMAGERY_EXPLORER_APPS.map((d) => {
                             return (
                                 <a
@@ -101,7 +105,7 @@ const AppTitle = () => {
                                 >
                                     <div className="w-full p-2 text-sm cursor-pointer flex items-center">
                                         <span className="mr-2">{d.title}</span>
-                                        <calcite-icon icon="launch" scale="s" />
+                                        {/* <calcite-icon icon="launch" scale="s" /> */}
                                     </div>
                                 </a>
                             );
