@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useMemo, useRef } from 'react';
 import useGetTooltipPositionOnHover from '../../../../hooks/useGetTooltipPositionOnHover';
 import { DivergingBarChart } from '@vannizhang/react-d3-charts';
 import { DivergingBarChartDataItem } from '@vannizhang/react-d3-charts/dist/DivergingBarChart/types';
@@ -16,6 +16,20 @@ const ChangeCompareGraph: FC<Props> = ({ data, itemOnHover }: Props) => {
 
     useGetTooltipPositionOnHover(containerRef);
 
+    const customDomain4YScale = useMemo(() => {
+        if (!data) {
+            return [];
+        }
+
+        const absMaxVal = data.reduce((ans, d) => {
+            return Math.max(ans, Math.abs(d.y));
+        }, 0);
+
+        const customYMax = absMaxVal * 1.25;
+
+        return [-customYMax, customYMax];
+    }, [data]);
+
     const getContent = () => {
         if (!data) {
             return (
@@ -28,13 +42,47 @@ const ChangeCompareGraph: FC<Props> = ({ data, itemOnHover }: Props) => {
         return (
             <DivergingBarChart
                 data={data}
+                showStickyLabelText={true}
+                yScaleOptions={{
+                    domain: customDomain4YScale,
+                }}
+                leftAxisOptions={{
+                    shouldHide: true,
+                }}
+                bottomAxisOptions={{
+                    shouldRotateTextLabels: true,
+                }}
+                margin={{
+                    top: 15,
+                    right: 15,
+                    bottom: 50,
+                    left: 30,
+                }}
                 // itemOnHover={itemOnHover}
             />
         );
     };
 
     return (
-        <div className="relative first-letter:w-full h-full" ref={containerRef}>
+        <div
+            className="relative first-letter:w-full h-full"
+            ref={containerRef}
+            style={
+                {
+                    '--axis-tick-line-color': 'var(--custom-light-blue-50)',
+                    '--axis-tick-text-color': 'var(--custom-light-blue-80)',
+                    '--divider-line-color': 'var(--custom-light-blue-25)',
+                    // '--crosshair-reference-line-color':
+                    //     'var(--custom-light-blue-50)',
+                    // '--vertical-reference-line-color':
+                    //     'var(--custom-light-blue-70)',
+                    // '--tooltip-text-font-size': '.725rem',
+                    // '--tooltip-text-color': 'var(--custom-light-blue-70)',
+                    // '--tooltip-background-color': 'var(--custom-background-95)',
+                    // '--tooltip-border-color': 'var(--custom-light-blue-50)',
+                } as React.CSSProperties
+            }
+        >
             {getContent()}
         </div>
     );

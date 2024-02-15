@@ -36,12 +36,44 @@ const TotalAreaGraph: FC<Props> = ({ data, itemOnHover }: Props) => {
             //     // itemOnHover={itemOnHover}
             // />
 
-            <BarChartBasic data={data} showStickyLabelText={true} />
+            <BarChartBasic
+                data={data}
+                showStickyLabelText={true}
+                leftAxisOptions={{
+                    shouldHide: true,
+                }}
+                bottomAxisOptions={{
+                    shouldRotateTextLabels: true,
+                }}
+                margin={{
+                    top: 15,
+                    right: 15,
+                    bottom: 50,
+                    left: 30,
+                }}
+            />
         );
     };
 
     return (
-        <div className="relative first-letter:w-full h-full" ref={containerRef}>
+        <div
+            className="relative first-letter:w-full h-full"
+            ref={containerRef}
+            style={
+                {
+                    '--axis-tick-line-color': 'var(--custom-light-blue-50)',
+                    '--axis-tick-text-color': 'var(--custom-light-blue-80)',
+                    // '--crosshair-reference-line-color':
+                    //     'var(--custom-light-blue-50)',
+                    // '--vertical-reference-line-color':
+                    //     'var(--custom-light-blue-70)',
+                    // '--tooltip-text-font-size': '.725rem',
+                    // '--tooltip-text-color': 'var(--custom-light-blue-70)',
+                    // '--tooltip-background-color': 'var(--custom-background-95)',
+                    // '--tooltip-border-color': 'var(--custom-light-blue-50)',
+                } as React.CSSProperties
+            }
+        >
             {getContent()}
         </div>
     );
