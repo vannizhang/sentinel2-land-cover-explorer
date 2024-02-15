@@ -16,10 +16,10 @@ import {
 } from '../../../../store/Map/selectors';
 // import { showInfoPanelToggled } from '../../../../store/UI/reducer';
 import { updateTooltipData } from '../../../../store/UI/thunks';
-import {
-    QuickD3ChartData,
-    QuickD3ChartDataItem,
-} from '../../../QuickD3Chart/types';
+// import {
+//     QuickD3ChartData,
+//     QuickD3ChartDataItem,
+// } from '../../../QuickD3Chart/types';
 import ChangeCompareGraph from './ChangeCompareGraph';
 // import { numberFns } from 'helper-toolkit-ts';
 import {
@@ -27,6 +27,7 @@ import {
     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
 } from '../../../../constants/map';
 import { TooltipData } from '../../../../store/UI/reducer';
+import { DivergingBarChartDataItem } from '@vannizhang/react-d3-charts/dist/DivergingBarChart/types';
 // import { abbreviateNumber } from '../../../../utils/number';
 
 const ChangeCompareGraphContainer = () => {
@@ -42,7 +43,7 @@ const ChangeCompareGraphContainer = () => {
         selectYearsForSwipeWidgetLayers
     );
 
-    const [chartData, setChartData] = useState<QuickD3ChartData>();
+    const [chartData, setChartData] = useState<DivergingBarChartDataItem[]>();
 
     const [landCoverChangeData, setLandCoverChangeData] =
         useState<LandCoverChangeInAcres[]>();
@@ -70,31 +71,33 @@ const ChangeCompareGraphContainer = () => {
     };
 
     const getChartData = () => {
-        const data: QuickD3ChartDataItem[] = landCoverChangeData.map((d) => {
-            const {
-                differenceInAcres,
-                differenceInPercentage,
-                landcoverClassificationData,
-            } = d;
+        const data: DivergingBarChartDataItem[] = landCoverChangeData.map(
+            (d) => {
+                const {
+                    differenceInAcres,
+                    differenceInPercentage,
+                    landcoverClassificationData,
+                } = d;
 
-            const { ClassName, Description, Color } =
-                landcoverClassificationData;
+                const { ClassName, Description, Color } =
+                    landcoverClassificationData;
 
-            const [R, G, B] = Color;
+                const [R, G, B] = Color;
 
-            // const formatedDiffInAcres = abbreviateNumber(differenceInAcres);
+                // const formatedDiffInAcres = abbreviateNumber(differenceInAcres);
 
-            return {
-                key: getLandCoverClassificationShortName(ClassName),
-                label: ClassName,
-                value: differenceInPercentage,
-                fill: `rgb(${R}, ${G}, ${B})`,
-                labelOnTop:
-                    differenceInAcres > 0
-                        ? `+${differenceInPercentage}%`
-                        : `${differenceInPercentage}%`,
-            };
-        });
+                return {
+                    x: getLandCoverClassificationShortName(ClassName),
+                    label: ClassName,
+                    y: differenceInPercentage,
+                    fill: `rgb(${R}, ${G}, ${B})`,
+                    labelOnTop:
+                        differenceInAcres > 0
+                            ? `+${differenceInPercentage}%`
+                            : `${differenceInPercentage}%`,
+                };
+            }
+        );
 
         setChartData(data);
     };

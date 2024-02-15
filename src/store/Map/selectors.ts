@@ -1,5 +1,4 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { zoom } from 'd3';
 import { MIN_MAP_ZOOM_FOR_SENTINEL_2_LAYER } from '../../constants/map';
 import { RootState } from '../configureStore';
 

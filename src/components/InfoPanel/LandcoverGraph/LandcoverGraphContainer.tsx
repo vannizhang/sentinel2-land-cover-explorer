@@ -1,25 +1,26 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { QuickD3ChartData } from '../../QuickD3Chart/types';
-
-import BarChart from '../../QuickD3Chart/BarChart/BarChart';
+// import { QuickD3ChartData } from '../../QuickD3Chart/types';
+// import BarChart from '../../QuickD3Chart/BarChart/BarChart';
 import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/timeInfo';
-import { MARGIN } from '../../QuickD3Chart/constants';
+import { GroupedBarChartGroupData } from '@vannizhang/react-d3-charts/dist/GroupedBarChart/types';
+import { GroupedBarChart } from '@vannizhang/react-d3-charts';
+// import { MARGIN } from '../../QuickD3Chart/constants';
 
-const margin = {
-    ...MARGIN,
-    bottom: 25,
-};
+// const margin = {
+//     ...MARGIN,
+//     bottom: 25,
+// };
 
 type Props = {
-    chartData: QuickD3ChartData;
-    uniqueLandCoverClasses: string[];
+    chartData: GroupedBarChartGroupData[];
+    // uniqueLandCoverClasses: string[];
 };
 
 const LandcoverGraphContainer: FC<Props> = ({
     chartData,
-    uniqueLandCoverClasses,
-}: Props) => {
+}: // uniqueLandCoverClasses,
+Props) => {
     const years = getAvailableYears();
 
     if (!chartData) {
@@ -45,7 +46,7 @@ const LandcoverGraphContainer: FC<Props> = ({
         >
             <div className="w-full h-full flex flex-col relative">
                 <div className="grow">
-                    <BarChart
+                    {/* <BarChart
                         data4Bars={chartData}
                         numberOfBarsPerGroup={years.length}
                         showAxis={false}
@@ -53,10 +54,12 @@ const LandcoverGraphContainer: FC<Props> = ({
                         showLabelOnTop={true}
                         showValueLabel={true}
                         margin={margin}
-                    />
+                    /> */}
+
+                    <GroupedBarChart groupedData={chartData} />
                 </div>
 
-                <div
+                {/* <div
                     className="w-full text-white flex"
                     style={{
                         paddingLeft: margin.left,
@@ -79,7 +82,7 @@ const LandcoverGraphContainer: FC<Props> = ({
                             </div>
                         );
                     })}
-                </div>
+                </div> */}
             </div>
         </div>
     );

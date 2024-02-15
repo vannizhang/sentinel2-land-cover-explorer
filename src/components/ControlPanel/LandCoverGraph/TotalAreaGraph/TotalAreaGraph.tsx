@@ -1,13 +1,15 @@
 import React, { FC, useRef } from 'react';
 import useGetTooltipPositionOnHover from '../../../../hooks/useGetTooltipPositionOnHover';
-import BarChart from '../../../QuickD3Chart/BarChart/BarChart';
-import { MARGIN } from '../../../QuickD3Chart/constants';
+import { BarChartBasic } from '@vannizhang/react-d3-charts';
+import { BarChartDataItem } from '@vannizhang/react-d3-charts/dist/BarChart/types';
+// import BarChart from '../../../QuickD3Chart/BarChart/BarChart';
+// import { MARGIN } from '../../../QuickD3Chart/constants';
 
-import DivergingBarChart from '../../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
-import { QuickD3ChartData } from '../../../QuickD3Chart/types';
+// import DivergingBarChart from '../../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
+// import { QuickD3ChartData } from '../../../QuickD3Chart/types';
 
 type Props = {
-    data: QuickD3ChartData;
+    data: BarChartDataItem[];
     itemOnHover: (index: number) => void;
 };
 
@@ -26,13 +28,15 @@ const TotalAreaGraph: FC<Props> = ({ data, itemOnHover }: Props) => {
         }
 
         return (
-            <BarChart
-                data4Bars={data}
-                showAxis={true}
-                showLabelOnTop={true}
-                showXAxisLine={true}
-                // itemOnHover={itemOnHover}
-            />
+            // <BarChart
+            //     data4Bars={data}
+            //     showAxis={true}
+            //     showLabelOnTop={true}
+            //     showXAxisLine={true}
+            //     // itemOnHover={itemOnHover}
+            // />
+
+            <BarChartBasic data={data} showStickyLabelText={true} />
         );
     };
 

@@ -3,31 +3,32 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import {
     getLandCoverAreaByYear,
-    getLandCoverChangeInAcres,
+    // getLandCoverChangeInAcres,
     LandCoverArea,
 } from '../../../../services/sentinel-2-10m-landcover/computeHistograms';
 import { getLandCoverClassificationShortName } from '../../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
     selectMapCenterAndZoom,
     selectMapExtent,
-    selectMapMode,
+    // selectMapMode,
     selectMapResolution,
     selectYear,
-    selectYearsForSwipeWidgetLayers,
+    // selectYearsForSwipeWidgetLayers,
 } from '../../../../store/Map/selectors';
-import { showInfoPanelToggled } from '../../../../store/UI/reducer';
+// import { showInfoPanelToggled } from '../../../../store/UI/reducer';
 import { updateTooltipData } from '../../../../store/UI/thunks';
-import {
-    QuickD3ChartData,
-    QuickD3ChartDataItem,
-} from '../../../QuickD3Chart/types';
+// import {
+//     QuickD3ChartData,
+//     QuickD3ChartDataItem,
+// } from '../../../QuickD3Chart/types';
 import TotalsGraph from './TotalAreaGraph';
 import { numberFns } from 'helper-toolkit-ts';
-import {
-    DEFAULT_MAP_ZOOM,
-    MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
-} from '../../../../constants/map';
-import { abbreviateNumber } from '../../../../utils/number';
+// import {
+//     DEFAULT_MAP_ZOOM,
+//     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
+// } from '../../../../constants/map';
+// import { abbreviateNumber } from '../../../../utils/number';
+import { BarChartDataItem } from '@vannizhang/react-d3-charts/dist/BarChart/types';
 
 const TotalAreaGraphContainer = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const TotalAreaGraphContainer = () => {
 
     const year = useSelector(selectYear);
 
-    const [chartData, setChartData] = useState<QuickD3ChartData>();
+    const [chartData, setChartData] = useState<BarChartDataItem[]>();
 
     const [landCoverTotalsData, setLandCoverTotalsData] =
         useState<LandCoverArea[]>();
@@ -68,7 +69,7 @@ const TotalAreaGraphContainer = () => {
     };
 
     const getChartData = () => {
-        const data: QuickD3ChartDataItem[] = landCoverTotalsData.map((d) => {
+        const data: BarChartDataItem[] = landCoverTotalsData.map((d) => {
             const { area, areaInPercentage, landcoverClassificationData } = d;
 
             const { ClassName, Description, Color } =
@@ -79,10 +80,10 @@ const TotalAreaGraphContainer = () => {
             // const formatedArea = abbreviateNumber(area);
 
             return {
-                key: getLandCoverClassificationShortName(ClassName),
-                label: ClassName,
-                value: area,
+                x: getLandCoverClassificationShortName(ClassName),
+                y: area,
                 fill: `rgb(${R}, ${G}, ${B})`,
+                label: ClassName,
                 labelOnTop: `${areaInPercentage}%`,
             };
         });

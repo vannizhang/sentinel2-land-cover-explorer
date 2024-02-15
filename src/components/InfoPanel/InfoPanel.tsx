@@ -14,7 +14,7 @@ import {
     selectMapExtent,
     selectMapResolution,
 } from '../../store/Map/selectors';
-import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
+// import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 import CountrySelector from './Header/CountrySelector';
 import SubRegionSelector from './Header/SubRegionSelector';
 import { getHistoricalLandCoverDataByRegion } from '../../services/landcover-statistics/query';
@@ -23,6 +23,7 @@ import {
     saveRegionToHashParams,
 } from '../../utils/URLHashParams';
 import CloseBtn from '../CloseBtn/CloseBtn';
+import { GroupedBarChartGroupData } from '@vannizhang/react-d3-charts/dist/GroupedBarChart/types';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
@@ -57,14 +58,14 @@ const InfoPanel = () => {
     const [historicalLandCoverData, setHistoricalLandCoverData] =
         useState<HistoricalLandCoverData[]>();
 
-    const [chartData, setChartData] = useState<QuickD3ChartData>();
+    const [chartData, setChartData] = useState<GroupedBarChartGroupData[]>();
 
-    const [uniqueLandCoverClasses, setUniqueLandCoverClasses] = useState<
-        string[]
-    >([]);
+    // const [uniqueLandCoverClasses, setUniqueLandCoverClasses] = useState<
+    //     string[]
+    // >([]);
 
     const getChartData = () => {
-        const data: QuickD3ChartDataItem[] = [];
+        const data: GroupedBarChartGroupData[] = [];
 
         const landcoverClassNames: string[] = [];
 
@@ -86,29 +87,36 @@ const InfoPanel = () => {
 
             const [R, G, B] = Color;
 
+            const dataGroupedByLandcoverClass: GroupedBarChartGroupData = {
+                title: ClassName,
+                data: [],
+            };
+
             for (const { area, areaInPercentage, year } of areaByYear) {
-                data.push({
-                    key: `${ClassName}-${year}`,
-                    value: area,
+                dataGroupedByLandcoverClass.data.push({
+                    x: `${year}`,
+                    y: area,
                     label: `${areaInPercentage}%`, //abbreviateNumber(area),
                     labelOnTop: year.toString(),
                     fill: `rgb(${R}, ${G}, ${B})`,
                 });
             }
 
-            landcoverClassNames.push(ClassName);
+            data.push(dataGroupedByLandcoverClass);
+
+            // landcoverClassNames.push(ClassName);
         }
 
         setChartData(data);
 
-        setUniqueLandCoverClasses(landcoverClassNames);
+        // setUniqueLandCoverClasses(landcoverClassNames);
     };
 
     useEffect(() => {
         // info panel is closed, clean the chart data
         if (!showInfoPanel) {
             setChartData(undefined);
-            setUniqueLandCoverClasses(undefined);
+            // setUniqueLandCoverClasses(undefined);
             return;
         }
 
@@ -201,7 +209,7 @@ const InfoPanel = () => {
 
                 <LandcoverGraph
                     chartData={chartData}
-                    uniqueLandCoverClasses={uniqueLandCoverClasses}
+                    // uniqueLandCoverClasses={uniqueLandCoverClasses}
                 />
             </div>
         </div>
