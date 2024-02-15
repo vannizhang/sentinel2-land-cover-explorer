@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { showAboutThisAppToggled } from '../../store/UI/reducer';
-import { selectShowAboutThisApp } from '../../store/UI/selectors';
+import { showAboutThisAppToggled } from '@landcover-explorer/store/UI/reducer';
+import { selectShowAboutThisApp } from '@landcover-explorer/store/UI/selectors';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import EsriLogo from './esri-logo.png';
 

@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
 
-// import { QuickD3ChartData } from '../../QuickD3Chart/types';
-// import BarChart from '../../QuickD3Chart/BarChart/BarChart';
-// import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/timeInfo';
+// import { QuickD3ChartData } from '@landcover-explorer/QuickD3Chart/types';
+// import BarChart from '@landcover-explorer/QuickD3Chart/BarChart/BarChart';
+// import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
 import { GroupedBarChartGroupData } from '@vannizhang/react-d3-charts/dist/GroupedBarChart/types';
 import { GroupedBarChart } from '@vannizhang/react-d3-charts';
-// import { MARGIN } from '../../QuickD3Chart/constants';
+// import { MARGIN } from '@landcover-explorer/QuickD3Chart/constants';
 
 // const margin = {
 //     ...MARGIN,

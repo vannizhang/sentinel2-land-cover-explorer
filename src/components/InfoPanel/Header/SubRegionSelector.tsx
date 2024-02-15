@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import {
     getSubRegions,
     SubRegion,
-} from '../../../services/landcover-statistics/query';
+} from '@landcover-explorer/services/landcover-statistics/query';
 import SelectorList, { SelectorListData } from './SelectorList';
 
 type Props = {

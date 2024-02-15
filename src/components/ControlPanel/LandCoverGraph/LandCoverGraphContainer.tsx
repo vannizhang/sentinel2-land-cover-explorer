@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM } from '../../../constants/map';
+import { MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM } from '@landcover-explorer/constants/map';
 import {
     selectIsSentinel2LayerOutOfVisibleRange,
     selectMapCenterAndZoom,
@@ -9,12 +9,12 @@ import {
     selectShouldShowSentinel2Layer,
     selectYear,
     selectYearsForSwipeWidgetLayers,
-} from '../../../store/Map/selectors';
-import { showInfoPanelToggled } from '../../../store/UI/reducer';
+} from '@landcover-explorer/store/Map/selectors';
+import { showInfoPanelToggled } from '@landcover-explorer/store/UI/reducer';
 import ChangeCompareGraph from './ChangeCompareGraph/ChangeCompareGraphContainer';
 import HeaderText from '../HeaderText/HeaderText';
 import TotalAreaGraph from './TotalAreaGraph/TotalAreaGraphContainer';
-import { selectAnimationMode } from '../../../store/UI/selectors';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
 import classNames from 'classnames';
 
 const LandCoverGraphContainer = () => {

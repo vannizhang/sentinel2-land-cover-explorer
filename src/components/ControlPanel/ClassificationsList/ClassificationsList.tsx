@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React, { FC, useRef } from 'react';
-import useGetTooltipPositionOnHover from '../../../hooks/useGetTooltipPositionOnHover';
+import useGetTooltipPositionOnHover from '@landcover-explorer/hooks/useGetTooltipPositionOnHover';
 import {
     LandCoverClassification,
     LandcoverClassificationData,
-} from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import { TooltipData } from '../../../store/UI/reducer';
+} from '@landcover-explorer/services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { TooltipData } from '@landcover-explorer/store/UI/reducer';
 import HeaderText from '../HeaderText/HeaderText';
 
 type Props = {

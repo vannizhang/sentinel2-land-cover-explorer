@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { DWONLOAD_MODE_WEB_MAP_ID } from '../../constants/map';
-import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
-import { selectMapCenterAndZoom } from '../../store/Map/selectors';
-import { showDownloadPanelToggled } from '../../store/UI/reducer';
-import { selectShowDownloadPanel } from '../../store/UI/selectors';
-import { saveDonwloadModeToHashParams } from '../../utils/URLHashParams';
+import { DWONLOAD_MODE_WEB_MAP_ID } from '@landcover-explorer/constants/map';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
+import { selectMapCenterAndZoom } from '@landcover-explorer/store/Map/selectors';
+import { showDownloadPanelToggled } from '@landcover-explorer/store/UI/reducer';
+import { selectShowDownloadPanel } from '@landcover-explorer/store/UI/selectors';
+import { saveDonwloadModeToHashParams } from '@landcover-explorer/utils/URLHashParams';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import MapView from '../MapView/MapView';
 import Header from './Header';

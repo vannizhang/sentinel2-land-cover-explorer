@@ -3,24 +3,24 @@ import React, { useEffect } from 'react';
 import { batch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/timeInfo';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
 import {
     year4LeadingLayerUpdated,
     year4TrailingLayerUpdated,
     yearUpdated,
-} from '../../../store/Map/reducer';
+} from '@landcover-explorer/store/Map/reducer';
 import {
     selectIsSentinel2LayerOutOfVisibleRange,
     selectMapMode,
     selectShouldShowSentinel2Layer,
     selectYear,
     selectYearsForSwipeWidgetLayers,
-} from '../../../store/Map/selectors';
-import { selectAnimationMode } from '../../../store/UI/selectors';
+} from '@landcover-explorer/store/Map/selectors';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
 import {
     saveActiveYearToHashParams,
     saveTimeExtentToHashParams,
-} from '../../../utils/URLHashParams';
+} from '@landcover-explorer/utils/URLHashParams';
 import HeaderText from '../HeaderText/HeaderText';
 import AnimationButton from './AnimationButton';
 import ModeSelector from './ModeSelector';

@@ -3,7 +3,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import classNames from 'classnames';
 import { CreateWebMapResponse } from './createWebMap';
-import { getPortalBaseUrl } from '../../utils/esriOAuth';
+import { getPortalBaseUrl } from '@landcover-explorer/utils/esriOAuth';
 
 export type WebMapMetadata = {
     /**

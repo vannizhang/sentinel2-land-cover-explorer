@@ -1,5 +1,5 @@
 import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from './config';
-import { MapExtent } from '../../store/Map/reducer';
+import { MapExtent } from '@landcover-explorer/store/Map/reducer';
 import { DEFAULT_RENDERING_RULE } from './config';
 import {
     getDistinctLandCoverClassificationPixelValues,

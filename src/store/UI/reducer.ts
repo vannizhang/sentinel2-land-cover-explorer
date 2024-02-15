@@ -5,8 +5,6 @@ import {
     // createAsyncThunk
 } from '@reduxjs/toolkit';
 
-// import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
-
 export type TooltipData = {
     title?: string;
     content?: string;

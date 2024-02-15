@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { getCountries } from '../../../services/landcover-statistics/query';
+import { getCountries } from '@landcover-explorer/services/landcover-statistics/query';
 import SelectorList, { SelectorListData } from './SelectorList';
 
 type Props = {

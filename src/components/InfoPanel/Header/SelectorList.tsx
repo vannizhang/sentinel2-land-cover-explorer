@@ -1,7 +1,7 @@
 import './SelectorList.css';
 import classNames from 'classnames';
 import React, { FC, useMemo, useRef, useState } from 'react';
-import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import useOnClickOutside from '@landcover-explorer/hooks/useOnClickOutside';
 
 export type SelectorListData = {
     value: string;

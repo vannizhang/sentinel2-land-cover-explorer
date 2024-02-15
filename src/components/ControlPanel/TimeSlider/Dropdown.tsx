@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { FC, useRef, useState } from 'react';
-import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import useOnClickOutside from '@landcover-explorer/hooks/useOnClickOutside';
 
 type DropdownData = {
     /**

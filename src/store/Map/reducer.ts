@@ -4,8 +4,8 @@ import {
     PayloadAction,
     // createAsyncThunk
 } from '@reduxjs/toolkit';
-import { Sentinel2RasterFunction } from '../../components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
-import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { Sentinel2RasterFunction } from '@landcover-explorer/components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
+import { LandCoverClassification } from '@landcover-explorer/services/sentinel-2-10m-landcover/rasterAttributeTable';
 
 // import { RootState, StoreDispatch, StoreGetState } from '../configureStore';
 

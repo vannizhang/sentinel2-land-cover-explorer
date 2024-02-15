@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getLandCoverClassifications } from '../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import { activeLandCoverTypeChanged } from '../../../store/Map/reducer';
-import { selectActiveLandCoverType } from '../../../store/Map/selectors';
-import { tooltipDataChanged } from '../../../store/UI/reducer';
-import { selectAnimationMode } from '../../../store/UI/selectors';
-import { updateTooltipData } from '../../../store/UI/thunks';
-import { saveActiveLandCoverTypeToHashParams } from '../../../utils/URLHashParams';
+import { getLandCoverClassifications } from '@landcover-explorer/services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { activeLandCoverTypeChanged } from '@landcover-explorer/store/Map/reducer';
+import { selectActiveLandCoverType } from '@landcover-explorer/store/Map/selectors';
+import { tooltipDataChanged } from '@landcover-explorer/store/UI/reducer';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
+import { updateTooltipData } from '@landcover-explorer/store/UI/thunks';
+import { saveActiveLandCoverTypeToHashParams } from '@landcover-explorer/utils/URLHashParams';
 import ClassificationsList from './ClassificationsList';
 
 const ClassificationsListContainer = () => {

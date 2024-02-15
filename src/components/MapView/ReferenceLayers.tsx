@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import {
     selectShowMapLabel,
     selectShowTerrain,
-} from '../../store/Map/selectors';
+} from '@landcover-explorer/store/Map/selectors';
 import {
     HUMAN_GEO_DARK_LABEL_LAYER_TITLE,
     HUMAN_GEO_LIGHT_WATER_LAYER_TITLE,
     HUMAN_GEO_DARK_DRY_LAYER_TITLE,
     TERRAIN_LAYER_TITLE,
-} from '../../constants/map';
+} from '@landcover-explorer/constants/map';
 
 type Props = {
     mapView?: IMapView;

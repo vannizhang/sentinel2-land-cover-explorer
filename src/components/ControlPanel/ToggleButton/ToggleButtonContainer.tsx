@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { hideControlPanelToggled } from '../../../store/UI/reducer';
+import { hideControlPanelToggled } from '@landcover-explorer/store/UI/reducer';
 import {
     selectAnimationMode,
     selectShouldHideControlPanel,
-} from '../../../store/UI/selectors';
+} from '@landcover-explorer/store/UI/selectors';
 import ToggleButton from './ToggleButton';
 
 const ToggleButtonContainer = () => {

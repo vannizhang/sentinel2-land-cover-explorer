@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { MIN_MAP_ZOOM_FOR_SENTINEL_2_LAYER } from '../../constants/map';
+import { MIN_MAP_ZOOM_FOR_SENTINEL_2_LAYER } from '@landcover-explorer/constants/map';
 import { RootState } from '../configureStore';
 
 /**

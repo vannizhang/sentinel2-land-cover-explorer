@@ -4,7 +4,7 @@ import IFeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import IPoint from '@arcgis/core/geometry/Point';
 import IGraphic from '@arcgis/core/Graphic';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
-import { LULC_TIMESERIES_STORE } from '../../constants';
+import { LULC_TIMESERIES_STORE } from '@landcover-explorer/constants';
 
 type Props = {
     availableYears?: number[];

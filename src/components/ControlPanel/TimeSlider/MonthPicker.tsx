@@ -2,10 +2,10 @@ import classNames from 'classnames';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { sentinel2AquisitionMonthChanged } from '../../../store/Map/reducer';
-import { selectSentinel2AquisitionMonth } from '../../../store/Map/selectors';
-import { saveActiveMonthToHashParams } from '../../../utils/URLHashParams';
+import useOnClickOutside from '@landcover-explorer/hooks/useOnClickOutside';
+import { sentinel2AquisitionMonthChanged } from '@landcover-explorer/store/Map/reducer';
+import { selectSentinel2AquisitionMonth } from '@landcover-explorer/store/Map/selectors';
+import { saveActiveMonthToHashParams } from '@landcover-explorer/utils/URLHashParams';
 
 const MONTH_ABBR = [
     'JAN',

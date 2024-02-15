@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { batch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { WEB_MAP_ID } from '../../constants/map';
-import { identifyLandcoverClassificationsByLocation } from '../../services/sentinel-2-10m-landcover/identifyTask';
+import { WEB_MAP_ID } from '@landcover-explorer/constants/map';
+import { identifyLandcoverClassificationsByLocation } from '@landcover-explorer/services/sentinel-2-10m-landcover/identifyTask';
 import {
     extentUpdated,
     mapCenterUpdated,
@@ -11,33 +11,31 @@ import {
     resolutionUpdated,
     swipePositionChanged,
     zoomUpdated,
-} from '../../store/Map/reducer';
+} from '@landcover-explorer/store/Map/reducer';
 import {
     selectMapCenterAndZoom,
     selectIsSentinel2LayerOutOfVisibleRange,
     selectShouldShowSentinel2Layer,
     selectYearsForSwipeWidgetLayers,
     selectMapMode,
-} from '../../store/Map/selectors';
+} from '@landcover-explorer/store/Map/selectors';
 import SwipeWidget from '../SwipeWidget/SwipeWidget';
 // import LandcoverLayer from '../LandcoverLayer/LandcoverLayerContainer';
 import MapView from './MapView';
 import MapViewEventHandlers from './MapViewEventHandler';
-import IPoint from '@arcgis/core/geometry/Point';
 import Popup from '../Popup/Popup';
-// import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
-// import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';
+
 import {
     selectAnimationMode,
     selectShouldHideControlPanel,
-} from '../../store/UI/selectors';
+} from '@landcover-explorer/store/UI/selectors';
 import classNames from 'classnames';
 // import ToggleAttribution from './ToggleAttribution';
-import { toggleShowSwipeWidgetYearIndicator } from '../../store/UI/thunks';
+import { toggleShowSwipeWidgetYearIndicator } from '@landcover-explorer/store/UI/thunks';
 import SearchWidget from './SearchWidget';
 import ReferenceLayersToggleControl from '../ReferenceLayersToggleControl/ReferenceLayersToggleControl';
 import ReferenceLayers from './ReferenceLayers';
-import { saveMapCenterToHashParams } from '../../utils/URLHashParams';
+import { saveMapCenterToHashParams } from '@landcover-explorer/utils/URLHashParams';
 import CustomMapArrtribution from '../CustomMapArrtribution/CustomMapArrtribution';
 import Sentinel2Layer from '../Sentinel2Layer/Sentinel2Layer';
 import LandcoverLayer from '../LandcoverLayer/LandCoverLayer';

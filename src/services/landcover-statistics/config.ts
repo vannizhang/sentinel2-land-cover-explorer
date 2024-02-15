@@ -1,4 +1,4 @@
-import { TIER } from '../../constants';
+import { TIER } from '@landcover-explorer/constants';
 
 /**
  * Here is the link to the hosted table containing the precalculated land cover summary stats.

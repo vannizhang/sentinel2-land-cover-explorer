@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
-import { LULC_TIMESERIES_STORE } from '../../constants';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
+import { LULC_TIMESERIES_STORE } from '@landcover-explorer/constants';
 
 type Props = {
     // closeButtonOnClick: () => void;

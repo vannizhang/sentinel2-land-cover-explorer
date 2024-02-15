@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { shouldShowSentinel2LayerToggled } from '../../../store/Map/reducer';
-import { selectShouldShowSentinel2Layer } from '../../../store/Map/selectors';
+import { shouldShowSentinel2LayerToggled } from '@landcover-explorer/store/Map/reducer';
+import { selectShouldShowSentinel2Layer } from '@landcover-explorer/store/Map/selectors';
 import {
     showDownloadPanelToggled,
     showSaveWebMapToggled,
-} from '../../../store/UI/reducer';
-import { selectAnimationMode } from '../../../store/UI/selectors';
-import { saveshowImageryLayerToHashParams } from '../../../utils/URLHashParams';
+} from '@landcover-explorer/store/UI/reducer';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
+import { saveshowImageryLayerToHashParams } from '@landcover-explorer/utils/URLHashParams';
 import LayerSelector from './LayerSelector';
 
 const LayerSelectorContainer = () => {

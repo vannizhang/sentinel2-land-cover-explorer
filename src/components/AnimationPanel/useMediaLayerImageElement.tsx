@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectAnimationMode } from '../../store/UI/selectors';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
 
 import IMapView from '@arcgis/core/views/MapView';
 import ImageElement from '@arcgis/core/layers/support/ImageElement';
@@ -13,9 +13,9 @@ import {
     selectSentinel2RasterFunction,
     selectShouldShowSentinel2Layer,
     selectYear,
-} from '../../store/Map/selectors';
-import { getRasterFunctionByLandCoverClassName } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
+} from '@landcover-explorer/store/Map/selectors';
+import { getRasterFunctionByLandCoverClassName } from '@landcover-explorer/services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
 
 const useMediaLayerImageElement = (mapView?: IMapView) => {
     const [imageElements, setImageElements] = useState<ImageElement[]>(null);

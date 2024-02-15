@@ -1,12 +1,12 @@
 import React, { FC, useRef } from 'react';
-import useGetTooltipPositionOnHover from '../../../../hooks/useGetTooltipPositionOnHover';
+import useGetTooltipPositionOnHover from '@landcover-explorer/hooks/useGetTooltipPositionOnHover';
 import { BarChartBasic } from '@vannizhang/react-d3-charts';
 import { BarChartDataItem } from '@vannizhang/react-d3-charts/dist/BarChart/types';
-// import BarChart from '../../../QuickD3Chart/BarChart/BarChart';
-// import { MARGIN } from '../../../QuickD3Chart/constants';
+// import BarChart from '@landcover-explorer/QuickD3Chart/BarChart/BarChart';
+// import { MARGIN } from '@landcover-explorer/QuickD3Chart/constants';
 
-// import DivergingBarChart from '../../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
-// import { QuickD3ChartData } from '../../../QuickD3Chart/types';
+// import DivergingBarChart from '@landcover-explorer/QuickD3Chart/DivergingBarChart/DivergingBarChart';
+// import { QuickD3ChartData } from '@landcover-explorer/QuickD3Chart/types';
 
 type Props = {
     data: BarChartDataItem[];

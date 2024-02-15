@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectShowSaveWebMap } from '../../store/UI/selectors';
+import { selectShowSaveWebMap } from '@landcover-explorer/store/UI/selectors';
 import { SaveWebMap, WebMapMetadata } from './SaveWebMap';
 import { useDispatch } from 'react-redux';
-import { showSaveWebMapToggled } from '../../store/UI/reducer';
+import { showSaveWebMapToggled } from '@landcover-explorer/store/UI/reducer';
 import {
     getSignedInUser,
     isAnonymouns,
     signIn,
     signInUsingDifferentAccount,
-} from '../../utils/esriOAuth';
-import { saveShowSaveWebMapPanelToHashParams } from '../../utils/URLHashParams';
+} from '@landcover-explorer/utils/esriOAuth';
+import { saveShowSaveWebMapPanelToHashParams } from '@landcover-explorer/utils/URLHashParams';
 import { useCreateWebmap } from './useCreateWebmap';
 
 export const SaveWebMapContainer = () => {

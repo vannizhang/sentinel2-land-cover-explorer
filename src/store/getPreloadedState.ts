@@ -15,11 +15,11 @@ import {
     getAnimationModeFromHashParams,
     getRegionFromHashParams,
     getShowSaveWebMapPanelFromHashParams,
-} from '../utils/URLHashParams';
+} from '@landcover-explorer/utils/URLHashParams';
 import { DEFAULT_MAP_CENTERS, DEFAULT_MAP_ZOOM } from '../constants/map';
-import { LandCoverClassification } from '../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import { getAvailableYears } from '../services/sentinel-2-10m-landcover/timeInfo';
-import { Sentinel2RasterFunction } from '../components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
+import { LandCoverClassification } from '@landcover-explorer/services/sentinel-2-10m-landcover/rasterAttributeTable';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
+import { Sentinel2RasterFunction } from '@landcover-explorer/components/ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 import { miscFns } from 'helper-toolkit-ts';
 
 const isMobileView = miscFns.isMobileDevice();

@@ -5,8 +5,8 @@ import {
     getLandCoverAreaByYear,
     // getLandCoverChangeInAcres,
     LandCoverArea,
-} from '../../../../services/sentinel-2-10m-landcover/computeHistograms';
-import { getLandCoverClassificationShortName } from '../../../../services/sentinel-2-10m-landcover/rasterAttributeTable';
+} from '@landcover-explorer/services/sentinel-2-10m-landcover/computeHistograms';
+import { getLandCoverClassificationShortName } from '@landcover-explorer/services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
     selectMapCenterAndZoom,
     selectMapExtent,
@@ -14,20 +14,20 @@ import {
     selectMapResolution,
     selectYear,
     // selectYearsForSwipeWidgetLayers,
-} from '../../../../store/Map/selectors';
-// import { showInfoPanelToggled } from '../../../../store/UI/reducer';
-import { updateTooltipData } from '../../../../store/UI/thunks';
+} from '@landcover-explorer/store/Map/selectors';
+// import { showInfoPanelToggled } from '@landcover-explorer/store/UI/reducer';
+import { updateTooltipData } from '@landcover-explorer/store/UI/thunks';
 // import {
 //     QuickD3ChartData,
 //     QuickD3ChartDataItem,
-// } from '../../../QuickD3Chart/types';
+// } from '@landcover-explorer/QuickD3Chart/types';
 import TotalsGraph from './TotalAreaGraph';
 import { numberFns } from 'helper-toolkit-ts';
 // import {
 //     DEFAULT_MAP_ZOOM,
 //     MIN_MAP_ZOOM_FOR_COMPUTE_HISTOGRAM,
-// } from '../../../../constants/map';
-// import { abbreviateNumber } from '../../../../utils/number';
+// } from '@landcover-explorer/constants/map';
+// import { abbreviateNumber } from '@landcover-explorer/utils/number';
 import { BarChartDataItem } from '@vannizhang/react-d3-charts/dist/BarChart/types';
 
 const TotalAreaGraphContainer = () => {

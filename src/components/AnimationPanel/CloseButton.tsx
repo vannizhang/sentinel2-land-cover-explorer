@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { animationModeUpdated } from '../../store/UI/reducer';
+import { animationModeUpdated } from '@landcover-explorer/store/UI/reducer';
 
 const CloseButton = () => {
     const dispatch = useDispatch();

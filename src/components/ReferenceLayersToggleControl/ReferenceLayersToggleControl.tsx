@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 import {
     showMapLabelToggled,
     showTerrainToggled,
-} from '../../store/Map/reducer';
+} from '@landcover-explorer/store/Map/reducer';
 import {
     selectShowMapLabel,
     selectShowTerrain,
-} from '../../store/Map/selectors';
-import { selectAnimationMode } from '../../store/UI/selectors';
+} from '@landcover-explorer/store/Map/selectors';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
 import { SEARCH_WIDGET_WIDTH } from '../MapView/SearchWidget';
 
 type ToggleButtonProps = {

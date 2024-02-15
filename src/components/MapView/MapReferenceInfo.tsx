@@ -7,11 +7,11 @@ import {
     selectShouldShowSentinel2Layer,
     selectSwipePosition,
     selectYearsForSwipeWidgetLayers,
-} from '../../store/Map/selectors';
+} from '@landcover-explorer/store/Map/selectors';
 import {
     selectAnimationMode,
     selectShowSwipeWidgetYearIndicator,
-} from '../../store/UI/selectors';
+} from '@landcover-explorer/store/UI/selectors';
 
 type Props = {
     /**

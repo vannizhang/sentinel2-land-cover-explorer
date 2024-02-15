@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import LandcoverGraph from './LandcoverGraph/LandcoverGraphContainer';
 import { useSelector } from 'react-redux';
-import { selectShowInfoPanel } from '../../store/UI/selectors';
+import { selectShowInfoPanel } from '@landcover-explorer/store/UI/selectors';
 import Header from './Header/Header';
 import { useDispatch } from 'react-redux';
-import { showInfoPanelToggled } from '../../store/UI/reducer';
+import { showInfoPanelToggled } from '@landcover-explorer/store/UI/reducer';
 
 import {
     getHistoricalLandCoverDataByMapExtent,
     HistoricalLandCoverData,
-} from '../../services/sentinel-2-10m-landcover/computeHistograms';
+} from '@landcover-explorer/services/sentinel-2-10m-landcover/computeHistograms';
 import {
     selectMapExtent,
     selectMapResolution,
-} from '../../store/Map/selectors';
+} from '@landcover-explorer/store/Map/selectors';
 // import { QuickD3ChartData, QuickD3ChartDataItem } from '../QuickD3Chart/types';
 import CountrySelector from './Header/CountrySelector';
 import SubRegionSelector from './Header/SubRegionSelector';
-import { getHistoricalLandCoverDataByRegion } from '../../services/landcover-statistics/query';
+import { getHistoricalLandCoverDataByRegion } from '@landcover-explorer/services/landcover-statistics/query';
 import {
     getRegionFromHashParams,
     saveRegionToHashParams,
-} from '../../utils/URLHashParams';
+} from '@landcover-explorer/utils/URLHashParams';
 import CloseBtn from '../CloseBtn/CloseBtn';
 import { GroupedBarChartGroupData } from '@vannizhang/react-d3-charts/dist/GroupedBarChart/types';
 
 // import { numberFns } from 'helper-toolkit-ts';
 // import { saveHistoricalLandCoverDataAsCSV } from './helper';
-// import { abbreviateNumber } from '../../utils/number';
+// import { abbreviateNumber } from '@landcover-explorer/utils/number';
 
 const InfoPanel = () => {
     const dispatch = useDispatch();

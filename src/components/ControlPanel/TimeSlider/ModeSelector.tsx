@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { modeChanged } from '../../../store/Map/reducer';
-import { selectMapMode } from '../../../store/Map/selectors';
-import { saveMapModeToHashParams } from '../../../utils/URLHashParams';
+import { modeChanged } from '@landcover-explorer/store/Map/reducer';
+import { selectMapMode } from '@landcover-explorer/store/Map/selectors';
+import { saveMapModeToHashParams } from '@landcover-explorer/utils/URLHashParams';
 
 const BTN_CLASSNAMES =
     'p-1 mx-2 cursor-pointer uppercase flex items-center border-b';

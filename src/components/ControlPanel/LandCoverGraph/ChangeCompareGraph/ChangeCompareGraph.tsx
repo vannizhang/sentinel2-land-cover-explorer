@@ -1,10 +1,10 @@
 import React, { FC, useMemo, useRef } from 'react';
-import useGetTooltipPositionOnHover from '../../../../hooks/useGetTooltipPositionOnHover';
+import useGetTooltipPositionOnHover from '@landcover-explorer/hooks/useGetTooltipPositionOnHover';
 import { DivergingBarChart } from '@vannizhang/react-d3-charts';
 import { DivergingBarChartDataItem } from '@vannizhang/react-d3-charts/dist/DivergingBarChart/types';
 
-// import DivergingBarChart from '../../../QuickD3Chart/DivergingBarChart/DivergingBarChart';
-// import { QuickD3ChartData } from '../../../QuickD3Chart/types';
+// import DivergingBarChart from '@landcover-explorer/QuickD3Chart/DivergingBarChart/DivergingBarChart';
+// import { QuickD3ChartData } from '@landcover-explorer/QuickD3Chart/types';
 
 type Props = {
     data: DivergingBarChartDataItem[];

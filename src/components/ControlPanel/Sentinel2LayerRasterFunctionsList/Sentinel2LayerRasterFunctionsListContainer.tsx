@@ -8,12 +8,12 @@ import ThumbnailNDMI from './thumbnails/Imagery_NDMI.png';
 import ThumbnailNDVI from './thumbnails/Imagery_NDVI.png';
 import ThumbnailSWIR from './thumbnails/Imagery_SWIR.png';
 import { useDispatch } from 'react-redux';
-import { sentinel2RasterFunctionChanged } from '../../../store/Map/reducer';
+import { sentinel2RasterFunctionChanged } from '@landcover-explorer/store/Map/reducer';
 import { useSelector } from 'react-redux';
-import { selectSentinel2RasterFunction } from '../../../store/Map/selectors';
-import { updateTooltipData } from '../../../store/UI/thunks';
-import { saveSentinel2RasterFunctionToHashParams } from '../../../utils/URLHashParams';
-import { selectAnimationMode } from '../../../store/UI/selectors';
+import { selectSentinel2RasterFunction } from '@landcover-explorer/store/Map/selectors';
+import { updateTooltipData } from '@landcover-explorer/store/UI/thunks';
+import { saveSentinel2RasterFunctionToHashParams } from '@landcover-explorer/utils/URLHashParams';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
 
 export type Sentinel2RasterFunction =
     | 'Natural Color with DRA'

@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import {
     SENTINEL_2_10M_LAND_COVER_ITEM_URL,
     SENTINEL_2_ITEM_URL,
-} from '../../../constants/map';
-import { THEME_COLOR_LIGHT_BLUE } from '../../../constants/style';
+} from '@landcover-explorer/constants/map';
+import { THEME_COLOR_LIGHT_BLUE } from '@landcover-explorer/constants/style';
 import DownloadIcon from './DownloadIcon';
 import OpenIcon from './OpenIcon';
 import SaveWebMapIcon from './SaveWebMapIcon';

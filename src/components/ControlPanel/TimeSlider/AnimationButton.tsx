@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { animationModeUpdated } from '../../../store/UI/reducer';
-import { selectAnimationMode } from '../../../store/UI/selectors';
+import { animationModeUpdated } from '@landcover-explorer/store/UI/reducer';
+import { selectAnimationMode } from '@landcover-explorer/store/UI/selectors';
 
 const PlayButton = (
     <svg

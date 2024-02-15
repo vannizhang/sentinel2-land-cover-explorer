@@ -1,14 +1,14 @@
 import { ISpatialReference } from '@esri/arcgis-rest-request';
-import { PORTAL_ROOT } from '../../constants';
+import { PORTAL_ROOT } from '@landcover-explorer/constants';
 import {
     SENTINEL_2_10M_LAND_COVER_ITEM_ID,
     WEB_MAP_ID,
-} from '../../constants/map';
-import { getToken } from '../../utils/esriOAuth';
-import { getSignedInUser } from '../../utils/esriOAuth';
-import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
-import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
-import { MapExtent } from '../../store/Map/reducer';
+} from '@landcover-explorer/constants/map';
+import { getToken } from '@landcover-explorer/utils/esriOAuth';
+import { getSignedInUser } from '@landcover-explorer/utils/esriOAuth';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
+import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '@landcover-explorer/services/sentinel-2-10m-landcover/config';
+import { MapExtent } from '@landcover-explorer/store/Map/reducer';
 import { LandCoverLayerBlendMode } from '../LandcoverLayer/useLandCoverLayer';
 import * as webMercatorUtils from '@arcgis/core/geometry/support/webMercatorUtils';
 

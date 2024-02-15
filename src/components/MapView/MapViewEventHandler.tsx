@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef } from 'react';
 import IMapView from '@arcgis/core/views/MapView';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import IPoint from '@arcgis/core/geometry/Point';
-import { MapCenter, MapExtent } from '../../store/Map/reducer';
+import { MapCenter, MapExtent } from '@landcover-explorer/store/Map/reducer';
 
 type Props = {
     mapView?: IMapView;

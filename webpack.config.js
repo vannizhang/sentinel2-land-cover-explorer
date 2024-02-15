@@ -25,7 +25,10 @@ module.exports =  (env, options)=> {
         },
         devtool: 'source-map',
         resolve: {
-            extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+            extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+            alias: {
+                '@landcover-explorer': path.resolve(__dirname, 'src/'),
+            },
         },
         module: {
             rules: [

@@ -2,12 +2,12 @@ import classNames from 'classnames';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getAvailableYears } from '../../../services/sentinel-2-10m-landcover/timeInfo';
+import { getAvailableYears } from '@landcover-explorer/services/sentinel-2-10m-landcover/timeInfo';
 import {
     year4LeadingLayerUpdated,
     year4TrailingLayerUpdated,
-} from '../../../store/Map/reducer';
-import { selectYearsForSwipeWidgetLayers } from '../../../store/Map/selectors';
+} from '@landcover-explorer/store/Map/reducer';
+import { selectYearsForSwipeWidgetLayers } from '@landcover-explorer/store/Map/selectors';
 import Dropdown from './Dropdown';
 import MonthPicker from './MonthPicker';
 
