@@ -31,13 +31,18 @@ module.exports = {
       //   'control-panel': '210px'
       // },
       spacing: {
-        'control-panel-height': '210px',
+        'bottom-panel-height': '236px',
         'app-header-size': '40px',
         'app-header-position': '15px',
         'layer-toggle-top-position': '15px',
         'layer-toggle-top-position-mobile': '55px',
         'search-widget-top-position': '50px',
-        'search-widget-top-position-mobile': '90px'
+        'search-widget-top-position-mobile': '90px',
+        'cloud-slider-height': '80px',
+        'space-between-main-secondary-selectors': 'var(--space-between-main-secondary-selectors)',
+        'analysis-tool-container-width': '255px',
+        'search-widget-width': '270px',
+        'map-action-button-size': '32px'
       }
     },
   },
