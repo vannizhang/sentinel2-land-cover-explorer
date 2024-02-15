@@ -17,7 +17,7 @@ const TooltipContainer = () => {
 
     return (
         <div
-            className="absolute bottom-control-panel-height pb-1 z-10"
+            className="absolute bottom-bottom-panel-height pb-1 z-10"
             style={{
                 left: xPosition,
             }}

@@ -90,7 +90,7 @@ const MapViewContainer = () => {
     return (
         <div
             className={classNames('absolute top-0 left-0 w-full', {
-                'bottom-control-panel-height': hideControlPanel === false,
+                'bottom-bottom-panel-height': hideControlPanel === false,
                 'bottom-0': hideControlPanel,
             })}
         >

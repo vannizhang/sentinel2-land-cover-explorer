@@ -37,7 +37,7 @@ const ToggleButton: FC<Props> = ({
     return (
         <div
             className={classNames('absolute right-0 w-10 h-10', {
-                'bottom-control-panel-height': hideControlPanel === false,
+                'bottom-bottom-panel-height': hideControlPanel === false,
                 'bottom-0': hideControlPanel,
             })}
         >

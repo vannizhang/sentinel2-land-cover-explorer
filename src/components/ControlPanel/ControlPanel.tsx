@@ -26,7 +26,7 @@ const ControlPanel = () => {
     return (
         <>
             {hideControlPanel === false && (
-                <div className="control-panel absolute bottom-0 left-0 w-full h-control-panel-height z-10">
+                <div className="control-panel absolute bottom-0 left-0 w-full h-bottom-panel-height z-10">
                     <div className="theme-background absolute top-0 left-0 w-full h-full"></div>
                     <div className="control-panel-top-shadow absolute top-0 left-0 w-full"></div>
 
