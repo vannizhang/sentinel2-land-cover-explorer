@@ -72,14 +72,7 @@ const ChangeCompareGraph: FC<Props> = ({ data, itemOnHover }: Props) => {
                     '--axis-tick-line-color': 'var(--custom-light-blue-50)',
                     '--axis-tick-text-color': 'var(--custom-light-blue-80)',
                     '--divider-line-color': 'var(--custom-light-blue-25)',
-                    // '--crosshair-reference-line-color':
-                    //     'var(--custom-light-blue-50)',
-                    // '--vertical-reference-line-color':
-                    //     'var(--custom-light-blue-70)',
-                    // '--tooltip-text-font-size': '.725rem',
-                    // '--tooltip-text-color': 'var(--custom-light-blue-70)',
-                    // '--tooltip-background-color': 'var(--custom-background-95)',
-                    // '--tooltip-border-color': 'var(--custom-light-blue-50)',
+                    '--bar-label-text-color': 'var(--custom-light-blue-80)',
                 } as React.CSSProperties
             }
         >
