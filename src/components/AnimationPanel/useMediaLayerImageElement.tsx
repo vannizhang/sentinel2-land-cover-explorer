@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAnimationMode } from '../../store/UI/selectors';
 
-import IMapView from 'esri/views/MapView';
-import IImageElement from 'esri/layers/support/ImageElement';
-import IExtentAndRotationGeoreference from 'esri/layers/support/ExtentAndRotationGeoreference';
-import { loadModules } from 'esri-loader';
+import IMapView from '@arcgis/core/views/MapView';
+import ImageElement from '@arcgis/core/layers/support/ImageElement';
+import ExtentAndRotationGeoreference from '@arcgis/core/layers/support/ExtentAndRotationGeoreference';
 import { exportImage as exportImageFromLandCoverLayer } from '../LandcoverLayer/exportImage';
 import { exportImage as exportImageFromSentinel2Layer } from '../Sentinel2Layer/exportImage';
 import {
@@ -19,7 +18,7 @@ import { getRasterFunctionByLandCoverClassName } from '../../services/sentinel-2
 import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
 
 const useMediaLayerImageElement = (mapView?: IMapView) => {
-    const [imageElements, setImageElements] = useState<IImageElement[]>(null);
+    const [imageElements, setImageElements] = useState<ImageElement[]>(null);
 
     const abortControllerRef = useRef<AbortController>();
 
@@ -44,22 +43,11 @@ const useMediaLayerImageElement = (mapView?: IMapView) => {
             return;
         }
 
-        type Modules = [
-            typeof IImageElement,
-            typeof IExtentAndRotationGeoreference
-        ];
-
         // use a new abort controller so the pending requests can be cancelled
         // if user quits animation mode before the responses are returned
         abortControllerRef.current = new AbortController();
 
         try {
-            const [ImageElement, ExtentAndRotationGeoreference] =
-                await (loadModules([
-                    'esri/layers/support/ImageElement',
-                    'esri/layers/support/ExtentAndRotationGeoreference',
-                ]) as Promise<Modules>);
-
             const { extent, width, height } = mapView;
 
             const { xmin, ymin, xmax, ymax } = extent;

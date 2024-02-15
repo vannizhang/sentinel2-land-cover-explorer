@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAnimationMode } from '../../store/UI/selectors';
-import IImageElement from 'esri/layers/support/ImageElement';
+import IImageElement from '@arcgis/core/layers/support/ImageElement';
 import { selectYear } from '../../store/Map/selectors';
 import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeInfo';
 import { useDispatch } from 'react-redux';

@@ -3,7 +3,7 @@ import {
     SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL,
 } from './config';
 
-import IPoint from 'esri/geometry/Point';
+import IPoint from '@arcgis/core/geometry/Point';
 import { getAvailableYears } from './timeInfo';
 import {
     getLandCoverClassificationByPixelValue,

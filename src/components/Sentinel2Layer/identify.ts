@@ -1,6 +1,6 @@
 import { Sentinel2RasterFunction } from '../ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 
-import IPoint from 'esri/geometry/Point';
+import IPoint from '@arcgis/core/geometry/Point';
 import { getMosaicRuleByAcquisitionDate } from './exportImage';
 import {
     SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,

@@ -23,7 +23,7 @@ import SwipeWidget from '../SwipeWidget/SwipeWidget';
 // import LandcoverLayer from '../LandcoverLayer/LandcoverLayerContainer';
 import MapView from './MapView';
 import MapViewEventHandlers from './MapViewEventHandler';
-import IPoint from 'esri/geometry/Point';
+import IPoint from '@arcgis/core/geometry/Point';
 import Popup from '../Popup/Popup';
 // import SwipeWidgetReferenceInfo from '../SwipeWidget/SwipeWidgetReferenceInfo';
 // import { showSwipeWidgetYearIndicatorToggled } from '../../store/UI/reducer';

@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import IMapView from 'esri/views/MapView';
+import IMapView from '@arcgis/core/views/MapView';
 import useSentinel2Layer from './useSentinel2Layer';
 import { useSelector } from 'react-redux';
 import {

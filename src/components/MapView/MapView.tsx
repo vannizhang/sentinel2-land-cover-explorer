@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-import { loadModules } from 'esri-loader';
-import IMapView from 'esri/views/MapView';
-import IWebMap from 'esri/WebMap';
-import ITileInfo from 'esri/layers/support/TileInfo';
+import ArcGISMapView from '@arcgis/core/views/MapView';
+import WebMap from '@arcgis/core/WebMap';
+import TileInfo from '@arcgis/core/layers/support/TileInfo';
 import classNames from 'classnames';
 
 interface Props {
@@ -33,21 +32,13 @@ const MapView: React.FC<Props> = ({
 }: Props) => {
     const mapDivRef = useRef<HTMLDivElement>();
 
-    const [mapView, setMapView] = useState<IMapView>(null);
+    const [mapView, setMapView] = useState<ArcGISMapView>(null);
 
-    const mapViewRef = useRef<IMapView>();
+    const mapViewRef = useRef<ArcGISMapView>();
 
     const initMapView = async () => {
-        type Modules = [typeof IMapView, typeof IWebMap, typeof ITileInfo];
-
         try {
-            const [MapView, WebMap, TileInfo] = await (loadModules([
-                'esri/views/MapView',
-                'esri/WebMap',
-                'esri/layers/support/TileInfo',
-            ]) as Promise<Modules>);
-
-            mapViewRef.current = new MapView({
+            mapViewRef.current = new ArcGISMapView({
                 container: mapDivRef.current,
                 center,
                 zoom,
@@ -70,13 +61,7 @@ const MapView: React.FC<Props> = ({
     };
 
     const updateWebmap = async () => {
-        type Modules = [typeof IWebMap];
-
         try {
-            const [WebMap] = await (loadModules([
-                'esri/WebMap',
-            ]) as Promise<Modules>);
-
             mapView.map = new WebMap({
                 portalItem: {
                     id: webmapId,

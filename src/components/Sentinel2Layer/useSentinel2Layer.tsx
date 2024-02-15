@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import IImageryLayer from 'esri/layers/ImageryLayer';
-import { loadModules } from 'esri-loader';
-// import IMapView from 'esri/views/MapView';
+import ImageryLayer from '@arcgis/core/layers/ImageryLayer';
+// import IMapView from '@arcgis/core/views/MapView';
 import {
     SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,
     SENTINEL_2_IMAGE_SERVICE_URL,
@@ -40,9 +39,9 @@ const useSentinel2Layer = ({
     year,
     visible = true,
 }: UseLandCoverLayerParams) => {
-    const layerRef = useRef<IImageryLayer>();
+    const layerRef = useRef<ImageryLayer>();
 
-    const [sentinel2Layer, setSentinel2Layer] = useState<IImageryLayer>();
+    const [sentinel2Layer, setSentinel2Layer] = useState<ImageryLayer>();
 
     const selectedRasterFunction = useSelector(selectSentinel2RasterFunction);
 
@@ -52,12 +51,6 @@ const useSentinel2Layer = ({
      * get sentinel 2 layer using mosaic created using the input year
      */
     const getSentinel2Layer = async () => {
-        type Modules = [typeof IImageryLayer];
-
-        const [ImageryLayer] = await (loadModules([
-            'esri/layers/ImageryLayer',
-        ]) as Promise<Modules>);
-
         layerRef.current = new ImageryLayer({
             // URL to the imagery service
             url: SENTINEL_2_IMAGE_SERVICE_URL,

@@ -1,4 +1,4 @@
-import IExtent from 'esri/geometry/Extent';
+import IExtent from '@arcgis/core/geometry/Extent';
 import {
     getTimeExtentByYear,
     // TimeExtentData,

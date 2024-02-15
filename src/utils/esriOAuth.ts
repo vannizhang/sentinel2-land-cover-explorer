@@ -1,11 +1,10 @@
-import { loadModules } from 'esri-loader';
 import axios from 'axios';
 
-import IOAuthInfo from 'esri/identity/OAuthInfo';
-import IdentityManager from 'esri/identity/IdentityManager';
-import IPortal from 'esri/portal/Portal';
-import ICredential from 'esri/identity/Credential';
-import IPortalUser from 'esri/portal/PortalUser';
+import OAuthInfo from '@arcgis/core/identity/OAuthInfo';
+import IdentityManager from '@arcgis/core/identity/IdentityManager';
+import Portal from '@arcgis/core/portal/Portal';
+import Credential from '@arcgis/core/identity/Credential';
+import PortalUser from '@arcgis/core/portal/PortalUser';
 
 type Props = {
     appId: string;
@@ -13,23 +12,23 @@ type Props = {
 };
 
 type OAuthResponse = {
-    credential: ICredential;
-    portal: IPortal;
+    credential: Credential;
+    portal: Portal;
 };
 
-type IPlatformSelfResponse = {
-    expires_in: number;
-    token: string;
-    username: string;
-};
+// type IPlatformSelfResponse = {
+//     expires_in: number;
+//     token: string;
+//     username: string;
+// };
 
-let oauthInfo: IOAuthInfo;
+let oauthInfo: OAuthInfo;
 let esriId: typeof IdentityManager;
 /**
  * Instance of ArcGIS Online portal for signed-in user
  */
-let userPortal: IPortal;
-let credential: ICredential = null;
+let userPortal: Portal;
+let credential: Credential = null;
 
 // const platformSelf = async (
 //     appId: string,
@@ -74,18 +73,6 @@ export const initEsriOAuth = async ({
     portalUrl = 'https://www.arcgis.com',
 }: Props): Promise<OAuthResponse> => {
     try {
-        type Modules = [
-            typeof IOAuthInfo,
-            typeof IdentityManager,
-            typeof IPortal
-        ];
-
-        const [OAuthInfo, identityManager, Portal] = await (loadModules([
-            'esri/identity/OAuthInfo',
-            'esri/identity/IdentityManager',
-            'esri/portal/Portal',
-        ]) as Promise<Modules>);
-
         // const platformSelfResponse = await platformSelf(appId, portalUrl);
 
         oauthInfo = new OAuthInfo({
@@ -95,7 +82,7 @@ export const initEsriOAuth = async ({
             preserveUrlHash: true,
         });
 
-        esriId = identityManager;
+        esriId = IdentityManager;
 
         esriId.registerOAuthInfos([oauthInfo]);
 
@@ -133,7 +120,7 @@ export const initEsriOAuth = async ({
 };
 
 export const signIn = async (): Promise<void> => {
-    const credential: ICredential = await esriId.getCredential(
+    const credential: Credential = await esriId.getCredential(
         oauthInfo.portalUrl + '/sharing'
     );
     console.log('signed in as', credential.userId);
@@ -220,7 +207,7 @@ export const getMyFavoritesGroupId = () => {
         return '';
     }
 
-    const user: IPortalUser & {
+    const user: PortalUser & {
         favGroupId?: string;
     } = userPortal.user;
 

@@ -1,14 +1,13 @@
 import './style.css';
 import React, { FC, useEffect, useMemo, useRef } from 'react';
 
-import ISwipe from 'esri/widgets/Swipe';
-import IMapView from 'esri/views/MapView';
-import { loadModules } from 'esri-loader';
+import Swipe from '@arcgis/core/widgets/Swipe';
+import IMapView from '@arcgis/core/views/MapView';
 import useLandCoverLayer from '../LandcoverLayer/useLandCoverLayer';
-import IImageryLayer from 'esri/layers/ImageryLayer';
+import IImageryLayer from '@arcgis/core/layers/ImageryLayer';
 import useSentinel2Layer from '../Sentinel2Layer/useSentinel2Layer';
 import { LandCoverClassification } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
-import IReactiveUtils from 'esri/core/reactiveUtils';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 
 type Props = {
     /**
@@ -53,7 +52,7 @@ const SwipeWidget: FC<Props> = ({
     positionOnChange,
     referenceInfoOnToggle,
 }: Props) => {
-    const swipeWidgetRef = useRef<ISwipe>();
+    const swipeWidgetRef = useRef<Swipe>();
 
     const leadingLandCoverLayer = useLandCoverLayer({
         year: yearForLeadingLayer,
@@ -76,13 +75,6 @@ const SwipeWidget: FC<Props> = ({
     });
 
     const init = async () => {
-        type Modules = [typeof ISwipe, typeof IReactiveUtils];
-
-        const [Swipe, reactiveUtils] = await (loadModules([
-            'esri/widgets/Swipe',
-            'esri/core/reactiveUtils',
-        ]) as Promise<Modules>);
-
         mapView.map.addMany([
             leadingLandCoverLayer,
             leadingSentinel2Layer,
@@ -113,51 +105,7 @@ const SwipeWidget: FC<Props> = ({
         swipeWidgetRef.current.when(() => {
             addMouseEventHandlers();
         });
-
-        // swipe widget is ready, add layers to it
-        // toggleDisplayLayers();
     };
-
-    // /**
-    //  * Toggle display Land Cover and Sentinel 2 layer
-    //  */
-    // const toggleDisplayLayers = () => {
-    //     const landcoverLayers: IImageryLayer[] = [
-    //         leadingLandCoverLayer,
-    //         trailingLandcoverLayer,
-    //     ];
-    //     const sentinel2layers: IImageryLayer[] = [
-    //         leadingSentinel2Layer,
-    //         trailingSentinel2Layer,
-    //     ];
-
-    //     // toggle add/remove layers on map
-    //     const layers2Add: IImageryLayer[] = shouldShowSentinel2Layer
-    //         ? sentinel2layers
-    //         : landcoverLayers;
-
-    //     const layers2Remove: IImageryLayer[] = shouldShowSentinel2Layer
-    //         ? landcoverLayers
-    //         : sentinel2layers;
-
-    //     mapView.map.removeMany(layers2Remove);
-    //     mapView.map.addMany(layers2Add);
-
-    //     // toggle add/remove layers on swipe widget
-    //     const leadingLayer = shouldShowSentinel2Layer
-    //         ? leadingSentinel2Layer
-    //         : leadingLandCoverLayer;
-
-    //     const trailingLayer = shouldShowSentinel2Layer
-    //         ? trailingSentinel2Layer
-    //         : trailingLandcoverLayer;
-
-    //     swipeWidgetRef.current.leadingLayers.removeAll();
-    //     swipeWidgetRef.current.leadingLayers.add(leadingLayer);
-
-    //     swipeWidgetRef.current.trailingLayers.removeAll();
-    //     swipeWidgetRef.current.trailingLayers.add(trailingLayer);
-    // };
 
     const addMouseEventHandlers = () => {
         const handleElem = document.querySelector('.esri-swipe__container');

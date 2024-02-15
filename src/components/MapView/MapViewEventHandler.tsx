@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
-import IMapView from 'esri/views/MapView';
-import IReactiveUtils from 'esri/core/reactiveUtils';
-import { loadModules } from 'esri-loader';
-import IPoint from 'esri/geometry/Point';
+import IMapView from '@arcgis/core/views/MapView';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import IPoint from '@arcgis/core/geometry/Point';
 import { MapCenter, MapExtent } from '../../store/Map/reducer';
 
 type Props = {
@@ -54,12 +53,6 @@ const MapViewEventHandlers: FC<Props> = ({
 
     const init = async () => {
         try {
-            type Modules = [typeof IReactiveUtils];
-
-            const [reactiveUtils] = await (loadModules([
-                'esri/core/reactiveUtils',
-            ]) as Promise<Modules>);
-
             /**
              * Observe for when a boolean property becomes true
              * Equivalent to watchUtils.whenTrue()

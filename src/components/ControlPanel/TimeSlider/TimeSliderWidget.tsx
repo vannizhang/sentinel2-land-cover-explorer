@@ -1,9 +1,8 @@
 import './style.css';
 import React, { useRef, useEffect, FC, useMemo } from 'react';
-// import ISlider from 'esri/widgets/Slider';
-import ITimeSlider from 'esri/widgets/TimeSlider';
-import IReactiveUtils from 'esri/core/reactiveUtils';
-import { loadModules } from 'esri-loader';
+// import ISlider from '@arcgis/core/widgets/Slider';
+import TimeSlider from '@arcgis/core/widgets/TimeSlider';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import classNames from 'classnames';
 
 type TimeSliderMode = 'time-window' | 'instant';
@@ -53,19 +52,12 @@ const TimeSliderWidget: FC<Props> = ({
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>();
 
-    const sliderRef = useRef<ITimeSlider>();
+    const sliderRef = useRef<TimeSlider>();
 
     const debounceDelay = useRef<NodeJS.Timeout>();
 
     const init = async () => {
-        type Modules = [typeof ITimeSlider, typeof IReactiveUtils];
-
         try {
-            const [TimeSlider, reactiveUtils] = await (loadModules([
-                'esri/widgets/TimeSlider',
-                'esri/core/reactiveUtils',
-            ]) as Promise<Modules>);
-
             // get an array of Date objects represent the input years, use Jan 1st as month and day when create the Date obj
             const yearsAsDateObj: Date[] = years.map((year) => {
                 return new Date(year, 0, 1);

@@ -1,7 +1,7 @@
 import './style.css';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
-import IMapView from 'esri/views/MapView';
-import IPoint from 'esri/geometry/Point';
+import IMapView from '@arcgis/core/views/MapView';
+import IPoint from '@arcgis/core/geometry/Point';
 import { LandcoverClassificationData } from '../../services/sentinel-2-10m-landcover/rasterAttributeTable';
 import {
     identifyLandcoverClassificationsByLocation,

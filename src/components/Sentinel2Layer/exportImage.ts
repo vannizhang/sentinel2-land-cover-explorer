@@ -1,5 +1,5 @@
 import { addMonths, format } from 'date-fns';
-import IExtent from 'esri/geometry/Extent';
+import IExtent from '@arcgis/core/geometry/Extent';
 import { Sentinel2RasterFunction } from '../ControlPanel/Sentinel2LayerRasterFunctionsList/Sentinel2LayerRasterFunctionsListContainer';
 import {
     SENTINEL_2_IMAGE_SERVICE_FIELD_NAMES,

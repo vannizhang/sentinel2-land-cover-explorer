@@ -1,11 +1,9 @@
 import React, { FC, useEffect, useRef } from 'react';
-
-import IMapView from 'esri/views/MapView';
-import IFeatureLayer from 'esri/layers/FeatureLayer';
-import IPoint from 'esri/geometry/Point';
-import IGraphic from 'esri/Graphic';
-import IReactiveUtils from 'esri/core/reactiveUtils';
-import { loadModules } from 'esri-loader';
+import IMapView from '@arcgis/core/views/MapView';
+import IFeatureLayer from '@arcgis/core/layers/FeatureLayer';
+import IPoint from '@arcgis/core/geometry/Point';
+import IGraphic from '@arcgis/core/Graphic';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 import { LULC_TIMESERIES_STORE } from '../../constants';
 
 type Props = {
@@ -47,12 +45,6 @@ const LulcFootprintsLayer: FC<Props> = ({ availableYears, mapView }: Props) => {
 
     const addEventHandlers = async () => {
         try {
-            type Modules = [typeof IReactiveUtils];
-
-            const [reactiveUtils] = await (loadModules([
-                'esri/core/reactiveUtils',
-            ]) as Promise<Modules>);
-
             reactiveUtils.watch(
                 () => mapView.popup.visible,
                 () => {

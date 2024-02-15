@@ -2,9 +2,8 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAnimationMode } from '../../store/UI/selectors';
 
-import IMapView from 'esri/views/MapView';
-import IMediaLayer from 'esri/layers/MediaLayer';
-import { loadModules } from 'esri-loader';
+import IMapView from '@arcgis/core/views/MapView';
+import MediaLayer from '@arcgis/core/layers/MediaLayer';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { animationModeUpdated } from '../../store/UI/reducer';
@@ -26,20 +25,14 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
 
     const animationMode = useSelector(selectAnimationMode);
 
-    const mediaLayerRef = useRef<IMediaLayer>();
+    const mediaLayerRef = useRef<MediaLayer>();
 
     const mediaLayerElements = useMediaLayerImageElement(mapView);
 
     useMediaLayerAnimation(mediaLayerElements);
 
     const initMediaLayer = async () => {
-        type Modules = [typeof IMediaLayer];
-
         try {
-            const [MediaLayer] = await (loadModules([
-                'esri/layers/MediaLayer',
-            ]) as Promise<Modules>);
-
             mediaLayerRef.current = new MediaLayer({
                 visible: true,
                 effect: LandCoverLayerEffect,
@@ -62,12 +55,14 @@ const AnimationPanel: FC<Props> = ({ mapView }: Props) => {
             return;
         }
 
+        const source = mediaLayerRef.current.source as any;
+
         if (!mediaLayerElements) {
             // animation is not started or just stopped
             // just clear all elements in media layer
-            mediaLayerRef.current.source.elements.removeAll();
+            source.elements.removeAll();
         } else {
-            mediaLayerRef.current.source.elements.addMany(mediaLayerElements);
+            source.elements.addMany(mediaLayerElements);
             // media layer elements are ready, change animation mode to playing to start the animation
             dispatch(animationModeUpdated('playing'));
         }

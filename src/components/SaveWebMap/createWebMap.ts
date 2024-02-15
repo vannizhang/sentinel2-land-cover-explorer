@@ -10,8 +10,7 @@ import { getAvailableYears } from '../../services/sentinel-2-10m-landcover/timeI
 import { SENTINEL_2_LANDCOVER_10M_IMAGE_SERVICE_URL } from '../../services/sentinel-2-10m-landcover/config';
 import { MapExtent } from '../../store/Map/reducer';
 import { LandCoverLayerBlendMode } from '../LandcoverLayer/useLandCoverLayer';
-import { loadModules } from 'esri-loader';
-import IwebMercatorUtils from 'esri/geometry/support/webMercatorUtils';
+import * as webMercatorUtils from '@arcgis/core/geometry/support/webMercatorUtils';
 
 type CreateWebMapOptions = {
     title: string;
@@ -134,20 +133,10 @@ const getWebMapContent = async (selectedYear: number) => {
  * @returns
  */
 const getWebMapExtentInLonLat = async (extent: MapExtent) => {
-    type Modules = [typeof IwebMercatorUtils];
-
-    try {
-        const [webMercatorUtils] = await (loadModules([
-            'esri/geometry/support/webMercatorUtils',
-        ]) as Promise<Modules>);
-
-        return [
-            webMercatorUtils.xyToLngLat(extent.xmin, extent.ymin),
-            webMercatorUtils.xyToLngLat(extent.xmax, extent.ymax),
-        ];
-    } catch (err) {
-        console.error(err);
-    }
+    return [
+        webMercatorUtils.xyToLngLat(extent.xmin, extent.ymin),
+        webMercatorUtils.xyToLngLat(extent.xmax, extent.ymax),
+    ];
 };
 
 /**
@@ -166,7 +155,7 @@ export const createWebMap = async ({
 }: CreateWebMapOptions): Promise<CreateWebMapResponse> => {
     const textContent = await getWebMapContent(year);
 
-    const extentInLonLat = await getWebMapExtentInLonLat(extent);
+    const extentInLonLat = getWebMapExtentInLonLat(extent);
 
     const formData = new FormData();
 

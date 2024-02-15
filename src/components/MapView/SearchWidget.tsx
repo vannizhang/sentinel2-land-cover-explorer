@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
-
-import { loadModules } from 'esri-loader';
-import IMapView from 'esri/views/MapView';
-import IExtent from 'esri/geometry/Extent';
-import IGraphic from 'esri/Graphic';
-import ISearchWidget from 'esri/widgets/Search';
+import IMapView from '@arcgis/core/views/MapView';
+import IExtent from '@arcgis/core/geometry/Extent';
+import IGraphic from '@arcgis/core/Graphic';
+import Search from '@arcgis/core/widgets/Search';
 import classNames from 'classnames';
 
 type SearchResult = {
@@ -32,13 +30,7 @@ const SearchWidget: React.FC<Props> = ({
     const containerRef = useRef<HTMLDivElement>();
 
     const init = async () => {
-        type Modules = [typeof ISearchWidget];
-
         try {
-            const [Search] = await (loadModules([
-                'esri/widgets/Search',
-            ]) as Promise<Modules>);
-
             const searchWidget = new Search({
                 view: mapView,
                 resultGraphicEnabled: false,
